@@ -34,5 +34,6 @@ themeConfig.mjs
 
 .vercel
 .claude
+.wrangler/
 public/data/postData.json
 .workbuddy/*
