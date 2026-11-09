@@ -123,9 +123,17 @@ export default withPwa(
       config: (md) => markdownConfig(md, themeConfig)
     },
     // 构建排除
-    // 下划线前缀的 md 一律视为仓库内部文件（审计 / 分析等临时产物），
-    // 绝不发布到站点：它们既会生成页面，也会被 sitemap 收录。
-    srcExclude: ['**/README.md', '**/TODO.md', '_*.md', '**/_*.md'],
+    // 仓库说明文档（README / READMEE / TODO）与下划线前缀的 md 一律视为
+    // 仓库内部文件（说明 / 审计 / 分析等），绝不发布到站点：
+    // 它们既会生成页面、被 sitemap 收录，其中的 (LICENSE) 这类仓库相对链接
+    // 也会被 VitePress 当作页面死链，直接导致 build 失败。
+    srcExclude: [
+      '**/README.md',
+      '**/READMEE.md',
+      '**/TODO.md',
+      '_*.md',
+      '**/_*.md'
+    ],
     // transformPageData
     transformPageData: async (pageData) => {
       // canonical URL
