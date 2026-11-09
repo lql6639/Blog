@@ -1,0 +1,396 @@
+<!-- 页脚 - 链接 -->
+<template>
+  <div class="footer-link">
+    <div v-if="showBar" class="footer-bar">
+      <span class="site-title">{{ site.title }}</span>
+      <span class="site-desc">{{ site.description }}</span>
+      <a href="/" class="to-home">了解更多</a>
+    </div>
+    <div class="footer-social">
+      <a
+        v-for="(item, index) in socialLinkData.first"
+        :key="index"
+        :href="item.link"
+        target="_blank"
+        class="social-link"
+      >
+        <i :class="`iconfont icon-${item.icon}`"></i>
+      </a>
+      <div class="logo" title="返回顶部" @click="smoothScrolling">
+        <img :src="siteMeta.author.cover" alt="author" class="author" />
+      </div>
+      <a
+        v-for="(item, index) in socialLinkData.second"
+        :key="index"
+        :href="item.link"
+        target="_blank"
+        class="social-link"
+      >
+        <i :class="`iconfont icon-${item.icon}`"></i>
+      </a>
+    </div>
+    <div class="footer-sitemap">
+      <div
+        v-for="(item, index) in footer.sitemap"
+        :key="index"
+        class="sitemap-item"
+      >
+        <span class="title">{{ item.text }}</span>
+        <div class="links">
+          <a
+            v-for="(link, linkIndex) in item.items"
+            :key="linkIndex"
+            :href="link.link"
+            :target="link.newTab ? '_blank' : null"
+            class="link-text"
+          >
+            {{ link.text }}
+          </a>
+        </div>
+      </div>
+    </div>
+    <div v-if="showBadgeSection" class="made-with-love">
+      <Transition name="fade" mode="out-in">
+        <span
+          :key="showCommit ? 'commit' : 'title'"
+          class="badge-title"
+          @click="showCommit = !showCommit"
+          >{{ showCommit ? gitCommit : badgeTitle }}</span
+        >
+      </Transition>
+      <div class="tech-badges">
+        <div
+          v-for="(badge, index) in techBadges"
+          :key="index"
+          :class="['badge-item', { expanded: expandedBadge === index }]"
+          @mouseenter="expandedBadge = index"
+          @mouseleave="expandedBadge = null"
+          @click="toggleBadge(index)"
+        >
+          <span class="badge-icon">{{ badge.icon }}</span>
+          <span class="badge-text">{{ badge.text }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { smoothScrolling } from '@/utils/helper'
+
+const { theme, site } = useData()
+const footer = theme.value?.footer ?? {}
+const siteMeta = theme.value?.siteMeta ?? {}
+const props = defineProps({
+  // 显示底栏
+  showBar: {
+    type: Boolean,
+    default: true
+  }
+})
+
+// 社交链接数据
+const socialLinkData = computed(() => {
+  const social = footer.social ?? []
+  const halfLength = Math.ceil(social.length / 2)
+  const firstHalf = social.slice(0, halfLength)
+  const secondHalf = social.slice(halfLength)
+  return { first: firstHalf, second: secondHalf }
+})
+
+const defaultTechBadges = [
+  { icon: '📡', text: 'IPv6已启用' },
+  { icon: '⚡️', text: 'HTTP/3' },
+  { icon: '🧅', text: '.onion可用' },
+  { icon: '🌱', text: '低碳环保' },
+  { icon: '🍪', text: '无Cookie' },
+  { icon: '🕵️', text: '无追踪' }
+]
+
+const badgeConfig = computed(() => footer.badges ?? {})
+
+// 技术徽标数据，优先读取配置，未配置时回退到默认值
+const techBadges = computed(() => {
+  const badgeItems = Array.isArray(badgeConfig.value)
+    ? badgeConfig.value
+    : badgeConfig.value.items
+
+  const normalizedBadges = (badgeItems ?? defaultTechBadges).filter((badge) => {
+    return badge && badge.show !== false
+  })
+
+  return normalizedBadges.map((badge) => ({
+    icon: badge.icon ?? '',
+    text: badge.text ?? ''
+  }))
+})
+
+const badgeTitle = computed(() => {
+  if (Array.isArray(badgeConfig.value)) return 'Made with ❤️'
+  return badgeConfig.value.title ?? 'Made with ❤️'
+})
+
+const showBadgeSection = computed(() => {
+  if (Array.isArray(badgeConfig.value)) return techBadges.value.length > 0
+  return badgeConfig.value.enable !== false && techBadges.value.length > 0
+})
+
+// git commit hash injected at build time
+const gitCommit = __GIT_COMMIT__
+const showCommit = ref(false)
+
+// 当前展开的徽标索引
+const expandedBadge = ref(null)
+const clickedBadge = ref(null)
+
+// 点击切换徽标展开状态
+const toggleBadge = (index) => {
+  if (clickedBadge.value === index) {
+    clickedBadge.value = null
+    expandedBadge.value = null
+  } else {
+    clickedBadge.value = index
+    expandedBadge.value = index
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.footer-link {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin: 1rem auto;
+  margin-bottom: 3rem;
+  padding: 0 1rem;
+  animation: show 0.3s backwards;
+  .footer-bar {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+    .site-title {
+      font-weight: bold;
+      font-size: 22px;
+    }
+    .site-desc {
+      margin: 0.6rem 0;
+      font-weight: bold;
+      font-size: 18px;
+      color: var(--main-font-second-color);
+    }
+    .to-home {
+      padding: 8px 16px;
+      border-radius: 25px;
+      margin-top: 8px;
+      font-size: 14px;
+      color: var(--main-font-color);
+      background-color: var(--main-card-second-background);
+      border: 1px solid var(--main-card-border);
+      transition:
+        color 0.3s,
+        transform 0.3s,
+        border-color 0.3s,
+        background-color 0.3s;
+      cursor: pointer;
+      &:hover {
+        color: var(--main-card-background);
+        background-color: var(--main-color);
+        transform: scale(1.1);
+        border-color: var(--main-color);
+      }
+    }
+  }
+  .footer-social {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    .social-link {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 32px;
+      height: 32px;
+      margin: 1rem 26px;
+      border-radius: 50%;
+      background-color: var(--main-font-color);
+      transition:
+        transform 0.3s,
+        background-color 0.3s;
+      .iconfont {
+        font-size: 20px;
+        color: var(--main-card-background);
+      }
+      &:hover {
+        transform: scale(1.15);
+        background-color: var(--main-color);
+      }
+      &:active {
+        transform: scale(1);
+      }
+    }
+    .logo {
+      width: 60px;
+      height: 60px;
+      margin: 0 1rem;
+      transition: transform 0.3s;
+      cursor: pointer;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+      &:hover {
+        transform: scale(1.2);
+      }
+      &:active {
+        transform: scale(1);
+      }
+    }
+    @media (max-width: 768px) {
+      .logo {
+        display: none;
+      }
+    }
+  }
+  .footer-sitemap {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 1rem 0;
+    .sitemap-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 120px;
+      .title {
+        display: inline-block;
+        margin: 1rem 0;
+        font-size: 16px;
+        font-weight: bold;
+        // margin-left: 8px;
+        color: var(--main-font-second-color);
+        &.friends {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          cursor: pointer;
+          .iconfont {
+            font-weight: normal;
+            margin-left: 6px;
+            color: var(--main-font-second-color);
+            transition: color 0.3s;
+            &:hover {
+              color: var(--main-color);
+            }
+          }
+        }
+      }
+      .links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .link-text {
+          color: var(--main-font-color);
+          display: inline-block;
+          max-width: 120px;
+          width: max-content;
+          margin: 4px 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow-wrap: break-word;
+          padding: 8px;
+          border-radius: 12px;
+          transition:
+            color 0.3s,
+            background-color 0.3s;
+          cursor: pointer;
+          &:hover {
+            color: var(--main-color);
+            background-color: var(--main-color-bg);
+          }
+        }
+      }
+    }
+  }
+  .made-with-love {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 0;
+    gap: 1rem;
+    .badge-title {
+      font-size: 18px;
+      color: var(--main-font-second-color);
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.3s;
+      &:hover {
+        color: var(--main-color);
+      }
+    }
+    .tech-badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      .badge-item {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 40px;
+        height: 40px;
+        padding: 0 10px;
+        background-color: var(--main-card-second-background);
+        border: 1px solid var(--main-card-border);
+        border-radius: 20px;
+        cursor: pointer;
+        overflow: hidden;
+        transition:
+          max-width 0.4s ease,
+          padding 0.4s ease,
+          border-color 0.3s ease;
+        .badge-icon {
+          font-size: 20px;
+          flex-shrink: 0;
+        }
+        .badge-text {
+          font-size: 13px;
+          font-weight: 500;
+          color: var(--main-font-second-color);
+          white-space: nowrap;
+          opacity: 0;
+          margin-left: 0;
+          overflow: hidden;
+          transition:
+            opacity 0.3s ease 0.1s,
+            margin-left 0.4s ease;
+        }
+        &.expanded,
+        &:hover {
+          max-width: 180px;
+          padding: 0 14px;
+          border-color: var(--main-color);
+          .badge-text {
+            opacity: 1;
+            margin-left: 8px;
+          }
+        }
+      }
+    }
+  }
+}
+</style>

@@ -1,0 +1,17 @@
+{
+  "cleanUrls": true,
+  "framework": "vitepress",
+  "outputDirectory": "./.vitepress/dist",
+  "headers": [
+    {
+      "source": "/redirect.html",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    }
+  ],
+  "rewrites": [{ "source": "/redirect", "destination": "/redirect.html" }]
+}
