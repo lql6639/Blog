@@ -7,7 +7,7 @@ import assert from 'node:assert/strict'
 import { load } from 'cheerio'
 import { jumpRedirect } from '../.vitepress/theme/utils/commonTools.mjs'
 
-const SITE = 'https://chiyu.it'
+const SITE = 'https://blog.lovlin.cn'
 const config = (overrides = {}) => ({
   siteMeta: { site: SITE },
   jumpRedirect: { enable: true, exclude: ['no-redirect'], ...overrides }
@@ -56,14 +56,14 @@ test('站外新窗口链接被改写为中转页，并保留原始地址与内�
 test('站内、同域、非新窗口及非 HTTP 链接均不改写', () => {
   const html = [
     '<a target="_blank" href="/posts/a.html">站内</a>',
-    '<a target="_blank" href="https://chiyu.it/about">同域</a>',
+    '<a target="_blank" href="https://blog.lovlin.cn/about">同域</a>',
     '<a href="https://example.com/">非新窗口</a>',
     '<a target="_blank" href="mailto:hi@example.com">邮件</a>',
     '<a target="_blank" href="javascript:void(0)">脚本</a>'
   ].join('')
   assert.deepEqual(hrefsOf(jumpRedirect(html, config())), [
     '/posts/a.html',
-    'https://chiyu.it/about',
+    'https://blog.lovlin.cn/about',
     'https://example.com/',
     'mailto:hi@example.com',
     'javascript:void(0)'

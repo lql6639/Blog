@@ -89,6 +89,7 @@ const rightMenuSwitch = () => {
   width: 100vw;
   height: 100vh;
   z-index: 1109;
+
   .close-control {
     position: absolute;
     display: flex;
@@ -103,6 +104,7 @@ const rightMenuSwitch = () => {
       opacity 0.3s;
     border-radius: 50%;
     cursor: pointer;
+
     .iconfont {
       font-size: 18px;
       line-height: 1;
@@ -110,13 +112,16 @@ const rightMenuSwitch = () => {
         color 0.3s,
         opacity 0.3s;
     }
+
     &:hover {
       background-color: var(--main-color);
+
       .iconfont {
         color: var(--main-card-background);
       }
     }
   }
+
   .control-mask {
     position: absolute;
     top: 0;
@@ -126,13 +131,16 @@ const rightMenuSwitch = () => {
     z-index: -1;
     background-color: var(--main-mask-background);
   }
+
   .control-content {
     position: absolute;
     animation: fade-up 0.5s forwards;
+
     .menu {
       display: flex;
       flex-direction: row;
       align-items: center;
+
       .menu-item {
         display: flex;
         align-items: center;
@@ -147,20 +155,25 @@ const rightMenuSwitch = () => {
           transform 0.3s,
           background-color 0.3s;
         cursor: pointer;
+
         .iconfont {
           font-size: 24px;
           color: var(--main-font-color);
           transition: color 0.3s;
         }
+
         &.open {
           background-color: var(--main-color);
+
           .iconfont {
             color: #fff;
           }
         }
+
         &:hover {
           transform: scale(1.05);
         }
+
         &:active {
           transform: scale(1);
         }

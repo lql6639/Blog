@@ -49,13 +49,16 @@ onMounted(() => {
 <style lang="scss" scoped>
 .archives {
   padding: 2rem;
+
   .title {
     display: flex;
     margin-bottom: 1rem;
+
     .name {
       margin: 0;
       border-bottom: none;
     }
+
     .num {
       margin-left: 8px;
       font-size: 20px;
@@ -63,9 +66,11 @@ onMounted(() => {
       opacity: 0.6;
     }
   }
+
   .archives-list {
     .year-list {
       margin-bottom: 2rem;
+
       .year {
         position: relative;
         display: flex;
@@ -76,6 +81,7 @@ onMounted(() => {
         font-size: 20px;
         font-weight: bold;
         margin-bottom: 1rem;
+
         &::before {
           content: '';
           position: absolute;
@@ -86,35 +92,42 @@ onMounted(() => {
           border-radius: 8px;
         }
       }
+
       .posts {
         .posts-item {
           padding: 20px;
           margin-bottom: 1rem;
+
           .title {
             margin-bottom: 16px;
             font-size: 18px;
             font-weight: bold;
             transition: color 0.3s;
           }
+
           .tags {
             display: flex;
             flex-wrap: wrap;
             flex-direction: row;
             align-items: center;
             opacity: 0.6;
+
             .type-item {
               font-size: 14px;
               display: flex;
               flex-direction: row;
               align-items: center;
               margin-right: 8px;
+
               .name {
                 transition: color 0.3s;
               }
+
               .iconfont {
                 margin-right: 2px;
                 transition: color 0.3s;
               }
+
               &:hover {
                 .name,
                 .iconfont {
@@ -123,9 +136,11 @@ onMounted(() => {
               }
             }
           }
+
           &:last-child {
             margin-bottom: 0;
           }
+
           &:hover {
             .title {
               color: var(--main-color);
@@ -133,6 +148,7 @@ onMounted(() => {
           }
         }
       }
+
       &:last-child {
         margin-bottom: 0;
       }

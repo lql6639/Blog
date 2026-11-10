@@ -2,7 +2,7 @@
   <footer id="main-footer" class="main-footer">
     <div class="footer-content">
       <div class="copyright">
-        <span class="time">@ 2025 - {{ thisYear }} By </span>
+        <span class="time">@ {{ thisYear }} By </span>
         <a
           :href="theme.siteMeta.author.link"
           class="author link"
@@ -12,7 +12,7 @@
         </a>
         <a
           class="icp link"
-          href="https://icp.gov.moe/?keyword=20259222"
+          href="https://icp.gov.moe/?keyword=20262044"
           target="_blank"
         >
           <i class="iconfont icon-safe" />
@@ -21,16 +21,22 @@
         <SystemStatus />
       </div>
       <div class="meta">
-        <!--
         <a class="power link" href="https://vitepress.dev/" target="_blank">
           <span class="by">Powered by</span>
           <span class="name">VitePress</span>
         </a>
-        <a class="theme link" href="https://github.com/imsyy/vitepress-theme-curve" target="_blank">
+        <a
+          class="theme link"
+          href="https://github.com/imsyy/vitepress-theme-curve"
+          target="_blank"
+        >
           <span class="name">主题</span>
         </a>
-        -->
-        <a class="rss link" href="https://chiyu.it/rss.xml" target="_blank">
+        <a
+          class="rss link"
+          href="https://blog.lovlin.cn/rss.xml"
+          target="_blank"
+        >
           <i class="iconfont icon-rss" />
           <span class="name">订阅</span>
         </a>
@@ -113,6 +119,7 @@ onBeforeUnmount(() => {
     color 0.3s,
     border 0.3s,
     background-color 0.3s;
+
   .footer-content {
     display: flex;
     flex-wrap: wrap;
@@ -125,6 +132,7 @@ onBeforeUnmount(() => {
     color: var(--main-font-color);
     line-height: 1;
     min-height: 32px;
+
     .copyright {
       display: flex;
       flex-wrap: wrap;
@@ -142,6 +150,7 @@ onBeforeUnmount(() => {
           opacity: 0.6;
         }
       }
+
       // .upyun {
       //  .iconfont {
       //    font-size: 20px;
@@ -149,44 +158,55 @@ onBeforeUnmount(() => {
       //  }
       //  }
     }
+
     .meta {
       display: flex;
       flex-direction: row;
       align-items: center;
+
       .power {
         margin-right: 4px;
+
         .by {
           font-weight: normal;
           opacity: 0.8;
           margin-right: 6px;
         }
       }
+
       .rss {
         margin-right: 4px;
+
         .iconfont {
           font-weight: normal;
           margin-right: 6px;
         }
       }
+
       .cc {
         .iconfont {
           margin: 0 2px;
           font-weight: normal;
         }
       }
+
       .notbyai {
         padding: 4px !important;
+
         img {
           height: 30px;
         }
+
         .light-badge {
           display: block;
         }
+
         .dark-badge {
           display: none;
         }
       }
     }
+
     .link {
       display: inline-flex;
       flex-direction: row;
@@ -203,24 +223,30 @@ onBeforeUnmount(() => {
         color 0.3s,
         background-color 0.3s;
       cursor: pointer;
+
       .iconfont {
         font-size: 22px;
         margin-right: 4px;
         transition: color 0.3s;
       }
+
       &:hover {
         color: var(--main-color);
         background-color: var(--main-color-bg);
+
         .iconfont {
           color: var(--main-color);
         }
       }
     }
+
     @media (max-width: 768px) {
       font-size: 14px;
+
       .meta {
         display: none;
       }
+
       .copyright {
         .time,
         .author {
@@ -228,6 +254,7 @@ onBeforeUnmount(() => {
         }
       }
     }
+
     @media (max-width: 420px) {
       .copyright {
         .icp {
@@ -246,6 +273,7 @@ html.dark .main-footer .notbyai {
   .light-badge {
     display: none !important;
   }
+
   .dark-badge {
     display: block !important;
   }

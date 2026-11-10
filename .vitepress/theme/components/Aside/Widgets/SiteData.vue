@@ -70,30 +70,36 @@ onMounted(() => {
       align-items: center;
       justify-content: space-between;
       padding: 0.5rem 0.2rem;
+
       .name {
         display: flex;
         flex-direction: row;
         align-items: center;
+
         .iconfont {
           margin-right: 8px;
           opacity: 0.6;
           font-size: 18px;
         }
       }
+
       .num {
         opacity: 0.8;
         font-size: 15px;
       }
+
       #busuanzi_value_site_pv {
         &::after {
           content: ' 次';
         }
       }
+
       #busuanzi_value_site_uv {
         &::after {
           content: ' 人';
         }
       }
+
       &:last-child {
         padding-bottom: 0;
       }

@@ -1289,6 +1289,7 @@ onBeforeUnmount(() => {
         .playlist-item-index {
           color: var(--main-color);
         }
+
         .playlist-item-title {
           color: var(--main-color);
           font-weight: 600;
@@ -1363,6 +1364,7 @@ onBeforeUnmount(() => {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -1374,6 +1376,7 @@ onBeforeUnmount(() => {
   100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.4;
   }

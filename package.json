@@ -1,13 +1,9 @@
 {
   "name": "vitepress-theme-curve",
-  "productName": "vitepress-theme-curve",
-  "version": "1.0.1",
+  "version": "6.0.0",
   "description": "A Simple VitePress Theme",
-  "author": "imsyy",
-  "home": "https://imsyy.top",
-  "github": "https://github.com/imsyy/vitepress-theme-curve",
-  "blog": "https://blog.imsyy.top",
-  "repository": "github:imsyy/vitepress-theme-curve",
+  "author": "koizora",
+  "AuthorGithub": "https://github.com/lql6639",
   "license": "MIT License",
   "license-file": "LICENSE",
   "engines": {

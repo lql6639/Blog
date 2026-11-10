@@ -3,11 +3,11 @@
     <h1 class="title">关于本站</h1>
     <div class="about-content" style="grid-template-columns: 3fr 2fr">
       <div class="about-item hello">
-        <span class="text1">你好，很高兴认识你👋</span>
-        <span class="text2 title2">我是 池鱼</span>
-        <span class="text3">是一名 正在HRT的MtF🏳‍⚧🏳‍⚧</span>
+        <span class="text1">你好，很高兴认识你</span>
+        <span class="text2 title2">我是 小林</span>
+        <span class="text3">是一名 前端开发爱好者</span>
         <span class="text4">
-          HRT 始于
+          开发 始于
           <LiveDate mode="format" :date="hrtDate" format="YYYY.MM.DD" />，已进行
           <LiveDate mode="days-since" :date="hrtDate" /> 天
         </span>
@@ -62,20 +62,20 @@
       <div class="about-item child">
         <div
           class="about-item map image"
-          style="background-image: url(https://raw.20100907.xyz/other/tc.png)"
+          style="background-image: url(https://api.imlazy.ink/img)"
         >
           <span class="position"
-            >我现在住在 <strong>中国，江苏省，苏州市</strong></span
+            >我现在住在 <strong>中国，广东省，云浮市</strong></span
           >
         </div>
         <div class="about-item info">
           <div class="info-item">
             <span class="info-name">诞生于</span>
-            <span class="info-num" style="--color: #43a6c6">2010</span>
+            <span class="info-num" style="--color: #43a6c6">2002</span>
           </div>
           <div class="info-item">
             <span class="info-name">生日</span>
-            <span class="info-num" style="--color: #dfac46">0907</span>
+            <span class="info-num" style="--color: #dfac46">0206</span>
           </div>
           <div class="info-item">
             <span class="info-name">距生日</span>
@@ -89,17 +89,20 @@
     <!-- 心路历程 -->
     <div class="about-content" style="display: flex">
       <div class="about-item">
-        <span class="tip">关于这个破站</span>
+        <span class="tip">关于破站</span>
         <span class="title2">一个记录自己生活的站点</span>
-        <p class="text">首先感谢一下小恒提供的域名贡献</p>
-        <p class="text">写几句slogan好了</p>
+        <p class="text">首先感谢一下小伙伴们提供的域名贡献</p>
+        <p class="text">写几句标语好了</p>
+        <p class="text">倘若懂的人懂得 淡茶一杯也有<strong>「情」</strong></p>
+        <p class="text">后来才明白</p>
         <p class="text">
-          <strong>跨过晨昏线，便是永夜。</strong>
+          如果连爱都要去<strong>「伸手」</strong>那有和没有并没有区别
         </p>
+        <p class="text">原来缺爱的人是我</p>
         <p class="text">
-          所以，回去吧，回到我们，所有<strong>「奇迹」</strong>开始的地方
+          原来我爱别人的方式 都是自己想要<strong>「被爱」</strong>的样子
         </p>
-        <p class="text">我爱你们。</p>
+        <p class="text">我爱你们</p>
       </div>
     </div>
   </div>
@@ -108,18 +111,12 @@
 <script setup>
 import { loadScript } from '@/utils/commonTools'
 
-const birthDate = '2010-09-07'
-const hrtDate = '2025-03-24'
+const birthDate = '2002-02-06'
+const hrtDate = '2024-03-24'
 
 // 技能数据
 
 const skillsData = [
-  {
-    name: 'JavaScript',
-    color: '#f1e05abd',
-    icon: 'javascript',
-    link: 'https://developer.mozilla.org/zh-CN/docs/Web/JavaScript'
-  },
   {
     name: 'HTML5',
     color: '#e34f26',
@@ -131,6 +128,12 @@ const skillsData = [
     color: '#563d7c',
     icon: 'css3',
     link: 'https://developer.mozilla.org/zh-CN/docs/Web/CSS'
+  },
+  {
+    name: 'JavaScript',
+    color: '#f1e05abd',
+    icon: 'javascript',
+    link: 'https://developer.mozilla.org/zh-CN/docs/Web/JavaScript'
   },
   {
     name: 'Vue',
@@ -157,16 +160,16 @@ const skillsData = [
     link: 'https://www.python.org/'
   },
   {
-    name: 'Docker',
-    color: '#2496f2',
-    icon: 'docker',
-    link: 'https://www.docker.com/'
-  },
-  {
     name: 'Git',
     color: '#F05032',
     icon: 'git',
     link: 'https://git-scm.com/'
+  },
+  {
+    name: 'Docker',
+    color: '#2496f2',
+    icon: 'docker',
+    link: 'https://www.docker.com/'
   },
   {
     name: 'Photoshop',
@@ -201,11 +204,13 @@ onMounted(() => {
     border: none;
     padding-bottom: 0;
   }
+
   .about-content {
     display: grid;
     grid-template-columns: auto auto;
     gap: 20px;
     margin-bottom: 20px;
+
     .about-item {
       position: relative;
       display: flex;
@@ -218,35 +223,42 @@ onMounted(() => {
       border: 1px solid var(--main-card-border);
       box-shadow: 0 8px 12px -4px var(--main-border-shadow);
       overflow: hidden;
+
       .tip {
         font-size: 14px;
         opacity: 0.8;
-        margin-bottom: 12px;
+        margin-bottom: 18px;
       }
+
       .title1 {
         font-size: 36px;
         font-weight: bold;
         opacity: 0.6;
       }
+
       .title2 {
         font-size: 36px;
         font-weight: bold;
         margin-right: 4rem;
       }
+
       .text {
         font-size: 18px;
         margin: 0.6rem 0;
       }
+
       &.child {
         background-color: transparent;
         border: none;
         box-shadow: none;
         padding: 0;
         gap: 20px;
+
         .about-item {
           height: 100%;
         }
       }
+
       &.hello {
         justify-content: center;
         padding: 2rem;
@@ -254,18 +266,22 @@ onMounted(() => {
         background-image: linear-gradient(120deg, #5b27ff 0%, #00d4ff 100%);
         background-size: 200% 200%;
         animation: gradientFlow 6s ease infinite;
+
         .title2 {
           line-height: 2;
         }
+
         .text4 {
           margin-top: 0.5rem;
           font-size: 0.9rem;
           opacity: 0.8;
         }
       }
+
       &.pursuit {
         .title2 {
           line-height: 1.2;
+
           &:last-child {
             display: inline-block;
             background-size: 100% 100%;
@@ -277,20 +293,25 @@ onMounted(() => {
           }
         }
       }
+
       &.character {
         min-height: 220px;
         cursor: pointer;
+
         .more {
           margin-top: auto;
           font-size: 14px;
           color: var(--main-color-gray);
+
           a {
             color: var(--main-color-gray);
+
             &:hover {
               color: var(--color);
             }
           }
         }
+
         .male {
           position: absolute;
           top: 20px;
@@ -299,22 +320,26 @@ onMounted(() => {
           width: auto;
           transition: transform 0.5s;
           transform-origin: top center;
+
           @media (max-width: 768px) {
             height: 80%;
           }
         }
+
         &:hover {
           .male {
             transform: scale(1.2);
           }
         }
       }
+
       &.skills {
         .skills-list {
           margin-top: 12px;
           display: flex;
           flex-direction: row;
           flex-wrap: wrap;
+
           .skills-item {
             display: flex;
             align-items: center;
@@ -327,6 +352,7 @@ onMounted(() => {
             box-shadow: 0 8px 12px -4px var(--main-border-shadow);
             transition: background-color 0.3s;
             cursor: pointer;
+
             .skills-logo {
               display: flex;
               align-items: center;
@@ -336,35 +362,42 @@ onMounted(() => {
               margin-right: 8px;
               border-radius: 50%;
               background-color: var(--color);
+
               .iconfont {
                 color: #fff;
               }
             }
+
             .skills-name {
               font-weight: bold;
               transition: color 0.3s;
             }
+
             &:hover {
               background-color: var(--main-card-background);
             }
           }
         }
       }
+
       &.career {
         .title2 {
           letter-spacing: 0.2rem;
           font-size: 40px;
         }
+
         .list {
           margin-top: 12px;
           display: flex;
           flex-direction: column;
+
           .list-item {
             display: flex;
             flex-direction: row;
             align-items: center;
             margin-bottom: 12px;
             color: var(--main-font-second-color);
+
             &::before {
               content: '';
               display: block;
@@ -376,38 +409,47 @@ onMounted(() => {
             }
           }
         }
+
         .career-img {
           position: absolute;
           bottom: -10px;
           left: 0;
           width: 100%;
+
           @media (max-width: 768px) {
             position: static;
           }
         }
       }
+
       &.game {
         min-height: 300px;
+
         @media (max-width: 768px) {
           min-height: 240px;
         }
       }
+
       &.like {
         min-height: 400px;
+
         @media (max-width: 768px) {
           min-height: 300px;
         }
       }
+
       &.image {
         background-position: center;
         background-size: cover;
         background-repeat: no-repeat;
+
         .image-content {
           flex-grow: 1;
           display: flex;
           flex-direction: column;
           z-index: 2;
           color: #fff;
+
           .image-desc {
             width: 100%;
             display: flex;
@@ -415,12 +457,15 @@ onMounted(() => {
             align-items: center;
             justify-content: space-between;
             margin-top: auto;
+
             &.opacity {
               font-size: 14px;
               color: #eee;
               opacity: 0.8;
+
               a {
                 color: #eee;
+
                 &:hover {
                   color: var(--main-color);
                 }
@@ -428,6 +473,7 @@ onMounted(() => {
             }
           }
         }
+
         &::after {
           content: '';
           position: absolute;
@@ -439,19 +485,23 @@ onMounted(() => {
           z-index: 0;
         }
       }
+
       &.static {
         .static-data {
           display: grid;
           gap: 12px;
           grid-template-columns: 1fr 1fr;
           margin: 20px 0;
+
           .static-item {
             display: flex;
             flex-direction: column;
+
             .static-name {
               font-size: 15px;
               opacity: 0.8;
             }
+
             .static-num {
               font-size: 34px;
               font-weight: bold;
@@ -459,15 +509,18 @@ onMounted(() => {
           }
         }
       }
+
       &.map {
         min-height: 170px;
         background-size: 100%;
         transition: background 1.5s ease-in-out;
         cursor: pointer;
+
         @media (max-width: 768px) {
           background-size: cover;
           pointer-events: none;
         }
+
         .position {
           display: block;
           position: absolute;
@@ -480,29 +533,35 @@ onMounted(() => {
           font-size: 20px;
           transition: bottom 1s;
         }
+
         &:hover {
           background-size: 120%;
           background-position-x: 0;
           background-position-y: 36%;
+
           .position {
             bottom: -80px;
           }
         }
       }
+
       &.info {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         align-items: center;
         gap: 1.25rem 2rem;
+
         .info-item {
           display: flex;
           flex-direction: column;
           min-width: 0;
+
           .info-name {
             font-size: 14px;
             margin-bottom: 8px;
             color: var(--main-font-second-color);
           }
+
           .info-num {
             font-size: 34px;
             font-weight: bold;
@@ -511,9 +570,11 @@ onMounted(() => {
         }
       }
     }
+
     &:last-child {
       margin-bottom: 0;
     }
+
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column;

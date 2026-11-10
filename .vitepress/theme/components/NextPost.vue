@@ -104,6 +104,7 @@ onBeforeUnmount(() => {
   flex-direction: column;
   padding: 20px;
   background-color: var(--main-card-background);
+
   .post-tip {
     font-size: 14px;
     color: var(--main-font-second-color);
@@ -112,6 +113,7 @@ onBeforeUnmount(() => {
     border-bottom: 1px dashed var(--main-card-border);
     transition: color 0.3s;
   }
+
   .post-title {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -120,6 +122,7 @@ onBeforeUnmount(() => {
     line-clamp: 2;
     -webkit-box-orient: vertical;
   }
+
   &.fixed {
     position: fixed;
     right: 20px;
@@ -129,20 +132,24 @@ onBeforeUnmount(() => {
     width: 300px;
     transform: translateY(180px);
   }
+
   &.show {
     opacity: 1;
     transform: translateY(0);
   }
+
   &:hover {
     background-color: var(--main-color);
     border-color: var(--main-color);
     color: var(--main-card-background);
     box-shadow: 0 8px 16px -4px var(--main-color-bg);
+
     .post-tip {
       opacity: 0.8;
       color: var(--main-card-background);
     }
   }
+
   @media (max-width: 768px) {
     display: none;
   }

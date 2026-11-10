@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress'
 import { createRssFile } from './theme/utils/generateRSS.mjs'
 import { withPwa } from '@vite-pwa/vitepress'
 import { getAllPosts } from './theme/utils/getPostData.mjs'
+import { getSearchIndex } from './theme/utils/searchIndex.mjs'
 import { jumpRedirect } from './theme/utils/commonTools.mjs'
 import { getThemeConfig } from './init.mjs'
 import markdownConfig from './theme/utils/markdownConfig.mjs'
@@ -19,6 +20,10 @@ try {
 // 获取全局数据
 const postData = await getAllPosts()
 await fs.outputJson('public/data/postData.json', postData)
+
+// 生成全站搜索索引（本地全文搜索用，前端懒加载，不进首屏）
+const searchIndex = await getSearchIndex(postData)
+await fs.outputJson('public/data/searchIndex.json', searchIndex)
 
 // 获取主题配置
 const themeConfig = await getThemeConfig()

@@ -176,11 +176,13 @@ const {
     padding: 0;
     border-radius: 25px;
     box-shadow: 0 6px 10px -4px var(--main-dark-shadow);
+
     .iconfont {
       font-size: 22px;
       margin-left: 10px;
       transition: color 0.3s;
     }
+
     .set-text {
       margin-left: 10px;
       display: inline-flex;
@@ -191,20 +193,24 @@ const {
       white-space: nowrap;
       transition: opacity 0.3s;
     }
+
     &:hover {
       width: 140px;
       color: var(--main-card-background);
       border-color: var(--main-color);
       background-color: var(--main-color);
+
       .iconfont {
         color: var(--main-card-background);
       }
+
       .set-text {
         opacity: 1;
       }
     }
   }
 }
+
 .set-list {
   .title {
     display: block;
@@ -216,22 +222,26 @@ const {
     border-radius: 4px 8px 8px 4px;
     background-color: var(--main-border-shadow);
     padding: 6px 0 6px 12px;
+
     &:first-child {
       margin-top: 0;
     }
   }
+
   .set-item {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 12px;
+
     .set-options {
       display: flex;
       flex-direction: row;
       align-items: center;
       height: 40px;
       border-radius: 8px;
+
       .options {
         display: flex;
         align-items: center;
@@ -245,19 +255,23 @@ const {
         transition:
           color 0.3s,
           background-color 0.3s;
+
         &.choose,
         &:hover {
           color: var(--main-card-background);
           background-color: var(--main-color);
           box-shadow: 0 8px 16px -4px var(--main-border-shadow);
         }
+
         &:last-child {
           margin-right: 0;
         }
       }
+
       .num {
         margin: 0 4px;
       }
+
       input {
         border: none;
         outline: none;
@@ -270,14 +284,18 @@ const {
         font-size: 14px;
       }
     }
+
     &:last-child {
       margin-bottom: 0;
     }
+
     @media (max-width: 512px) {
       flex-direction: column;
       align-items: flex-start;
+
       .set-options {
         margin-top: 8px;
+
         .options {
           &:first-child {
             margin-left: 0;

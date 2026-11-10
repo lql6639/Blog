@@ -84,6 +84,7 @@ onMounted(() => {
   padding: 0.6rem;
   font-weight: bold;
   animation: fade-up 0.6s 0.3s backwards;
+
   .all-type {
     width: 100%;
     display: flex;
@@ -98,6 +99,7 @@ onMounted(() => {
       hsla(0, 0%, 100%, 0.6) 95%,
       hsla(0, 0%, 100%, 0) 100%
     );
+
     .type-item {
       display: flex;
       align-items: center;
@@ -108,6 +110,7 @@ onMounted(() => {
       white-space: nowrap;
       height: 30px;
       cursor: pointer;
+
       .num {
         margin-left: 4px;
         font-weight: normal;
@@ -117,22 +120,27 @@ onMounted(() => {
         background-color: var(--main-card-border);
         border-radius: 8px;
       }
+
       &.choose {
         color: var(--main-card-background);
         background-color: var(--main-color);
+
         .num {
           color: var(--main-color);
         }
       }
+
       &.hidden {
         display: none;
       }
+
       &:hover {
         color: var(--main-card-background);
         background-color: var(--main-color);
       }
     }
   }
+
   .more-type {
     display: flex;
     flex-direction: row;
@@ -140,10 +148,12 @@ onMounted(() => {
     white-space: nowrap;
     margin-right: 4px;
     margin-left: 8px;
+
     .iconfont {
       font-size: 0.9375rem;
       margin-right: 8px;
     }
+
     &:hover {
       .iconfont {
         color: var(--main-color);

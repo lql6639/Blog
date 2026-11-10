@@ -15,20 +15,6 @@
           </div>
         </div>
       </template>
-      <!-- <div class="link-group">
-        <div v-for="(link, index) in pairedLinks(allLinkData)" :key="index" class="link-group-item">
-          <a v-for="(item, i) in link" :key="i" :href="item.url" class="link-logo">
-            <LazyLoader>
-              <img
-                :src="item.avatar"
-                :alt="item.name"
-                class="link-logo-img"
-                @load="(e) => e.target.classList.add('loaded')"
-              />
-            </LazyLoader>
-          </a>
-        </div>
-      </div> -->
     </Banner>
     <!-- 友链数据 -->
     <LinkList :listData="linkData" :useFriendsLink="true" />
@@ -69,15 +55,18 @@ const randomJump = () => {
 <style lang="scss" scoped>
 .link {
   margin-bottom: 4rem;
+
   .banner-page {
     // min-height: 440px;
     min-height: auto;
+
     .menu {
       display: flex;
       flex-direction: row;
       justify-content: flex-end;
       align-items: flex-start;
       margin-bottom: auto;
+
       .menu-item {
         display: flex;
         justify-content: center;
@@ -90,39 +79,48 @@ const randomJump = () => {
         box-shadow: 0 8px 16px -4px var(--main-border-shadow);
         transition: all 0.3s;
         cursor: pointer;
+
         .iconfont {
           font-size: 18px;
           margin-right: 8px;
           transition: color 0.3s;
         }
+
         &.random {
           color: var(--main-color);
+
           .iconfont {
             color: var(--main-color);
           }
         }
+
         &.add {
           color: var(--main-card-second-background);
           background-color: var(--main-font-color);
+
           .iconfont {
             font-size: 22px;
             margin-right: 6px;
             color: var(--main-card-second-background);
           }
         }
+
         &:last-child {
           margin-left: 20px;
         }
+
         &:hover {
           color: #fff;
           background-color: var(--main-color);
           box-shadow: 0 8px 16px -4px var(--main-color-bg);
+
           .iconfont {
             color: #fff;
           }
         }
       }
     }
+
     .link-group {
       position: absolute;
       left: 0;
@@ -131,11 +129,14 @@ const randomJump = () => {
       flex-direction: row;
       flex-wrap: nowrap;
       overflow: hidden;
+
       .link-group-item {
         display: flex;
         flex-direction: column;
+
         .link-logo {
           margin-right: 1.2rem;
+
           .link-logo-img {
             width: 120px;
             height: 120px;
@@ -143,6 +144,7 @@ const randomJump = () => {
             border-radius: 50%;
             overflow: hidden;
           }
+
           &:nth-of-type(2n) {
             margin-top: 1.2rem;
             transform: translate(-60px);
@@ -150,8 +152,10 @@ const randomJump = () => {
         }
       }
     }
+
     @media (max-width: 800px) {
       min-height: auto;
+
       .menu,
       .link-group {
         display: none;

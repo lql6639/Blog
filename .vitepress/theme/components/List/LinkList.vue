@@ -72,7 +72,7 @@ const props = defineProps({
   // 友链朋友圈
   useFriendsLink: {
     type: Boolean,
-    default: false
+    default: true
   }
 })
 </script>
@@ -81,24 +81,30 @@ const props = defineProps({
 .link-list {
   .link-type-list {
     margin-top: 2rem;
+
     .title {
       margin-left: 6px;
       margin-bottom: 1.6rem;
+
       .name {
         border-bottom: none;
         margin-bottom: 4px;
+
         .name-count {
           color: var(--main-font-second-color);
         }
       }
+
       .tip {
         color: var(--main-font-second-color);
       }
     }
+
     .all-link {
       display: grid;
       gap: 20px;
       grid-template-columns: repeat(5, 1fr);
+
       .link-card {
         display: flex;
         flex-direction: row;
@@ -106,9 +112,11 @@ const props = defineProps({
         height: 90px;
         width: 100%;
         padding: 12px;
+
         &.loss {
           pointer-events: none;
         }
+
         .cover {
           display: flex;
           align-items: center;
@@ -128,6 +136,7 @@ const props = defineProps({
           background-size: 400% 100%;
           animation: skeleton-loading 1.4s ease infinite;
           transition: all 0.6s;
+
           .cover-img {
             width: 100%;
             height: 100%;
@@ -137,18 +146,21 @@ const props = defineProps({
             transition:
               filter 0.3s,
               opacity 0.3s;
+
             &.loaded {
               opacity: 1;
               filter: blur(0);
             }
           }
         }
+
         .data {
           height: 100%;
           width: 100%;
           display: flex;
           flex-direction: column;
           align-items: flex-start;
+
           .name {
             font-weight: bold;
             font-size: 18px;
@@ -160,6 +172,7 @@ const props = defineProps({
             -webkit-box-orient: vertical;
             white-space: nowrap;
           }
+
           .desc {
             font-size: 15px;
             margin-top: 4px;
@@ -176,11 +189,13 @@ const props = defineProps({
               opacity 0.3s;
           }
         }
+
         &:hover {
           color: var(--main-card-background);
           background-color: var(--main-color);
           border-color: var(--main-color);
           box-shadow: 0 0 16px 6px var(--main-color-bg);
+
           .cover {
             margin-right: 6px;
             min-width: 0;
@@ -188,6 +203,7 @@ const props = defineProps({
             width: 0;
             height: 0;
           }
+
           .data {
             .desc {
               opacity: 0.7;
@@ -196,21 +212,26 @@ const props = defineProps({
           }
         }
       }
+
       @media (max-width: 1200px) {
         grid-template-columns: repeat(4, 1fr);
       }
+
       @media (max-width: 992px) {
         grid-template-columns: repeat(3, 1fr);
       }
+
       @media (max-width: 768px) {
         grid-template-columns: repeat(2, 1fr);
       }
+
       @media (max-width: 576px) {
         grid-template-columns: 1fr;
       }
     }
   }
 }
+
 .no-data {
   text-align: center;
   margin-top: 40px;

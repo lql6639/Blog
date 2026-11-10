@@ -46,6 +46,7 @@ import { mainStore, initializeCursor } from '@/store'
 import { calculateScroll, specialDayGray } from '@/utils/helper'
 import { ensureGlobalFontsLoaded } from '@/utils/fontLoader.mjs'
 import { usePostData } from '@/utils/usePostData.mjs'
+import config from '@/../../package.json'
 
 // const screenWidth = ref(0);
 const route = useRoute()
@@ -156,6 +157,25 @@ const changeSiteFont = async () => {
   }
 }
 
+// 控制台输出
+const styleTitle1 = 'font-size: 20px;font-weight: 600;color: rgb(244,167,89);'
+const styleTitle2 = 'font-size:12px;color: rgb(244,167,89);'
+const styleContent = 'color: rgb(30,152,255);'
+const title1 = 'Lovlin_0206 の Blog'
+const title2 = `
+_  __   ___    _   _____   ___    ____       _
+| |/ /  / _ \\  (_) |__  |  / _ \\  |  _ \\     / \\
+| ' /  | | | | | |   / /  | | | | | |_) |   / _ \\
+| . \\  | |_| | | |  / /_  | |_| | |  _ <   / ___ \\
+|_|\\_\\  \\___/  |_| |____|  \\___/  |_| \\_\\ /_/   \\_\\`
+const content = `\n\n版本: ${config.version}\nAuthor: ${config.author} & Github: ${config.AuthorGithub}`
+console.info(
+  `%c${title1} %c${title2} %c${content}`,
+  styleTitle1,
+  styleTitle2,
+  styleContent
+)
+
 // 监听设置变化
 watch(
   () => [themeType.value, backgroundType.value],
@@ -205,16 +225,20 @@ onBeforeUnmount(() => {
   animation: show 0.5s forwards;
   animation-duration: 0.5s;
   display: block;
+
   &.loading {
     display: none;
   }
+
   @media (max-width: 768px) {
     padding: 1rem 1.5rem;
+
     &.is-post {
       padding: 0;
     }
   }
 }
+
 .left-menu {
   position: fixed;
   left: 20px;
@@ -226,6 +250,7 @@ onBeforeUnmount(() => {
   transition:
     opacity 0.3s,
     transform 0.3s;
+
   &.hidden {
     opacity: 0;
     transform: translateY(100px);

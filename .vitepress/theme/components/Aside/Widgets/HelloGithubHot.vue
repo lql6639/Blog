@@ -99,13 +99,16 @@ onMounted(() => {
 <style lang="scss" scoped>
 .site-data {
   margin-bottom: 1rem;
+
   .iconfont {
     opacity: 0.6;
     margin-right: 6px;
   }
+
   .title-name {
     opacity: 0.8;
   }
+
   .title {
     padding: 0.3rem 0.5rem;
     margin-bottom: 5px;
@@ -114,6 +117,7 @@ onMounted(() => {
     align-items: center;
     opacity: 0.75;
   }
+
   .all-data {
     overflow-y: auto;
     overflow-x: hidden;
@@ -133,9 +137,11 @@ onMounted(() => {
         opacity: 0.8;
         font-weight: bold;
       }
+
       .num {
         flex: 1;
         margin-left: 0.3rem;
+
         a {
           display: -webkit-box;
           -webkit-box-orient: vertical;

@@ -21,23 +21,15 @@ import Link from "@/views/Link.vue";
 
 ### 我的友链信息
 
-- 名称：`池鱼小栈`
-- 描述：`｜д•´)!!`
-- 地址：`https://chiyu.it/`
-- 头像：`https://chiyu.it/images/logo/logo.webp`
-- 站点图片：`麻烦自行拍摄（不加也行`
-
-```yml
-name: 池鱼小栈
-desc: ｜д•´)!!
-url: https://chiyu.it/
-avatar: https://chiyu.it/images/logo/logo.webp
-screenshot: 麻烦自行拍摄（不加也行
-```
+- 名称：`koizora`
+- 描述：`眼角的泪这不是错觉`
+- 地址：`https://blog.lovlin.cn`
+- 头像：`https://blog.lovlin.cn/images/logo/logo.webp`
+- 站点图片：`麻烦自行拍摄（不加也行）`
 
 ### 申请友链
 
-- 我已添加 [池鱼小栈](https://chiyu.it/) 的友情链接。
+- 我已添加 [koizora](https://blog.lovlin.cn) 的友情链接。
 - **请多多进行互动后再来进行友链添加**，若为首次评论直接申请友链，将不会通过。
 - 本站不添加 **采集站**、**纯搬运站点**、**论坛类站点** 等非 **个人博客** 类型的站点。
 - 站点目前可以在 **中国大陆区域** 正常访问。

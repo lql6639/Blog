@@ -249,18 +249,23 @@ const handleRefresh = () => {
   &.ping--operational {
     background-color: var(--main-success-color);
   }
+
   &.ping--degraded {
     background-color: var(--main-warning-color);
   }
+
   &.ping--partial {
     background-color: var(--main-warning-color);
   }
+
   &.ping--major {
     background-color: var(--main-error-color);
   }
+
   &.ping--maintenance {
     background-color: var(--main-info-color);
   }
+
   &.ping--error,
   &.ping--unknown {
     background-color: var(--main-font-second-color);
@@ -283,18 +288,23 @@ const handleRefresh = () => {
   &.dot--operational {
     background-color: var(--main-success-color);
   }
+
   &.dot--degraded {
     background-color: var(--main-warning-color);
   }
+
   &.dot--partial {
     background-color: var(--main-warning-color);
   }
+
   &.dot--major {
     background-color: var(--main-error-color);
   }
+
   &.dot--maintenance {
     background-color: var(--main-info-color);
   }
+
   &.dot--error,
   &.dot--unknown {
     background-color: var(--main-font-second-color);
@@ -315,6 +325,7 @@ const handleRefresh = () => {
     transform: scale(1);
     opacity: 0.75;
   }
+
   100% {
     transform: scale(2);
     opacity: 0;
@@ -327,6 +338,7 @@ const handleRefresh = () => {
     opacity: 1;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.5;
     transform: scale(0.85);

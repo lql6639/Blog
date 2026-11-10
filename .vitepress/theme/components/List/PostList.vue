@@ -111,18 +111,34 @@ const gridStyle = computed(() =>
 // 判断是否显示封面
 const showCover = () => themeConfig.value?.cover?.showCover?.enable
 
+// 稳定哈希：同一篇文章每次渲染都落到同一张图
+const hashString = (str) => {
+  let hash = 0
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash * 31 + str.charCodeAt(i)) | 0
+  }
+  return Math.abs(hash)
+}
+
+// 给远程封面地址追加稳定查询参数：
+// 1) 每篇文章 URL 唯一，浏览器不会把它们当成同一张图合并
+// 2) 同一篇文章每次渲染仍是同一张，避免闪动与 SSR 水合不一致
+const withCoverSeed = (url, seed) => {
+  if (!url || !/^https?:\/\//i.test(url)) return url
+  return `${url}${url.includes('?') ? '&' : '?'}_cover=${seed}`
+}
+
 // 获取封面图片 按优先级获取：cover > defaultCover > false
-const getCover = ({ cover: itemCover }) => {
+const getCover = (item) => {
   const { cover } = themeConfig.value ?? {}
+  const defaultCover = cover?.showCover?.defaultCover
 
   if (!cover?.showCover?.enable) return false
-  if (itemCover) return itemCover
+  if (item?.cover) return item.cover
+  if (!Array.isArray(defaultCover) || defaultCover.length === 0) return false
 
-  return Array.isArray(cover.showCover.defaultCover)
-    ? cover.showCover.defaultCover[
-        Math.floor(Math.random() * cover.showCover.defaultCover.length)
-      ]
-    : false
+  const seed = hashString(item?.regularPath || item?.title || '')
+  return withCoverSeed(defaultCover[seed % defaultCover.length], seed)
 }
 
 // 前往文章
@@ -204,25 +220,30 @@ const toPost = (event, path) => {
         width: 100%;
         color: var(--main-font-second-color);
         font-size: 14px;
+
         .cat-name {
           display: flex;
           flex-direction: row;
           align-items: center;
+
           .iconfont {
             opacity: 0.8;
             margin-right: 6px;
             color: var(--main-font-second-color);
           }
         }
+
         .top {
           margin-left: 12px;
           color: var(--main-color);
+
           .iconfont {
             opacity: 0.8;
             color: var(--main-color);
           }
         }
       }
+
       .post-title {
         font-size: 20px;
         line-height: 30px;
@@ -235,6 +256,7 @@ const toPost = (event, path) => {
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
       }
+
       .post-desc {
         margin-top: -0.4rem;
         margin-bottom: 0.8rem;
@@ -246,12 +268,14 @@ const toPost = (event, path) => {
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
       }
+
       .post-meta {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
         color: var(--main-font-second-color);
+
         .post-tags {
           display: flex;
           flex-wrap: wrap;
@@ -265,6 +289,7 @@ const toPost = (event, path) => {
             hsla(0, 0%, 100%, 0.6) 95%,
             hsla(0, 0%, 100%, 0) 100%
           );
+
           .tags-name {
             position: relative;
             z-index: 4;
@@ -275,23 +300,28 @@ const toPost = (event, path) => {
             margin-right: 12px;
             white-space: nowrap;
             transition: color 0.3s;
+
             .iconfont {
               font-weight: normal;
               opacity: 0.6;
               margin-right: 4px;
               transition: color 0.3s;
             }
+
             &:hover {
               color: var(--main-color);
+
               .iconfont {
                 color: var(--main-color);
               }
             }
           }
+
           @media (max-width: 768px) {
             flex-wrap: nowrap;
           }
         }
+
         .post-time {
           opacity: 0.6;
           font-size: 13px;
@@ -299,29 +329,35 @@ const toPost = (event, path) => {
         }
       }
     }
+
     &.simple {
       animation: none;
       padding: 0.5rem 1.4rem;
       background-color: var(--main-card-second-background);
       height: auto;
     }
+
     &:last-child {
       margin-bottom: 0;
     }
+
     &:hover {
       .post-cover img {
         filter: brightness(0.8);
         transform: scale(1.05);
       }
+
       .post-content {
         .post-title {
           color: var(--main-color);
         }
       }
     }
+
     &:active {
       transform: scale(0.98);
     }
+
     @media (max-width: 768px) {
       flex-direction: column;
       height: auto;
@@ -348,6 +384,7 @@ const toPost = (event, path) => {
       &:nth-child(odd) {
         flex-direction: row;
       }
+
       &:nth-child(even) {
         flex-direction: row-reverse;
       }

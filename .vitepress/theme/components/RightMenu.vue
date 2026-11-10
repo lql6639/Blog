@@ -531,6 +531,7 @@ defineExpose({ openRightMenu })
   height: 100vh;
   z-index: 9999;
   transition: opacity 0.2s;
+
   .menu-content {
     position: absolute;
     width: 180px;
@@ -541,6 +542,7 @@ defineExpose({ openRightMenu })
       border-color 0.3s,
       box-shadow 0.3s,
       background-color 0.3s;
+
     .tools {
       display: flex;
       flex-direction: row;
@@ -549,34 +551,42 @@ defineExpose({ openRightMenu })
       justify-content: space-between;
       padding-bottom: 12px;
       border-bottom: 1px solid var(--main-card-border);
+
       .btn {
         width: 34px;
         height: 34px;
         min-width: 34px;
       }
     }
+
     .all-menu {
       margin-top: 12px;
+
       .btn {
         justify-content: flex-start;
         margin-bottom: 6px;
+
         .iconfont {
           font-size: 20px;
         }
+
         &:last-child {
           margin-bottom: 0;
         }
       }
+
       &.general {
         padding-top: 12px;
         border-top: 1px solid var(--main-card-border);
       }
     }
+
     .player {
       .data {
         display: flex;
         flex-direction: column;
         align-items: center;
+
         span {
           width: 100%;
           padding: 0 8px;
@@ -585,12 +595,14 @@ defineExpose({ openRightMenu })
           overflow: hidden;
           text-overflow: ellipsis;
         }
+
         .artist {
           font-size: 14px;
           margin-top: 4px;
           color: var(--main-font-second-color);
         }
       }
+
       .volume {
         display: flex;
         flex-direction: row;
@@ -599,37 +611,45 @@ defineExpose({ openRightMenu })
         padding: 0 6px;
         margin-top: 1rem;
         width: 100%;
+
         .iconfont {
           color: var(--main-font-second-color);
           font-size: 20px;
           transition: color 0.3s;
           cursor: pointer;
+
           &:first-child {
             margin-right: 6px;
           }
+
           &:last-child {
             margin-left: 6px;
           }
+
           &:hover {
             color: var(--main-color);
           }
         }
       }
+
       .control {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: space-evenly;
         margin-top: 8px;
+
         .btn {
           padding: 6px;
           margin-bottom: 0;
+
           .iconfont {
             font-size: 26px;
           }
         }
       }
     }
+
     .btn {
       display: flex;
       align-items: center;
@@ -639,16 +659,20 @@ defineExpose({ openRightMenu })
       transition:
         color 0.3s,
         background-color 0.3s;
+
       .iconfont {
         font-size: 20px;
         transition: color 0.3s;
       }
+
       .name {
         margin-left: 12px;
       }
+
       &:hover {
         color: var(--main-card-background);
         background-color: var(--main-color);
+
         .iconfont {
           color: var(--main-card-background);
         }
@@ -656,6 +680,7 @@ defineExpose({ openRightMenu })
     }
   }
 }
+
 .modal-tip {
   font-size: 15px;
   margin-top: -4px;

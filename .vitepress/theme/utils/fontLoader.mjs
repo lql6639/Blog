@@ -17,7 +17,7 @@ const FONT_FAMILY_MAP = {
 
 const STYLE_ID_PREFIX = 'curve-font-'
 const loadingTasks = new Map()
-const FONT_LOAD_TEXT = '池鱼Chiyu123'
+const FONT_LOAD_TEXT = 'Lovlin_0206'
 
 const runWhenIdle = (callback) => {
   if (typeof window === 'undefined') return

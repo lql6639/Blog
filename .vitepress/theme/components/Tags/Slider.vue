@@ -54,14 +54,17 @@ watch(
   height: auto !important;
   margin: 0 !important;
   padding: 0 4px !important;
+
   :deep(.vue-slider-rail) {
     height: 8px;
     background-color: var(--main-color-bg);
     border-radius: 25px;
+
     .vue-slider-process {
       border-radius: 25px;
       background-color: var(--main-color);
     }
+
     .vue-slider-dot {
       width: 16px;
       height: 16px;

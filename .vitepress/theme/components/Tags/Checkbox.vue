@@ -23,6 +23,7 @@ const checkboxClick = () => {
   align-items: center;
   margin: 1rem 0;
   cursor: pointer;
+
   .checkbox-box {
     position: relative;
     display: flex;
@@ -36,6 +37,7 @@ const checkboxClick = () => {
     transition:
       border 0.3s,
       background-color 0.3s;
+
     &::after {
       content: '\e04e';
       position: absolute;
@@ -49,14 +51,17 @@ const checkboxClick = () => {
         opacity 0.3s,
         transform 0.3s;
     }
+
     &.check {
       background-color: var(--main-color);
+
       &::after {
         opacity: 1;
         transform: scale(1);
       }
     }
   }
+
   &:hover {
     .checkbox-box {
       border-color: var(--main-color);

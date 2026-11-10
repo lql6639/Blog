@@ -39,20 +39,24 @@ onMounted(() => {
     flex-wrap: wrap;
     max-height: 500px;
     overflow: hidden;
+
     .tags {
       display: inline-block;
       padding: 4px 8px;
       margin: 2px;
       border-radius: 8px;
+
       .num {
         margin-left: 2px;
         opacity: 0.6;
       }
+
       &:hover {
         color: var(--main-color);
         background-color: var(--main-color-bg);
       }
     }
+
     &::after {
       content: '';
       position: absolute;
@@ -69,6 +73,7 @@ onMounted(() => {
       pointer-events: none;
     }
   }
+
   .more-tags {
     display: flex;
     align-items: center;
@@ -79,6 +84,7 @@ onMounted(() => {
     font-size: 14px;
     border: 1px solid var(--main-card-border);
     background-color: var(--main-card-second-background);
+
     &:hover {
       color: var(--main-color);
       border-color: var(--main-color-bg);

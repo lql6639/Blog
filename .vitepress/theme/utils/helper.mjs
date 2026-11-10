@@ -255,7 +255,6 @@ export const specialDayGray = () => {
     { date: '5-12', name: '汶川大地震纪念日' },
     { date: '7-7', name: '中国人民抗日战争纪念日' },
     { date: '9-18', name: '九·一八事变纪念日' },
-    { date: '11-20', name: '跨性别追念日' },
     { date: '12-13', name: '南京大屠杀死难者国家公祭日' }
   ]
   // 获取当天日期

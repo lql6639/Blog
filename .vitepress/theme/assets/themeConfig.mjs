@@ -3,27 +3,27 @@ export const themeConfig = {
   // 站点信息
   siteMeta: {
     // 站点标题
-    title: '池鱼小栈',
+    title: 'koizora',
     // 站点描述
-    description: '跨过晨昏线，便是永夜。',
+    description: '想逃离这个世界 却发现还有一个你',
     // 站点logo
     logo: '/images/logo/logo.webp',
     // 站点地址
-    site: 'https://chiyu.it',
+    site: 'https://blog.lovlin.cn',
     // 语言
     lang: 'zh-CN',
     // 作者
     author: {
-      name: '池鱼',
+      name: 'koizora',
       cover: '/images/logo/logo.webp',
-      email: 'hi@chiyu.it',
-      link: 'https://chiyu.it'
+      email: '1740242084@qq.com',
+      link: 'https://lovlin.cn'
     }
   },
   // 备案信息
-  icp: '萌ICP备20259222号',
+  icp: '萌ICP备20262044号',
   // 建站日期
-  since: '2025-04-29',
+  since: '2026-02-06',
   // 每页文章数据
   postSize: 5,
   // inject
@@ -78,26 +78,29 @@ export const themeConfig = {
         { text: '全部标签', link: '/pages/tags', icon: 'hashtag' }
       ]
     },
-    // {
-    // text: "专栏",
-    // items: [
-    //  { text: "技术分享", link: "/pages/categories/技术分享", icon: "technical" },
-    //  { text: "我的项目", link: "/pages/project", icon: "code" },
-    //  { text: "效率工具", link: "/pages/tools", icon: "tools" },
-    //  ],
-    //   },
+    {
+      text: '专栏',
+      items: [
+        {
+          text: '技术分享',
+          link: '/pages/categories/技术分享',
+          icon: 'technical'
+        },
+        { text: '我的项目', link: '/pages/project', icon: 'code' },
+        { text: '效率工具', link: '/pages/tools', icon: 'tools' }
+      ]
+    },
     {
       text: '友链',
       items: [
-        //  { text: "友链鱼塘", link: "/pages/friends", icon: "fish" },
+        { text: '友情鱼塘', link: '/pages/friends', icon: 'fish' },
         { text: '友情链接', link: '/pages/link', icon: 'people' }
       ]
     },
     {
       text: '我的',
       items: [
-        //{ text: "畅所欲言", link: "/pages/message", icon: "chat" },
-        //{ text: "致谢名单", link: "/pages/thanks", icon: "reward" },
+        { text: '畅所欲言', link: '/pages/message', icon: 'chat' },
         { text: '关于本站', link: '/pages/about', icon: 'contacts' }
       ]
     }
@@ -110,18 +113,8 @@ export const themeConfig = {
         {
           icon: '/images/logo/logo.webp',
           name: '主站',
-          url: '/'
+          url: 'https://lovlin.cn'
         }
-        // {
-        //   icon: "/images/logo/other/hot.png",
-        //   name: "热榜",
-        //   url: "https://hot.chiyu.it",
-        // },
-        // {
-        //   icon: "/images/logo/other/nav.png",
-        //   name: "Nav",
-        //   url: "https://nav.chiyu.it",
-        // },
       ]
     },
     {
@@ -130,25 +123,10 @@ export const themeConfig = {
         {
           icon: '/images/uptime-favicon.ico',
           name: '检测',
-          url: 'https://status.chiyu.it'
+          url: 'https://status.lovlin.cn'
         }
-        // {
-        //   icon: "/images/logo/logo.webp",
-        //   name: "镜像站",
-        //   url: "https://backup.chiyu.it",
-        // },
       ]
     }
-    //  {
-    //   name: "项目",
-    //   list: [
-    //     {
-    //       icon: "/images/logo/logo.webp",
-    //       name: "占位符",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
   ],
   // 封面配置
   cover: {
@@ -157,15 +135,12 @@ export const themeConfig = {
     // 是否开启封面显示
     showCover: {
       // 是否开启封面显示 文章不设置cover封面会显示异常，可以设置下方默认封面
-      enable: false,
+      enable: true,
       // 封面布局方式: left | right | both
       coverLayout: 'both',
-      // 默认封面(随机展示)
-      defaultCover: [
-        'https://example.com/1.avif',
-        'https://example.com/2.avif',
-        'https://example.com/3.avif'
-      ]
+      // 默认封面(随机展示)：可放多张图，按文章路径稳定取其中一张
+      // 远程随机图接口会自动追加 `_cover=<文章哈希>` 参数，保证每篇文章拿到不同的图
+      defaultCover: ['https://t.alcy.cc/pc']
     }
   },
   // 页脚信息
@@ -174,27 +149,27 @@ export const themeConfig = {
     social: [
       {
         icon: 'email',
-        link: 'mailto:hi@chiyu.it'
+        link: 'mailto:1740242084@qq.com'
       },
       {
         icon: 'github',
-        link: 'https://www.github.com/kazukokawagawa/'
+        link: 'https://github.com/lql6639'
       },
       {
         icon: 'telegram',
-        link: 'https://t.me/Chiyuyu1314'
+        link: 'https://t.me'
       },
       {
         icon: 'bilibili',
-        link: 'https://space.bilibili.com/546803670'
+        link: 'https://space.bilibili.com/2073021411'
       },
       {
         icon: 'qq',
-        link: 'https://res.abeim.cn/api/qq/?qq=3985726818'
+        link: 'https://qm.qq.com/q/xiyMGvkhqw'
       },
       {
         icon: 'twitter-x',
-        link: 'https://twitter.com/Chiyuyu520'
+        link: 'https://twitter.com'
       }
     ],
     // sitemap
@@ -202,44 +177,52 @@ export const themeConfig = {
       {
         text: '博客',
         items: [
-          { text: '近期文章', link: '/' },
           { text: '全部分类', link: '/pages/categories' },
           { text: '全部标签', link: '/pages/tags' },
-          { text: '文章归档', link: '/pages/archives', newTab: true }
+          { text: '全部文章', link: '/pages/archives' }
         ]
       },
       {
         text: '项目',
         items: [
           {
+            text: 'TODO',
+            link: '/pages/todo'
+          },
+          {
+            text: '订阅本站',
+            link: 'https://blog.lovlin.cn/rss.xml',
+            newTab: true
+          },
+          {
             text: '本站源码',
-            link: 'https://github.com/kazukokawagawa/vitepress-theme-curve',
+            link: 'https://github.com/lql6639/Blog',
             newTab: true
           }
         ]
       },
-      //{
-      //text: "专栏",
-      //items: [
-      //{ text: "技术分享", link: "/pages/categories/技术分享" },
-      //{ text: "我的项目", link: "/pages/project" },
-      // { text: "效率工具", link: "/pages/tools" },
-      // ],
-      // },
+      {
+        text: '专栏',
+        items: [
+          { text: '技术分享', link: '/pages/categories/技术分享' },
+          { text: '我的项目', link: '/pages/project' },
+          { text: '效率工具', link: '/pages/tools' }
+        ]
+      },
       {
         text: '页面',
         items: [
-          //{ text: "畅所欲言", link: "/pages/message" },
-          { text: '关于本站', link: '/pages/about' },
+          { text: '致谢名单', link: '/pages/thanks' },
           { text: '隐私政策', link: '/pages/privacy' },
-          { text: '版权协议', link: '/pages/cc' },
-          { text: 'TODO', link: '/pages/todo' }
+          { text: '版权协议', link: '/pages/cc' }
         ]
       },
       {
         text: '服务',
         items: [
-          { text: '站点状态', link: 'https://status.chiyu.it', newTab: true }
+          { text: '访问主站', link: 'https://lovlin.cn', newTab: true },
+          { text: '站点状态', link: 'https://status.lovlin.cn', newTab: true },
+          { text: '关于本站', link: '/pages/about' }
         ]
       }
     ],
@@ -248,14 +231,14 @@ export const themeConfig = {
       // 是否显示底部徽标区域
       enable: true,
       // 标题文本
-      title: 'Made with ❤️',
+      title: 'Made with',
       // 徽标列表
       items: [
         { icon: '📡', text: 'IPv6已启用', show: true },
         { icon: '⚡️', text: 'HTTP/3', show: true },
-        { icon: '🧅', text: '.onion可用', show: false },
+        { icon: '🧅', text: '.onion可用', show: true },
         { icon: '🌱', text: '低碳环保', show: true },
-        { icon: '🍪', text: '无Cookie', show: false },
+        { icon: '🍪', text: '无Cookie', show: true },
         { icon: '🕵️', text: '无追踪', show: true }
       ]
     }
@@ -276,8 +259,8 @@ export const themeConfig = {
     // https://twikoo.js.org/
     twikoo: {
       // 必填，若不想使用 CDN，可以使用 pnpm add twikoo 安装并引入
-      js: 'https://cdn.jsdelivr.net/npm/twikoo@1.6.42/dist/twikoo.all.min.js',
-      envId: 'https://twikoo.20100907.xyz',
+      js: 'https://cdn.jsdelivr.net/npm/twikoo@2.0.17/dist/twikoo.min.js',
+      envId: 'https://twikoo.lovlin.cn',
       // 环境地域，默认为 ap-shanghai，腾讯云环境填 ap-shanghai 或 ap-guangzhou；Vercel 环境不填
       region: '',
       lang: 'zh-CN'
@@ -288,7 +271,7 @@ export const themeConfig = {
     // 站点简介
     hello: {
       enable: true,
-      text: '这里有关于<strong>开发</strong>相关的问题和看法，也会有一些<strong>奇技淫巧</strong>的分享，其中大部分内容会侧重于<strong>前端开发</strong>。希望你可以在这里找到对你有用的知识和教程。'
+      text: '你好，这里有关于<strong>开发</strong>相关的问题和看法，也会有一些<strong>奇技淫巧</strong>的分享，其中大部分内容会侧重于<strong>前端开发</strong>。希望你可以在这里找到对你有用的知识和教程。'
     },
     // 目录
     toc: {
@@ -304,26 +287,8 @@ export const themeConfig = {
       // 倒计时日期（无年份 = 每年循环，指向下一次生日）
       data: {
         name: '生日',
-        date: '09-07'
+        date: '02-06'
       }
-    },
-    timing: {
-      enable: true,
-      items: [
-        {
-          icon: '💌',
-          name: '池鱼',
-          event: '活着',
-          date: '2010-09-07',
-          includeStart: true
-        },
-        {
-          icon: '💊',
-          event: 'HRT',
-          date: '2025-03-24',
-          includeStart: true
-        }
-      ]
     },
     // 站点数据
     siteData: {
@@ -351,38 +316,28 @@ export const themeConfig = {
   // 音乐播放器
   // https://github.com/imsyy/Meting-API
   music: {
-    enable: false,
-    // url
-    url: 'https://meting.20100907.xyz/api',
+    enable: true,
+    // url（结尾斜杠不能省：无斜杠会 301 且响应缺少 CORS 头，浏览器 fetch 直接失败）
+    url: 'https://api.qijieya.cn/meting/',
     // id
-    id: 13470307260,
+    id: 3778678,
     // netease / tencent / kugou
     server: 'netease',
     // playlist / album / song
     type: 'playlist'
   },
   // 搜索
-  // https://www.algolia.com/
+  // 本地全文搜索：构建时生成 public/data/searchIndex.json，前端懒加载，无需 Algolia
   search: {
-    enable: false,
-    appId: '0F1DUC8MAX',
-    apiKey: '1f97c9169943484cfb9a05c825851ca4'
+    enable: true
   },
-  // 天气 Key
-  // 请前往 高德开放平台注册 Web服务 Key
-  // 请注意不是 Web端 (JS API)，免费申请，每日上限 5000 次
-  // 此处提供的服务可能会超量从而无法访问，请自行申请！请自行申请！请自行申请！
-  // 若此处设为空则调用 教书先生 API https://api.oioweb.cn/doc/weather/GetWeather
-  //weatherkey: {
-  //"key": "1d65cc630df1f212e1d2e928643e3974",
-  // },
   // 打赏
   rewardData: {
     enable: true,
-    // 微信二维码
-    wechat: 'https://raw.20100907.xyz/pic/pay/wx.webp',
-    // 支付宝二维码
-    alipay: 'https://raw.20100907.xyz/pic/pay/zfb.webp'
+    // 微信（必须以 / 开头，相对路径会按当前页面拼接导致 404）
+    wechat: '/images/logo/wechat.png',
+    // 支付宝
+    alipay: '/images/logo/alipay.png'
   },
   // 图片灯箱
   fancybox: {

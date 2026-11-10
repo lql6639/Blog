@@ -63,6 +63,7 @@ onBeforeUnmount(() => {
   box-shadow: 0 8px 16px -4px var(--main-border-shadow);
   background-image: linear-gradient(to bottom, #505152, #2e2f30);
   overflow: hidden;
+
   .clock-content {
     position: relative;
     display: flex;
@@ -72,11 +73,13 @@ onBeforeUnmount(() => {
     height: 100%;
     border-radius: 50%;
     box-shadow: inset 0 0 16px -6px #191a1b;
+
     .pointer {
       position: absolute;
       bottom: calc(50% - 5px);
       box-shadow: 0 0 10px 0 #191a1b;
       border-radius: 25px;
+
       //   transition: transform 0.3s;
       &.hour {
         width: 10px;
@@ -85,6 +88,7 @@ onBeforeUnmount(() => {
         z-index: 2;
         transform-origin: 5px 35px;
       }
+
       &.minute {
         width: 8px;
         height: 55px;
@@ -92,12 +96,14 @@ onBeforeUnmount(() => {
         transform-origin: 4px 50px;
         z-index: 1;
       }
+
       &.second {
         width: 4px;
         height: 60px;
         background-color: #a51b1d;
         transform-origin: 2px 55px;
         z-index: 3;
+
         &::after {
           content: '';
           position: absolute;
@@ -109,6 +115,7 @@ onBeforeUnmount(() => {
         }
       }
     }
+
     &::after {
       content: '';
       position: absolute;

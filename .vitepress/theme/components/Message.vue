@@ -102,15 +102,18 @@ onMounted(() => {
   width: 100vw;
   background-color: var(--main-color);
   z-index: 3000;
+
   .message-content {
     display: flex;
     flex-direction: row;
     align-items: center;
     font-size: 18px;
     font-weight: bold;
+
     .text {
       color: var(--main-card-background);
     }
+
     .close {
       display: flex;
       justify-content: center;
@@ -120,32 +123,40 @@ onMounted(() => {
       border-radius: 50%;
       transition: background-color 0.3s;
       cursor: pointer;
+
       .iconfont {
         font-size: 14px;
         color: var(--main-card-background);
         opacity: 0.6;
         transition: opacity 0.3s;
       }
+
       &:hover {
         background-color: var(--main-color-white);
+
         .iconfont {
           opacity: 1;
         }
       }
     }
   }
+
   &.success {
     background-color: var(--main-success-color);
   }
+
   &.warning {
     background-color: var(--main-warning-color);
   }
+
   &.error {
     background-color: var(--main-error-color);
   }
+
   &.info {
     background-color: var(--main-info-color);
   }
+
   &::after {
     content: '';
     position: absolute;
@@ -158,6 +169,7 @@ onMounted(() => {
     transition: width 0.3s;
     animation: loading-width var(--duration) linear forwards;
   }
+
   &.always {
     &::after {
       width: 100%;

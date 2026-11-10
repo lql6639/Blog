@@ -4,10 +4,6 @@
 
 ## 一个为个人博客而生的 VitePress 主题
 
-<p align="center">
-  <img src="https://github.com/imsyy/vitepress-theme-curve/assets/42232682/bed62689-cfd8-4d98-b946-24555d4ce1fb" alt="curve-logo" />
-</p>
-
 文章、归档、分类、标签、分页、评论、RSS、PWA、搜索、友链、音乐播放器、侧边栏挂件、Markdown 扩展语法，一应俱全。
 
 [![VitePress](https://img.shields.io/badge/VitePress-1.6.4-646cff?logo=vite&logoColor=white)](https://vitepress.dev/zh/)
@@ -15,7 +11,7 @@
 [![Node](https://img.shields.io/badge/Node-%E2%89%A520-5fa04e?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
 
-[在线预览](https://chiyu.it) · [上游项目](https://github.com/imsyy/vitepress-theme-curve) · [问题反馈](https://github.com/imsyy/vitepress-theme-curve/issues)
+[在线预览](https://blog.lovlin.cn) · [上游项目](https://github.com/imsyy/vitepress-theme-curve) · [问题反馈](https://github.com/imsyy/vitepress-theme-curve/issues)
 
 </div>
 
@@ -23,7 +19,7 @@
 
 > [!IMPORTANT]
 > **本仓库是一个已投入使用的成品站点，而不是可一键套用的模板。**
-> 它基于上游主题 [vitepress-theme-curve](https://github.com/imsyy/vitepress-theme-curve)（作者 [imsyy](https://imsyy.top)）深度改造，用于运行 [池鱼小栈](https://chiyu.it)：站点信息、域名、友链、备案号、评论后端、统计 ID、内容与大部分界面文案都属于该站，**不保证开箱即可用于你自己的博客**。若你只是想找一个通用主题，请优先使用上游项目。
+> 它基于上游主题 [vitepress-theme-curve](https://github.com/imsyy/vitepress-theme-curve)（作者 [imsyy](https://imsyy.top)）深度改造，用于运行 [koizora](https://blog.lovlin.cn)：站点信息、域名、友链、备案号、评论后端、统计 ID、内容与大部分界面文案都属于该站，**不保证开箱即可用于你自己的博客**。若你只是想找一个通用主题，请优先使用上游项目。
 
 ## 目录
 

@@ -46,6 +46,7 @@ defineExpose({ scrollToComments })
 <style lang="scss" scoped>
 .comment {
   margin-top: 2rem;
+
   .title {
     display: flex;
     flex-direction: row;
@@ -54,17 +55,20 @@ defineExpose({ scrollToComments })
     width: 100%;
     margin: 3rem 0 1rem 0;
     padding: 0 6px;
+
     .name {
       display: flex;
       align-items: center;
       font-size: 24px;
       font-weight: bold;
+
       .iconfont {
         font-size: 26px;
         font-weight: normal;
         margin-right: 8px;
       }
     }
+
     .tool {
       opacity: 0.6;
       font-size: 14px;
@@ -72,6 +76,7 @@ defineExpose({ scrollToComments })
       transition:
         opacity 0.3s,
         color 0.3s;
+
       &:hover {
         opacity: 1;
         color: var(--main-color);

@@ -19,15 +19,6 @@
       <span class="tip"
         >此内容根据文章生成，并经过人工审核，仅用于文章内容的解释与总结</span
       >
-      <!--
-      <a
-        href="https://eqnxweimkr5.feishu.cn/share/base/form/shrcnCXCPmxCKKJYI3RKUfefJre"
-        class="report"
-        target="_blank"
-      >
-        投诉
-      </a>
-      -->
     </div>
   </div>
 </template>
@@ -80,7 +71,7 @@ const initAbstract = () => {
 const showOther = () => {
   if (loading.value) return false
   const text =
-    '我是池鱼开发的摘要生成助理 FakeGPT，如你所见，这是一个假的 GPT，所有文本皆源于本地书写的内容。我在这里只负责显示，并仿照 GPT 的形式输出。'
+    '我是开发的摘要生成助理 FakeGPT，如你所见，这是一个假的 GPT，所有文本皆源于本地书写的内容。我在这里只负责显示，并仿照 GPT 的形式输出。'
   showIndex.value = 0
   loading.value = true
   abstractData.value = ''
@@ -108,6 +99,7 @@ onBeforeUnmount(() => {
   background-color: var(--main-card-second-background);
   user-select: none;
   cursor: auto;
+
   .title {
     display: flex;
     flex-direction: row;
@@ -115,12 +107,14 @@ onBeforeUnmount(() => {
     justify-content: space-between;
     margin-bottom: 0.8rem;
     padding: 0 8px;
+
     .name {
       display: flex;
       align-items: center;
       color: var(--main-color);
       font-weight: bold;
       cursor: pointer;
+
       .icon-robot {
         display: flex;
         align-items: center;
@@ -134,6 +128,7 @@ onBeforeUnmount(() => {
         border-radius: 50%;
         margin-right: 8px;
       }
+
       .icon-up {
         font-weight: normal;
         font-size: 12px;
@@ -143,6 +138,7 @@ onBeforeUnmount(() => {
         transform: rotate(90deg);
       }
     }
+
     .logo {
       padding: 4px 10px;
       font-size: 12px;
@@ -151,14 +147,17 @@ onBeforeUnmount(() => {
       border-radius: 25px;
       font-weight: bold;
       cursor: pointer;
+
       &.loading {
         animation: loading 1s infinite;
         cursor: not-allowed;
       }
     }
   }
+
   .content {
     cursor: auto;
+
     .point {
       color: var(--main-color);
       font-weight: bold;
@@ -166,6 +165,7 @@ onBeforeUnmount(() => {
       animation: loading 0.8s infinite;
     }
   }
+
   .meta {
     display: flex;
     flex-direction: row;
@@ -178,6 +178,7 @@ onBeforeUnmount(() => {
     .tip {
       opacity: 0.6;
     }
+
     .report {
       white-space: nowrap;
       margin-left: 12px;

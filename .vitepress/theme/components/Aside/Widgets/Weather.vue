@@ -98,6 +98,7 @@ onMounted(async () => {
         font-weight: 500;
         display: flex;
         align-items: center;
+
         i {
           margin-right: 4px;
         }

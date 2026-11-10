@@ -34,11 +34,11 @@ export const mainStore = defineStore('main', {
       showSettings: false,
       // 播放器数据
       playState: false,
-      playerShow: false,
-      playerVolume: 0.7,
+      playerShow: true,
+      playerVolume: 0.8,
       playerData: {
-        name: '未知曲目',
-        artist: '未知艺术家'
+        name: '歌曲',
+        artist: '艺术家'
       },
       // 移动端菜单显示
       mobileMenuShow: false,
@@ -56,7 +56,7 @@ export const mainStore = defineStore('main', {
       lastScrollY: 0,
       // 站点背景
       backgroundType: 'patterns',
-      backgroundUrl: 'https://api.miaomc.cn/image/get'
+      backgroundUrl: 'https://api.imlazy.ink/img'
     }
   },
   getters: {
@@ -182,7 +182,6 @@ export const mainStore = defineStore('main', {
         'themeType',
         'bannerType',
         'useRightMenu',
-        'playerShow',
         'playerVolume',
         'backgroundBlur',
         'backgroundType',

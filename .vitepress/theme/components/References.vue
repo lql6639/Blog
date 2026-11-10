@@ -83,6 +83,7 @@ const updateReferences = () => {
   padding: 18px;
   margin-top: 2rem;
   background-color: var(--main-card-second-background);
+
   .title {
     display: flex;
     flex-direction: row;
@@ -90,6 +91,7 @@ const updateReferences = () => {
     color: var(--main-font-second-color);
     font-size: 15px;
     margin-bottom: 0.8rem;
+
     .iconfont {
       margin-right: 4px;
       font-size: 18px;
@@ -97,12 +99,14 @@ const updateReferences = () => {
       opacity: 0.6;
     }
   }
+
   .list {
     display: flex;
     flex-direction: column;
     margin: 0;
     list-style-type: none;
     padding-left: 0.4rem;
+
     .list-item {
       display: inline-flex;
       flex-direction: row;
@@ -115,15 +119,21 @@ const updateReferences = () => {
       margin-bottom: 0.4rem;
       overflow: auto;
       transition: color 0.3s;
+
       .item-title {
         padding-bottom: 2px;
-        white-space: normal; /* 允许文本正常换行 */
-        word-break: break-word; /* 允许在单词内换行以防止溢出 */
-        overflow-wrap: break-word; /* 标准化属性，与 word-wrap: break-word 相同 */
+        white-space: normal;
+        /* 允许文本正常换行 */
+        word-break: break-word;
+        /* 允许在单词内换行以防止溢出 */
+        overflow-wrap: break-word;
+        /* 标准化属性，与 word-wrap: break-word 相同 */
       }
+
       &:last-child {
         margin-bottom: 0;
       }
+
       &::before {
         content: '';
         position: absolute;
@@ -135,6 +145,7 @@ const updateReferences = () => {
         border-radius: 50%;
         transition: background-color 0.3s;
       }
+
       &::after {
         content: '';
         position: absolute;
@@ -146,11 +157,14 @@ const updateReferences = () => {
         background-color: var(--main-color);
         transition: width 0.3s;
       }
+
       &:hover {
         color: var(--main-color);
+
         &::before {
           background-color: var(--main-color);
         }
+
         &::after {
           width: calc(100% - 1rem);
         }

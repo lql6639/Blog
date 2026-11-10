@@ -99,6 +99,7 @@ onMounted(() => {
   margin: 1rem 0;
   padding: 1rem;
   background-color: var(--main-card-second-background);
+
   .link-tip {
     display: inline-block;
     width: 100%;
@@ -108,11 +109,13 @@ onMounted(() => {
     margin-bottom: 0.8rem;
     border-bottom: 2px dashed var(--main-card-border);
   }
+
   .link-data {
     height: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
+
     .link-icon {
       width: 60px;
       height: 60px;
@@ -120,10 +123,12 @@ onMounted(() => {
       margin-right: 0.8rem;
       border-radius: 12px;
       overflow: hidden;
+
       .link-img {
         width: 100%;
         height: 100%;
       }
+
       .iconfont {
         display: flex;
         width: 100%;
@@ -135,11 +140,13 @@ onMounted(() => {
         background-color: var(--main-card-border);
       }
     }
+
     .link-desc {
       width: 100%;
       display: flex;
       flex-direction: column;
       overflow: hidden;
+
       .link-title {
         margin-bottom: 4px;
         font-size: 18px;
@@ -148,6 +155,7 @@ onMounted(() => {
         white-space: nowrap;
         overflow-wrap: break-word;
       }
+
       .link-description {
         color: var(--main-font-second-color);
         font-size: 14px;
@@ -159,6 +167,7 @@ onMounted(() => {
         transition: color 0.3s;
       }
     }
+
     .link-go {
       display: flex;
       margin-left: 12px;
@@ -166,9 +175,11 @@ onMounted(() => {
       transition: color 0.3s;
     }
   }
+
   &:hover {
     color: var(--main-card-background);
     background-color: var(--main-color);
+
     .link-data {
       .link-desc {
         .link-description {
@@ -176,6 +187,7 @@ onMounted(() => {
           opacity: 0.6;
         }
       }
+
       .link-go {
         color: var(--main-card-background);
       }

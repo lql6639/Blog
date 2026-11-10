@@ -157,21 +157,25 @@ onBeforeUnmount(() => {
   position: relative;
   padding: 0 !important;
   overflow: hidden;
+
   .toc-title {
     display: flex;
     flex-direction: row;
     align-items: center;
     padding: 18px;
     height: 58px;
+
     .iconfont {
       margin-right: 8px;
       font-weight: bold;
       opacity: 0.6;
     }
+
     .name {
       font-weight: bold;
     }
   }
+
   .toc-list {
     position: relative;
     padding: 20px;
@@ -181,6 +185,7 @@ onBeforeUnmount(() => {
     flex-direction: column;
     max-height: calc(70vh - 58px);
     overflow: auto;
+
     .toc-item {
       margin: 4px 0;
       padding: 6px 12px;
@@ -192,36 +197,45 @@ onBeforeUnmount(() => {
         font-size 0.3s,
         background-color 0.3s;
       cursor: pointer;
+
       &:first-child {
         margin-top: 0;
       }
+
       &:last-child {
         margin-bottom: 0;
       }
+
       &.H2 {
         font-weight: bold;
       }
+
       &.H3 {
         font-size: 14px;
         margin-left: 20px;
       }
+
       &.active {
         opacity: 1;
         color: var(--main-color);
         background-color: var(--main-color-bg);
+
         &.H2 {
           font-size: 18px;
         }
+
         &.H3 {
           font-size: 16px;
         }
       }
+
       &:hover {
         opacity: 1;
         color: var(--main-color);
         background-color: var(--main-color-bg);
       }
     }
+
     &::after {
       content: '';
       position: absolute;
@@ -235,6 +249,7 @@ onBeforeUnmount(() => {
       transition: top 0.3s;
     }
   }
+
   &::before {
     content: '';
     position: absolute;

@@ -2,6 +2,7 @@
  * 获取一言
  * @param {string} [rule="updated"] - 文章的排序规则，可以是 "created" 或 "updated"
  */
+
 let useFallbackAPI = false // 跟踪是否使用备用 API
 
 export const getHitokoto = async () => {
@@ -21,11 +22,11 @@ export const getHitokoto = async () => {
     // 变更功能：延迟一言在后2秒再显示，留给用户时间查看slogan
     return hitokoto
     // 返回一个新的 Promise，它将在2秒后解析
-    //return new Promise(resolve => {
-    //  setTimeout(() => {
-    //    resolve(hitokoto);
-    //  }, 2000); // 2000 毫秒 = 2 秒
-    //});
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(hitokoto)
+      }, 3000)
+    })
   } catch (error) {
     console.error(
       `获取一言失败 (${useFallbackAPI ? '备用 API' : '主 API'})：`,
@@ -48,6 +49,7 @@ export const getHitokoto = async () => {
  * @param {string} url - 站点 URL
  * @returns {Promise<{iconUrl: string, description: string}>}
  */
+
 export const getSiteInfo = async (url) => {
   const details = {
     iconUrl: null,
@@ -90,6 +92,7 @@ export const getSiteInfo = async (url) => {
  * @param {type} string - 类型
  * @returns {Promise<Object>} - 音乐详情
  */
+
 export const getMusicList = async (
   url,
   id,
@@ -110,6 +113,7 @@ export const getMusicList = async (
 /**
  * 站点统计数据
  */
+
 export const getStatistics = async (key) => {
   const result = await fetch(`https://v6-widget.51.la/v6/${key}/quote.js`)
   const title = [
@@ -152,10 +156,3 @@ export const getWeather = async (key, city) => {
   )
   return await res.json()
 }
-
-// 获取教书先生天气 API
-// https://api.oioweb.cn/doc/weather/GetWeather
-// export const getOtherWeather = async () => {
-//  const res = await fetch("https://api.oioweb.cn/api/weather/GetWeather");
-//  return await res.json();
-// };

@@ -10,19 +10,22 @@
     </div>
     <div class="info">
       <div class="name">
-        <span class="author">{{ theme.siteMeta.author.name }}</span>
         <span class="desc">{{ theme.siteMeta.description }}</span>
       </div>
       <div class="link">
         <a
-          href="https://github.com/kazukokawagawa/"
+          href="https://github.com/lql6639"
           target="_blank"
           class="social-link"
         >
           <i class="iconfont icon-github"></i>
         </a>
-        <a href="mailto:hi@chiyu.it" target="_blank" class="social-link">
-          <i class="iconfont icon-email"></i>
+        <a
+          href="https://qm.qq.com/q/xiyMGvkhqw"
+          target="_blank"
+          class="social-link"
+        >
+          <i class="iconfont icon-qq"></i>
         </a>
       </div>
     </div>
@@ -98,6 +101,7 @@ onBeforeUnmount(() => {
   background-color: var(--main-color);
   color: var(--main-card-background);
   border: none;
+
   .tip {
     display: inline-block;
     min-width: 140px;
@@ -112,21 +116,25 @@ onBeforeUnmount(() => {
       color 0.3s,
       transform 0.3s,
       background-color 0.3s;
+
     &:hover {
       transform: scale(1.1);
       color: var(--main-font-color);
       background-color: var(--main-card-background);
     }
+
     &:active {
       transform: scale(1);
     }
   }
+
   .content {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 180px;
+
     .site-logo {
       position: absolute;
       width: 160px;
@@ -136,6 +144,7 @@ onBeforeUnmount(() => {
         opacity cubic-bezier(0.69, 0.39, 0, 1.21) 0.3s;
       transform-origin: bottom;
     }
+
     .site-desc {
       display: block;
       height: 100%;
@@ -146,6 +155,7 @@ onBeforeUnmount(() => {
       transition: opacity 0.3s;
     }
   }
+
   .info {
     display: flex;
     flex-direction: row;
@@ -153,23 +163,29 @@ onBeforeUnmount(() => {
     justify-content: space-between;
     width: 100%;
     margin-top: 20px;
+
     .name {
       display: flex;
       flex-direction: column;
-      .author {
-        font-weight: bold;
-        font-size: 20px;
-      }
+
+      // 描述文字直接作为主文案显示（原作者名已移除）
       .desc {
-        font-size: 12px;
-        opacity: 0.6;
+        font-weight: bold;
+        font-size: 16px;
+        line-height: 1.4;
+        opacity: 1;
+        // 只在空格处换行，避免中文被拦腰截断（如「却 / 发现」）
+        word-break: keep-all;
+        overflow-wrap: break-word;
       }
     }
+
     .link {
       display: flex;
       flex-direction: row;
       align-items: center;
       margin-left: 20px;
+
       .social-link {
         display: flex;
         align-items: center;
@@ -179,16 +195,20 @@ onBeforeUnmount(() => {
         margin-left: 12px;
         background-color: var(--main-color-opacity);
         border-radius: 50%;
+
         .iconfont {
           font-size: 22px;
           color: var(--main-card-background);
         }
+
         &:first-child {
           margin-left: 0;
         }
+
         &:hover {
           transform: scale(1.1);
           background-color: var(--main-card-background);
+
           .iconfont {
             color: var(--main-font-color);
           }
@@ -196,12 +216,14 @@ onBeforeUnmount(() => {
       }
     }
   }
+
   &:hover {
     .content {
       .site-logo {
         opacity: 0;
         transform: scale(0);
       }
+
       .site-desc {
         opacity: 1;
       }

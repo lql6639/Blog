@@ -178,6 +178,7 @@ watch(totalPages, () => checkCurrentPage())
   width: 100%;
   height: 40px;
   animation: fade-up 0.6s 0.4s backwards;
+
   .page-item {
     position: relative;
     display: flex;
@@ -194,17 +195,20 @@ watch(totalPages, () => checkCurrentPage())
       border-color 0.3s,
       box-shadow 0.3s;
     cursor: pointer;
+
     &.prev,
     &.next {
       position: absolute;
       width: 80px;
       left: 0;
+
       .iconfont {
         transform: rotate(180deg);
         transition:
           color 0.3s,
           transform 0.3s;
       }
+
       .page-text {
         opacity: 0;
         margin-left: 4px;
@@ -214,31 +218,39 @@ watch(totalPages, () => checkCurrentPage())
           margin 0.3s;
       }
     }
+
     &.next {
       left: auto;
       right: 0;
+
       .iconfont {
         transform: rotate(0);
       }
+
       .page-text {
         margin-right: 4px;
         margin-left: -36px;
       }
     }
+
     &:hover {
       border-color: var(--main-color);
       box-shadow: 0 8px 16px -4px var(--main-color-bg);
+
       .iconfont {
         color: var(--main-color);
       }
+
       &.prev,
       &.next {
         color: var(--main-color);
+
         .page-text {
           opacity: 1;
           margin-right: 0;
         }
       }
+
       &.next {
         .page-text {
           margin-right: 4px;
@@ -247,14 +259,17 @@ watch(totalPages, () => checkCurrentPage())
       }
     }
   }
+
   .page-number {
     width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
+
     .page-item {
       margin: 0 6px;
+
       &.choose {
         color: var(--main-card-background);
         border-color: var(--main-color);
@@ -262,14 +277,17 @@ watch(totalPages, () => checkCurrentPage())
         box-shadow: 0 8px 16px -4px var(--main-color-bg);
       }
     }
+
     .point {
       margin: 0 4px;
       transform: translateY(-8px);
       font-size: 22px;
     }
+
     .fast-jump {
       position: relative;
       margin: 0 6px;
+
       input {
         border: none;
         outline: none;
@@ -285,6 +303,7 @@ watch(totalPages, () => checkCurrentPage())
         box-shadow: 0 8px 16px -4px var(--main-border-shadow);
         transition: all 0.3s;
       }
+
       .iconfont {
         position: absolute;
         display: flex;
@@ -301,11 +320,13 @@ watch(totalPages, () => checkCurrentPage())
           opacity 0.3s,
           background-color 0.3s;
         cursor: pointer;
+
         &:hover {
           color: var(--main-card-background);
           background-color: var(--main-color);
         }
       }
+
       &.focus,
       &:hover {
         input {
@@ -313,9 +334,11 @@ watch(totalPages, () => checkCurrentPage())
           border-color: var(--main-color);
           box-shadow: 0 8px 16px -4px var(--main-color-bg);
         }
+
         .iconfont {
           opacity: 0.2;
           pointer-events: none;
+
           &.click {
             opacity: 1;
             pointer-events: all;
@@ -324,14 +347,17 @@ watch(totalPages, () => checkCurrentPage())
       }
     }
   }
+
   @media (max-width: 768px) {
     .page-number {
       display: none;
     }
+
     .page-item {
       &:first-child {
         margin-right: 10px;
       }
+
       &:last-child {
         margin-left: 10px;
       }

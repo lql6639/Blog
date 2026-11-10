@@ -126,8 +126,8 @@ const techBadges = computed(() => {
 })
 
 const badgeTitle = computed(() => {
-  if (Array.isArray(badgeConfig.value)) return 'Made with ❤️'
-  return badgeConfig.value.title ?? 'Made with ❤️'
+  if (Array.isArray(badgeConfig.value)) return 'Made with'
+  return badgeConfig.value.title ?? 'Made with'
 })
 
 const showBadgeSection = computed(() => {
@@ -167,22 +167,26 @@ const toggleBadge = (index) => {
   margin-bottom: 3rem;
   padding: 0 1rem;
   animation: show 0.3s backwards;
+
   .footer-bar {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 2rem;
+
     .site-title {
       font-weight: bold;
       font-size: 22px;
     }
+
     .site-desc {
       margin: 0.6rem 0;
       font-weight: bold;
       font-size: 18px;
       color: var(--main-font-second-color);
     }
+
     .to-home {
       padding: 8px 16px;
       border-radius: 25px;
@@ -197,6 +201,7 @@ const toggleBadge = (index) => {
         border-color 0.3s,
         background-color 0.3s;
       cursor: pointer;
+
       &:hover {
         color: var(--main-card-background);
         background-color: var(--main-color);
@@ -205,6 +210,7 @@ const toggleBadge = (index) => {
       }
     }
   }
+
   .footer-social {
     width: 100%;
     display: flex;
@@ -213,6 +219,7 @@ const toggleBadge = (index) => {
     justify-content: center;
     align-items: center;
     margin-top: 2rem;
+
     .social-link {
       display: flex;
       justify-content: center;
@@ -225,41 +232,50 @@ const toggleBadge = (index) => {
       transition:
         transform 0.3s,
         background-color 0.3s;
+
       .iconfont {
         font-size: 20px;
         color: var(--main-card-background);
       }
+
       &:hover {
         transform: scale(1.15);
         background-color: var(--main-color);
       }
+
       &:active {
         transform: scale(1);
       }
     }
+
     .logo {
       width: 60px;
       height: 60px;
       margin: 0 1rem;
       transition: transform 0.3s;
       cursor: pointer;
+
       img {
         width: 100%;
         height: 100%;
       }
+
       &:hover {
         transform: scale(1.2);
       }
+
       &:active {
         transform: scale(1);
       }
     }
+
     @media (max-width: 768px) {
       .logo {
         display: none;
       }
     }
   }
+
   .footer-sitemap {
     width: 100%;
     display: flex;
@@ -267,11 +283,13 @@ const toggleBadge = (index) => {
     flex-wrap: wrap;
     justify-content: space-between;
     margin: 1rem 0;
+
     .sitemap-item {
       display: flex;
       flex-direction: column;
       align-items: center;
       min-width: 120px;
+
       .title {
         display: inline-block;
         margin: 1rem 0;
@@ -279,26 +297,31 @@ const toggleBadge = (index) => {
         font-weight: bold;
         // margin-left: 8px;
         color: var(--main-font-second-color);
+
         &.friends {
           display: flex;
           flex-direction: row;
           align-items: center;
           cursor: pointer;
+
           .iconfont {
             font-weight: normal;
             margin-left: 6px;
             color: var(--main-font-second-color);
             transition: color 0.3s;
+
             &:hover {
               color: var(--main-color);
             }
           }
         }
       }
+
       .links {
         display: flex;
         flex-direction: column;
         align-items: center;
+
         .link-text {
           color: var(--main-font-color);
           display: inline-block;
@@ -315,6 +338,7 @@ const toggleBadge = (index) => {
             color 0.3s,
             background-color 0.3s;
           cursor: pointer;
+
           &:hover {
             color: var(--main-color);
             background-color: var(--main-color-bg);
@@ -323,6 +347,7 @@ const toggleBadge = (index) => {
       }
     }
   }
+
   .made-with-love {
     width: 100%;
     display: flex;
@@ -331,21 +356,25 @@ const toggleBadge = (index) => {
     align-items: center;
     padding: 1rem 0;
     gap: 1rem;
+
     .badge-title {
       font-size: 18px;
       color: var(--main-font-second-color);
       cursor: pointer;
       user-select: none;
       transition: color 0.3s;
+
       &:hover {
         color: var(--main-color);
       }
     }
+
     .tech-badges {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 0.5rem;
+
       .badge-item {
         position: relative;
         display: inline-flex;
@@ -363,10 +392,12 @@ const toggleBadge = (index) => {
           max-width 0.4s ease,
           padding 0.4s ease,
           border-color 0.3s ease;
+
         .badge-icon {
           font-size: 20px;
           flex-shrink: 0;
         }
+
         .badge-text {
           font-size: 13px;
           font-weight: 500;
@@ -379,11 +410,13 @@ const toggleBadge = (index) => {
             opacity 0.3s ease 0.1s,
             margin-left 0.4s ease;
         }
+
         &.expanded,
         &:hover {
           max-width: 180px;
           padding: 0 14px;
           border-color: var(--main-color);
+
           .badge-text {
             opacity: 1;
             margin-left: 8px;

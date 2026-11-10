@@ -5,14 +5,10 @@
       title="我的项目"
       desc="源于热爱开发优秀的作品"
       footer="写 BUG 小能手"
-      image="https://pic.efefee.cn/uploads/2024/02/27/65dd8dae6043c.webp"
+      image="https://api.imlazy.ink/img"
     >
       <template #footer-slot>
-        <a
-          class="to-github"
-          href="https://github.com/kazukokawagawa/"
-          target="_blank"
-        >
+        <a class="to-github" href="https://github.com/lql6639" target="_blank">
           <i class="iconfont icon-github"></i>
           <span>前往 Github</span>
         </a>
@@ -41,13 +37,16 @@ import Banner from '@/components/Banner.vue'
       transition:
         color 0.3s,
         background-color 0.3s;
+
       .iconfont {
         margin-right: 8px;
         transition: color 0.3s;
       }
+
       &:hover {
         color: var(--main-card-background);
         background-color: var(--main-color);
+
         .iconfont {
           color: var(--main-card-background) !important;
         }

@@ -114,6 +114,7 @@ onUnmounted(() => {
     var(--main-card-background)
   ) !important;
 }
+
 .atk-layer-wrap {
   .atk-layer-mask {
     background: var(--main-mask-background) !important;
@@ -127,14 +128,17 @@ onUnmounted(() => {
     .atk-bottom {
       padding: 0 0 0 8px;
       height: 40px;
+
       .atk-send-btn {
         height: 40px;
       }
     }
+
     .atk-user-btn,
     .atk-plug-btn {
       transition: background 0.3s;
     }
+
     .atk-plug-panel-wrap {
       .atk-grp {
         &[data-grp-name='小黄脸'] {
@@ -144,6 +148,7 @@ onUnmounted(() => {
           }
         }
       }
+
       .atk-grp-switcher {
         span {
           transition: background 0.3s;
@@ -151,6 +156,7 @@ onUnmounted(() => {
       }
     }
   }
+
   :deep(.atk-list) {
     .atk-list-header {
       .atk-dropdown {
@@ -161,55 +167,67 @@ onUnmounted(() => {
           line-height: normal;
           text-align: center;
           letter-spacing: normal;
+
           &:first-child {
             margin-top: 0;
           }
+
           &::before {
             display: none;
           }
+
           span {
             transition: color 0.3s;
           }
         }
       }
     }
+
     .atk-list-comments-wrap {
       > .atk-comment-wrap {
         border-bottom: 1px dashed var(--main-card-border);
+
         .atk-header {
           .atk-badge {
             color: var(--at-color-bg);
             background-color: var(--at-color-main) !important;
           }
         }
+
         .atk-content {
           user-select: text;
+
           img {
             width: auto;
             max-width: 240px;
           }
+
           code {
             margin: 4px;
             vertical-align: inherit;
             border-radius: 6px;
             font-family: 'Fira Code', var(--main-font-family), monospace;
           }
+
           pre {
             code {
               border-radius: 8px;
             }
           }
+
           blockquote {
             border-left: 8px solid var(--main-card-border);
             background-color: var(--main-card-second-background);
             border-radius: 4px 8px 8px 4px;
           }
         }
+
         &:last-child {
           border-bottom: none;
         }
       }
     }
+
     .atk-height-limit {
       .atk-height-limit-btn {
         height: 46px;
@@ -222,16 +240,19 @@ onUnmounted(() => {
         transition:
           color 0.3s,
           background-color 0.3s;
+
         &:hover {
           color: var(--main-card-background);
           background-color: var(--main-color);
         }
       }
+
       &::after {
         height: 100px;
       }
     }
   }
+
   :deep(.atk-list-body) {
     .atk-pagination {
       .atk-input,
@@ -248,16 +269,20 @@ onUnmounted(() => {
           border-color 0.3s,
           box-shadow 0.3s;
         cursor: pointer;
+
         &:hover {
           border-color: var(--main-color);
           box-shadow: 0 8px 16px -4px var(--main-color-bg);
+
           svg {
             color: var(--main-color);
           }
         }
       }
+
       .atk-input {
         font-size: 1rem;
+
         &:hover,
         &:focus {
           width: 200px;

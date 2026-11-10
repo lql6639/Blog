@@ -36,4 +36,5 @@ themeConfig.mjs
 .claude
 .wrangler/
 public/data/postData.json
+public/data/searchIndex.json
 .workbuddy/*

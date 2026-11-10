@@ -140,17 +140,8 @@ import { getHitokoto } from '@/api'
 
 const store = mainStore()
 const { theme } = useData()
-
-// 首屏英文标题「Chiyu's Logbook」：整行从第一帧就按「Note」的实测宽度占位，
-// 所以 book 与整行的位置全程不变。逐字浮入后，胶囊直接以 Note 的脚印显形，
-// 一次把整个「Log」收进去（尺寸此后不再改变），在里面轮播图标；
-// 结束时胶囊原地淡出、Note 同拍浮现 —— 没有静止遮盖期。
-// 随后「池鱼小栈」以 Logo 形态（放大）落到画面中心，
-// 最后「你好，欢迎来到」逐字落下，同时整组像 PPT 平移一样同步平移+缩放到最终位置。
-// 英文与欢迎语都使用小赖字体（title-anim.woff2 为按需子集）。
-// 整条时间线由 CSS 驱动（见下方样式注释）。
 const titleEn = "Chiyu's Logbook"
-const enPre = "Chiyu's "
+const enPre = "Koizora's "
 const enLog = 'Log'
 const enPost = 'book'
 const preChars = enPre.split('')
@@ -159,7 +150,7 @@ const postChars = enPost.split('')
 const logIndex = enPre.length
 const cnPrefix = '你好，欢迎来到'
 const prefixChars = cnPrefix.split('')
-const cnBrand = computed(() => theme.value.siteMeta.title || '池鱼小栈')
+const cnBrand = computed(() => '小栈')
 const brandChars = computed(() => cnBrand.value.split(''))
 const cnText = computed(() => `${cnPrefix}${cnBrand.value}`)
 
@@ -500,16 +491,19 @@ onBeforeUnmount(() => {
   justify-content: center;
   animation: fade-up 0.6s 0.1s backwards;
   transition: height 0.3s;
+
   &.full {
     opacity: 0;
     height: calc(100vh - 70px);
     padding-bottom: 100px;
     animation: fade-up 0.6s 0.5s forwards;
+
     .subtitle {
       opacity: 0;
       animation: fade-up-opacity 0.8s 0.5s forwards;
     }
   }
+
   .title-lockup {
     --title-timeline: 9.4s;
     --py-size: min(3.7rem, 7.8vw);
@@ -527,6 +521,7 @@ onBeforeUnmount(() => {
     text-align: center;
     user-select: none;
   }
+
   .title-stage {
     position: relative;
     display: grid;
@@ -538,6 +533,7 @@ onBeforeUnmount(() => {
     clip-path: inset(-0.9em 0);
     font-size: var(--cn-size);
   }
+
   .title-py {
     grid-area: 1 / 1;
     display: flex;
@@ -669,6 +665,7 @@ onBeforeUnmount(() => {
       }
     }
   }
+
   .title-cn {
     grid-area: 1 / 1;
     display: flex;
@@ -724,12 +721,14 @@ onBeforeUnmount(() => {
       animation-delay: calc(7.85s + var(--i) * 0.04s);
     }
   }
+
   .subtitle {
     width: 80%;
     margin-top: 0.9rem;
     font-size: 1.25rem;
     opacity: 0.8;
     animation: fade-up-opacity 0.6s 0.1s backwards;
+
     .text {
       text-align: center;
       overflow: hidden;
@@ -741,6 +740,7 @@ onBeforeUnmount(() => {
       line-clamp: 2; // 标准的 line-clamp 属性，提高兼容性
     }
   }
+
   .icon-up {
     font-size: 20px;
     position: absolute;
@@ -750,6 +750,7 @@ onBeforeUnmount(() => {
     animation: moveDown 2s ease-in-out infinite;
     cursor: pointer;
   }
+
   // 手机端单独一套：
   // 十秒的编排（英文 → 胶囊 → Logo → 逐字落下）在 390px 宽度里英文只有 30px、
   // 中文 26px，字号层级被压平，Logo 的 1.3 倍放大和 3.5em 平移也几乎没有余量，
@@ -758,40 +759,48 @@ onBeforeUnmount(() => {
   @media (max-width: 768px) {
     align-items: center;
     height: 240px;
+
     .title-lockup {
       --cn-size: min(2.4rem, 6.8vw);
     }
+
     .title-py {
       display: none;
     }
+
     .title-cn {
       .cn-slide {
         transform: none;
         animation: title-cn-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
         will-change: auto;
       }
+
       .cn-brand {
         transform: none;
         animation: none;
         will-change: auto;
       }
+
       .prefix-char,
       .brand-char {
         animation: none;
       }
     }
+
     .subtitle {
       width: 100%;
       height: 50px;
       margin: 0.75rem 0 0;
       padding: 0 1.25rem;
       font-size: 1.125rem;
+
       .text {
         text-align: center;
       }
     }
   }
 }
+
 .banner-page {
   position: relative;
   display: flex;
@@ -799,19 +808,23 @@ onBeforeUnmount(() => {
   padding: 2rem;
   min-height: 380px;
   background-size: cover;
+
   .top {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 2rem;
+
     .title {
       display: flex;
       flex-direction: column;
+
       .title-small {
         color: var(--main-font-second-color);
         font-size: 0.875rem;
       }
+
       .title-big {
         font-size: 2.25rem;
         font-weight: bold;
@@ -820,40 +833,49 @@ onBeforeUnmount(() => {
       }
     }
   }
+
   .footer {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     margin-top: auto;
+
     .footer-left {
       margin-top: auto;
       color: var(--main-font-second-color);
       opacity: 0.8;
     }
   }
+
   &.image {
     color: #fff !important;
+
     .top {
       .title-small {
         color: #fff;
         opacity: 0.6;
       }
     }
+
     .footer {
       .footer-left {
         color: #fff;
       }
+
       :deep(.iconfont) {
         color: #fff !important;
       }
     }
   }
+
   @media (max-width: 1200px) {
     min-height: 300px;
   }
+
   @media (max-width: 768px) {
     min-height: 260px;
+
     .top-right,
     .footer-right {
       display: none;
@@ -879,6 +901,7 @@ onBeforeUnmount(() => {
     filter: blur(7px);
     transform: translateY(0.5em) rotate(3deg);
   }
+
   100% {
     opacity: 1;
     filter: none;
@@ -891,6 +914,7 @@ onBeforeUnmount(() => {
   77.7% {
     transform: translateX(0);
   }
+
   82.4%,
   100% {
     transform: translateX(-180%);
@@ -904,11 +928,13 @@ onBeforeUnmount(() => {
     opacity: 0;
     transform: translateY(-50%) scaleY(0.55);
   }
+
   13.8%,
   55.3% {
     opacity: 1;
     transform: translateY(-50%) scaleY(1);
   }
+
   58.5%,
   100% {
     opacity: 0;
@@ -922,6 +948,7 @@ onBeforeUnmount(() => {
   12% {
     opacity: 1;
   }
+
   14%,
   100% {
     opacity: 0;
@@ -933,6 +960,7 @@ onBeforeUnmount(() => {
   0% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
   }
@@ -943,6 +971,7 @@ onBeforeUnmount(() => {
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
@@ -952,12 +981,15 @@ onBeforeUnmount(() => {
   0% {
     filter: hue-rotate(0deg);
   }
+
   40% {
     filter: hue-rotate(20deg);
   }
+
   72% {
     filter: hue-rotate(52deg);
   }
+
   100% {
     filter: hue-rotate(0deg);
   }
@@ -968,11 +1000,13 @@ onBeforeUnmount(() => {
     opacity: 0;
     transform: scale(0.4) rotate(-12deg);
   }
+
   16%,
   84% {
     opacity: 1;
     transform: scale(1) rotate(0deg);
   }
+
   100% {
     opacity: 0;
     transform: scale(0.85) rotate(6deg);
@@ -985,6 +1019,7 @@ onBeforeUnmount(() => {
     filter: blur(6px);
     transform: translateY(0.42em);
   }
+
   100% {
     opacity: 1;
     filter: none;
@@ -997,6 +1032,7 @@ onBeforeUnmount(() => {
   0% {
     transform: scale(var(--logo-scale));
   }
+
   100% {
     transform: scale(1);
   }
@@ -1007,6 +1043,7 @@ onBeforeUnmount(() => {
   0% {
     transform: translateX(-3.5em);
   }
+
   100% {
     transform: translateX(0);
   }
@@ -1019,6 +1056,7 @@ onBeforeUnmount(() => {
     filter: blur(6px);
     transform: translateY(0.3em);
   }
+
   100% {
     opacity: 1;
     filter: none;
@@ -1032,6 +1070,7 @@ onBeforeUnmount(() => {
     filter: blur(5px);
     transform: translateY(-0.38em);
   }
+
   100% {
     opacity: 1;
     filter: none;

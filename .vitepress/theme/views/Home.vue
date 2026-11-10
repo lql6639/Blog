@@ -195,18 +195,22 @@ watch(
     width: 100%;
     display: flex;
     flex-direction: row;
+
     .posts-content {
       width: calc(100% - 300px);
       transition: width 0.3s;
     }
+
     .main-aside {
       width: 300px;
       padding-left: 1rem;
     }
+
     @media (max-width: 1200px) {
       .posts-content {
         width: 100%;
       }
+
       .main-aside {
         display: none;
       }
