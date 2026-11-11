@@ -47,36 +47,80 @@
 </template>
 
 <script setup>
-import { getAdcode, getWeather } from '@/api'
+import { getRealtimeWeather, getIpInfo, getAmapWeather } from '@/api'
 
-// 声明会在请求出错时抛出的事件
+// 两级都拿不到数据时通知父组件隐藏整块卡片
 const emit = defineEmits(['fetch-error'])
 
 const weatherData = ref(null)
-const loading = ref(true)
-const error = ref(false)
 
 const isMobileClient = () => {
   if (typeof navigator === 'undefined') return false
   return /Mobi|Android|iPhone|iPad|Pad|iPod/i.test(navigator.userAgent)
 }
 
-onMounted(async () => {
-  if (isMobileClient()) {
-    loading.value = false
-    return
+// 第 1 级：自有 API 服务实时天气
+const fetchFromServer = async () => {
+  const realtime = await getRealtimeWeather()
+  if (!realtime.city || !realtime.temperature) {
+    throw new Error('服务端天气数据不完整')
   }
+  return {
+    city: realtime.city,
+    temperature: realtime.temperature,
+    // 服务端给的是 "67%"，模板会再拼一个 %，这里先剥掉
+    humidity:
+      typeof realtime.humidity === 'string'
+        ? realtime.humidity.replace('%', '').trim()
+        : realtime.humidity,
+    winddirection: realtime.wind,
+    windpower: realtime.windSpeed
+  }
+}
+
+// 第 2 级：服务端 IP 归属地 → 高德天气
+const fetchFromAmap = async () => {
+  const key = import.meta.env.VITE_WEATHER_KEY?.trim()
+  if (!key) throw new Error('未配置 VITE_WEATHER_KEY')
+
+  const info = await getIpInfo()
+  const city = info?.data?.city
+  if (typeof city !== 'string' || !city.trim()) {
+    throw new Error('IP 归属地未返回城市')
+  }
+
+  const live = await getAmapWeather(key, city.trim())
+  return {
+    city: live.city,
+    temperature: live.temperature,
+    humidity: live.humidity,
+    winddirection: live.winddirection,
+    windpower: live.windpower
+  }
+}
+
+onMounted(async () => {
+  if (isMobileClient()) return
+
   try {
-    const { adcode } = await getAdcode(import.meta.env.VITE_WEATHER_KEY)
-    const { lives } = await getWeather(import.meta.env.VITE_WEATHER_KEY, adcode)
-    weatherData.value = lives[0]
+    weatherData.value = await fetchFromServer()
+    return
   } catch (e) {
+    console.warn('服务端天气无数据，改用高德：', e)
+  }
+
+  // 与 Home 一致：再给服务端一次机会，同时并发走高德，谁先成功用谁
+  const tasks = [fetchFromServer()]
+  if (import.meta.env.VITE_WEATHER_KEY?.trim()) {
+    tasks.push(fetchFromAmap())
+  }
+
+  try {
+    weatherData.value = await Promise.any(tasks)
+  } catch (e) {
+    // 都为空：卡片不显示
     console.error('获取天气失败：', e)
-    error.value = true
-    // 向父组件抛出“fetch-error”事件
     emit('fetch-error', e)
-  } finally {
-    loading.value = false
   }
 })
 </script>

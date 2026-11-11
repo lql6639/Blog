@@ -54,13 +54,12 @@ export const themeConfig = {
           href: '/rss.xml'
         }
       ],
-      // iconfont
+      // iconfont（本地化，文件在 public/fonts/）
       [
         'link',
         {
-          crossorigin: 'anonymous',
           rel: 'stylesheet',
-          href: 'https://cdn2.codesign.qq.com/icons/g5ZpEgx3z4VO6j2/latest/iconfont.css'
+          href: '/fonts/iconfont.css'
         }
       ]
       // Embed code
@@ -93,14 +92,14 @@ export const themeConfig = {
     {
       text: '友链',
       items: [
-        { text: '友情鱼塘', link: '/pages/friends', icon: 'fish' },
+        { text: '畅所欲言', link: '/pages/message', icon: 'chat' },
         { text: '友情链接', link: '/pages/link', icon: 'people' }
       ]
     },
     {
       text: '我的',
       items: [
-        { text: '畅所欲言', link: '/pages/message', icon: 'chat' },
+        { text: '心情树洞', link: '/pages/wishes', icon: 'light' },
         { text: '关于本站', link: '/pages/about', icon: 'contacts' }
       ]
     }

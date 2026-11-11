@@ -21,12 +21,6 @@ export const getHitokoto = async () => {
     // 更改时间：2025.06.11
     // 变更功能：延迟一言在后2秒再显示，留给用户时间查看slogan
     return hitokoto
-    // 返回一个新的 Promise，它将在2秒后解析
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(hitokoto)
-      }, 3000)
-    })
   } catch (error) {
     console.error(
       `获取一言失败 (${useFallbackAPI ? '备用 API' : '主 API'})：`,
@@ -143,16 +137,65 @@ export const getStatistics = async (key) => {
  * 天气
  */
 
-// 获取高德地理位置信息
-export const getAdcode = async (key) => {
-  const res = await fetch(`https://restapi.amap.com/v3/ip?key=${key}`)
+// 自有 API 服务（Cloudflare Workers）
+const API_SERVER = 'https://server.lovlin.cn'
+
+const isRecord = (v) => v !== null && typeof v === 'object' && !Array.isArray(v)
+const isNonEmptyString = (v) => typeof v === 'string' && v.trim() !== ''
+const isTemperature = (v) =>
+  (isNonEmptyString(v) && Number.isFinite(Number(v))) || Number.isFinite(v)
+
+// 第 1 级：服务端实时天气，服务端按访问者真实 IP 定位，无需 key
+export const getRealtimeWeather = async () => {
+  const res = await fetch(`${API_SERVER}/v1/weather/realtime`)
+  if (!res.ok) throw new Error(`天气请求失败：${res.status}`)
+
+  const data = await res.json()
+  const realtime = data?.data?.realtime
+  if (
+    data?.success !== true ||
+    !isRecord(realtime) ||
+    !isNonEmptyString(realtime.city) ||
+    !isNonEmptyString(realtime.weather) ||
+    !isTemperature(realtime.temperature) ||
+    !isNonEmptyString(realtime.wind) ||
+    !isNonEmptyString(realtime.windSpeed)
+  ) {
+    throw new Error('天气数据无效')
+  }
+  return realtime
+}
+
+// 第 2 级：服务端解析访问者 IP 归属地，取 city 交给高德兜底
+export const getIpInfo = async () => {
+  const res = await fetch(`${API_SERVER}/v1/ipinfo`)
+  if (!res.ok) throw new Error(`地区请求失败：${res.status}`)
   return await res.json()
 }
 
-// 获取高德地理天气信息
-export const getWeather = async (key, city) => {
+// 第 2 级：高德天气（按城市名查询）
+export const getAmapWeather = async (key, city) => {
+  if (!isNonEmptyString(key) || !isNonEmptyString(city)) {
+    throw new Error('高德天气参数无效')
+  }
+
   const res = await fetch(
-    `https://restapi.amap.com/v3/weather/weatherInfo?key=${key}&city=${city}`
+    `https://restapi.amap.com/v3/weather/weatherInfo?city=${encodeURIComponent(city.trim())}&key=${encodeURIComponent(key.trim())}&extensions=base`
   )
-  return await res.json()
+  if (!res.ok) throw new Error(`高德天气请求失败：${res.status}`)
+
+  const data = await res.json()
+  const live = data?.lives?.[0]
+  if (
+    String(data?.status) !== '1' ||
+    !Array.isArray(data?.lives) ||
+    !isRecord(live) ||
+    !isNonEmptyString(live.weather) ||
+    !isTemperature(live.temperature) ||
+    !isNonEmptyString(live.winddirection) ||
+    !isNonEmptyString(live.windpower)
+  ) {
+    throw new Error('高德天气数据无效')
+  }
+  return live
 }

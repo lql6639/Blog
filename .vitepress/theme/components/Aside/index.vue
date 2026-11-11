@@ -30,11 +30,12 @@ const props = defineProps({
   }
 })
 
-// 已有：天气组件的显示开关
+// 天气组件的显示开关（数据为空时隐藏）
 const showWeather = ref(true)
 // 新增：热榜组件的显示开关
 const showHot = ref(true)
-// 一旦收到子组件的 fetch-error 事件，就把 showWeather 置为 false
+
+// 收不到数据就整块隐藏，不留空壳
 function onWeatherError(err) {
   console.error('天气组件获取失败：', err)
   showWeather.value = false
