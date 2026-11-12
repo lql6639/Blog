@@ -1,30 +1,9 @@
 <template>
-  <!-- 配置了状态页 URL：点击跳转 -->
-  <a
-    v-if="statusPageUrl"
-    class="system-status"
-    :class="statusClass"
-    :href="statusPageUrl"
-    target="_blank"
-    rel="noopener noreferrer"
-    :title="`查看服务状态 - ${label}`"
-  >
-    <div class="status-dot-wrapper">
-      <span v-if="!loading" class="status-dot-ping" :class="`ping--${status}`" />
-      <span class="status-dot" :class="dotClass" />
-    </div>
-
-    <span class="status-label">
-      {{ loading ? 'Checking...' : label }}
-    </span>
-  </a>
-
-  <!-- 未配置状态页 URL：点击刷新 -->
+  <!-- 状态徽标：不再跳转状态页，点击只是重新拉一次 -->
   <div
-    v-else
     class="system-status"
     :class="statusClass"
-    title="点击刷新状态"
+    :title="`点击刷新状态 - ${label}`"
     @click="handleRefresh"
   >
     <div class="status-dot-wrapper">
@@ -33,23 +12,16 @@
     </div>
 
     <span class="status-label">
-      {{ loading ? 'Checking...' : label }}
+      {{ loading ? '检查中...' : label }}
     </span>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { useData } from 'vitepress'
 
-// 获取状态页 URL
-// 通过 useData 获取 theme 配置，假设配置在该处，或者直接使用 env
-// VitePress 注入
-// 这里为了简单，如果有 public配置可以尝试获取，否则依靠构建时注入或硬编码
-// 用户原始代码是 Nuxt，这里适配 VitePress
-const { theme } = useData()
-// 尝试从 themeConfig 获取，或者 import.meta.env
-const statusPageUrl = import.meta.env.VITE_BETTER_STACK_STATUS_PAGE_URL || ''
+// 状态数据来源：本站自己的 /api/status（Worker 内部去问 UptimeRobot）
+// 以前还支持跳转到 status.lovlin.cn，现在那个状态页已不再使用，徽标只做展示 + 点击刷新
 
 // 定义 API 返回类型
 interface StatusResponse {
@@ -104,7 +76,7 @@ const status = computed(() => {
   return data.value?.status || 'unknown'
 })
 
-const label = computed(() => data.value?.label || 'Unknown')
+const label = computed(() => data.value?.label || '状态未知')
 
 // 动态样式类
 const statusClass = computed(() => {
@@ -122,7 +94,7 @@ const clickTimestamps = ref<number[]>([])
 const RATE_LIMIT_WINDOW = 5000 // 5秒
 const RATE_LIMIT_MAX = 3 // 最多3次
 
-// 点击刷新（仅在未配置状态页时生效）
+// 点击刷新（5 秒内最多 3 次）
 const handleRefresh = () => {
   if (loading.value) return
 

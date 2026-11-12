@@ -229,12 +229,9 @@ VITE_WEATHER_KEY=
 
 # GitHub 热榜侧边栏（HelloGithub）接口地址
 VITE_HELLOGITHUB_API_URL=
-
-# Better Stack 状态页地址；配置后底部状态徽标点击跳转该页，否则点击刷新
-VITE_BETTER_STACK_STATUS_PAGE_URL=
 ```
 
-此外，`BETTER_STACK_API_TOKEN`（Better Stack API Token）**只在服务端被读取**，用于 `/api/status`，请配置在部署平台的环境变量里而**不要**写进 `.env`。
+此外，`UPTIMEROBOT_API_KEY`（UptimeRobot 的 **Read-Only** API key，Integrations & API → API）**只在服务端被读取**，用于 `/api/status` 拉取监控项，请配置在部署平台的环境变量 / Secret 里而**不要**写进 `.env`。没配时徽标显示「未配置状态」。
 
 > [!IMPORTANT]
 > 这是一个**公开仓库**，请不要把任何真实密钥写进仓库内的 `.env`——它并未被 `.gitignore` 覆盖，见[安全提示](#安全提示)。
@@ -243,14 +240,14 @@ VITE_BETTER_STACK_STATUS_PAGE_URL=
 
 构建产物默认输出到 `.vitepress/dist`。
 
-**Vercel** —— 配置见 [`vercel.json`](vercel.json)，包含 `cleanUrls`、`outputDirectory` 以及 `/redirect` 内部重写；API 路由由 `api/status.ts` 提供。请在项目设置中配置 `BETTER_STACK_API_TOKEN`。
+**Vercel** —— 配置见 [`vercel.json`](vercel.json)，包含 `cleanUrls`、`outputDirectory` 以及 `/redirect` 内部重写；API 路由由 `api/status.ts` 提供。请在项目设置中配置 `UPTIMEROBOT_API_KEY`。
 
 ```bash
 pnpm build
 pnpm deploy:vercel
 ```
 
-**Cloudflare Pages** —— 构建命令 `pnpm build`，输出目录 `.vitepress/dist`。仓库内的 `functions/api/status.ts` 按 Cloudflare Pages Functions 的目录约定组织（导出 `onRequestGet`、从 `context.env` 读 Token），上传至 Cloudflare 后会被识别为 `GET /api/status`；请在该平台的环境变量中配置 `BETTER_STACK_API_TOKEN`。（该路径未在本仓库的配置文件中声明，部署后需自行验证。）
+**Cloudflare Workers（当前使用）** —— 构建命令 `pnpm build`，`wrangler.jsonc` 声明 `main: worker/index.ts` + `assets.directory: .vitepress/dist`，Worker 只接管 `/api/*`（`run_worker_first`），其余交给静态资源。请在该 Worker 的 Settings → Variables and secrets 里配置 Secret `UPTIMEROBOT_API_KEY`。注意 Worker 不能 fetch 同 zone 下的域名（会返回 `error code: 1053`），所以状态数据只能走站外的 UptimeRobot API。
 
 **GitHub Pages** —— 工作流见 [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)：推送 `master` 分支或手动触发，使用 pnpm 9 + Node 22 构建并发布 `.vitepress/dist`。注意 Pages 属于纯静态托管，**不提供 `/api/status`**，状态徽标会落到错误态。
 
@@ -290,7 +287,7 @@ pnpm deploy:vercel
 - **`.env` 仍在版本控制中**：该文件已被提交，内容与 `HEAD` 一致，且 `.gitignore` 未忽略它（`git ls-files .env` 可复现）。处理顺序应当是：**先吊销/轮换其中所有凭据**，再把它移出跟踪（`git rm --cached .env` 并补进 `.gitignore`），最后按需用 `git filter-repo` 重写历史——顺序颠倒会让旧密钥在历史中继续有效。注意 `git rm --cached .env` **并不会**清掉仓库里其它位置的同一凭据。
 - **同一个高德 Key 还有第二处明文**：除了 `.env:1`，`.vitepress/theme/assets/themeConfig.mjs` 的 `weatherkey` 注释块里也留了一份明文（`git grep -n "1d65cc630df1f212e1d2e928643e3974"` 可复现两处）。该字段已废弃（天气挂件现在读 `import.meta.env.VITE_WEATHER_KEY`），但注释里的明文会随仓库公开。轮换 Key 时两处都要处理，且因为 `VITE_` 变量会被打包进前端产物、天气请求由**访客浏览器**直连 `restapi.amap.com`，这个 Key 本质上是公开的、无法用域名/IP 白名单保护——实际风险是**当日 5000 次配额被烧掉导致天气挂件失效**，不涉及账户接管。
 - 站点内含个人化配置与统计、评论等服务凭据，公开部署前请逐项检查 `themeConfig.mjs`、`.env` 与 `api/`、`functions/` 下的环境变量读取。
-- 所有 `VITE_` 前缀的变量都会被**打包进前端产物**，对其调用方可见，只应放可公开的值；`BETTER_STACK_API_TOKEN` 只在服务端使用，切勿加 `VITE_` 前缀或写入前端代码。
+- 所有 `VITE_` 前缀的变量都会被**打包进前端产物**，对其调用方可见，只应放可公开的值；`UPTIMEROBOT_API_KEY` 只在服务端使用，切勿加 `VITE_` 前缀或写入前端代码。
 
 ## 来源声明
 
