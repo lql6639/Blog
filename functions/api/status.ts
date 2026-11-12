@@ -116,13 +116,7 @@ export async function onRequestGet(context: any) {
   const updatedAt = new Date().toISOString()
 
   if (!apiKey) {
-    return json({
-      status: 'unknown',
-      label: '未配置状态',
-      updatedAt: null,
-      // TODO 临时诊断：确认 Dashboard 里 secret 的名字后删掉这段
-      envKeys: Object.keys(context?.env ?? {})
-    })
+    return json({ status: 'unknown', label: '未配置状态', updatedAt: null })
   }
 
   try {
