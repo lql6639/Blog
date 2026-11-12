@@ -295,9 +295,6 @@ export const themeConfig = {
     // 天气数据
     weather: {
       enable: true
-    },
-    HelloGithub: {
-      enable: false
     }
   },
   // 友链

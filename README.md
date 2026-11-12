@@ -221,14 +221,11 @@ export default {
 
 ## 环境变量
 
-在仓库根目录创建 `.env`（**该文件当前未被 gitignore 覆盖，见[安全提示](#安全提示)**），填入以下三个前端变量：
+在仓库根目录创建 `.env`（**该文件当前未被 gitignore 覆盖，见[安全提示](#安全提示)**），填入以下前端变量：
 
 ```dotenv
 # 高德开放平台 Web 服务 Key，用于侧边栏天气挂件（缺失时天气挂件不可用）
 VITE_WEATHER_KEY=
-
-# GitHub 热榜侧边栏（HelloGithub）接口地址
-VITE_HELLOGITHUB_API_URL=
 ```
 
 此外，`UPTIMEROBOT_API_KEY`（UptimeRobot 的 **Read-Only** API key，Integrations & API → API）**只在服务端被读取**，用于 `/api/status` 拉取监控项，请配置在部署平台的环境变量 / Secret 里而**不要**写进 `.env`。没配时徽标显示「未配置状态」。
