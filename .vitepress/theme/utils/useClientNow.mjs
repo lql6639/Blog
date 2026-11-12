@@ -57,10 +57,14 @@ export const formatTimestampAt = (timestamp, now) => {
   const difference = today.diff(targetDay, 'day')
   if (difference <= 0) return '今日内'
   if (difference < 7) return `${difference}天前`
+  // 月/日统一补零，避免出现 5/6 与 9/29 混排
+  const pad = (n) => String(n).padStart(2, '0')
+  const month = pad(targetDate.month() + 1)
+  const date = pad(targetDate.date())
   if (targetDate.year() === now.year()) {
-    return `${targetDate.month() + 1}/${targetDate.date()}`
+    return `${month}/${date}`
   }
-  return `${targetDate.year()}/${targetDate.month() + 1}/${targetDate.date()}`
+  return `${targetDate.year()}/${month}/${date}`
 }
 
 /**

@@ -79,26 +79,21 @@ export const themeConfig = {
     {
       text: '专栏',
       items: [
-        {
-          text: '技术分享',
-          link: '/pages/categories/技术分享',
-          icon: 'technical'
-        },
         { text: '我的项目', link: '/pages/project', icon: 'code' },
-        { text: '效率工具', link: '/pages/tools', icon: 'tools' }
+        { text: '畅所欲言', link: '/pages/message', icon: 'chat' }
       ]
     },
     {
       text: '友链',
       items: [
-        { text: '畅所欲言', link: '/pages/message', icon: 'chat' },
+        { text: '心愿树洞', link: '/pages/wishes', icon: 'git' },
         { text: '友情链接', link: '/pages/link', icon: 'people' }
       ]
     },
     {
       text: '我的',
       items: [
-        { text: '心愿树洞', link: '/pages/wishes', icon: 'git' },
+        { text: '日常分享', link: '/pages/share', icon: 'git' },
         { text: '关于本站', link: '/pages/about', icon: 'contacts' }
       ]
     }
