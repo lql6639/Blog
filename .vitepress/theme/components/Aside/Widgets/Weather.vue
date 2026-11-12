@@ -9,31 +9,31 @@
     <div class="all-data">
       <!-- 城市 -->
       <div class="data-item">
-        <span class="name"><i class="iconfont icon-home"></i> 城市</span>
+        <span class="name">城市</span>
         <span class="num">{{ weatherData?.city || '--' }}</span>
       </div>
       <!-- 温度 -->
       <div class="data-item">
-        <span class="name"><i class="iconfont icon-fire"></i> 温度</span>
+        <span class="name">温度</span>
         <span class="num">
           {{ weatherData?.temperature != null ? weatherData.temperature + '℃' : '--' }}
         </span>
       </div>
       <!-- 湿度 -->
       <div class="data-item">
-        <span class="name"><i class="iconfont icon-visibility"></i> 湿度</span>
+        <span class="name">湿度</span>
         <span class="num">
           {{ weatherData?.humidity != null ? weatherData.humidity + '%' : '--' }}
         </span>
       </div>
       <!-- 风向 -->
       <div class="data-item">
-        <span class="name"><i class="iconfont icon-arrow-right"></i> 风向</span>
+        <span class="name">风向</span>
         <span class="num">{{ weatherData?.winddirection || '--' }}</span>
       </div>
       <!-- 风力 -->
       <div class="data-item">
-        <span class="name"><i class="iconfont icon-refresh"></i> 风力</span>
+        <span class="name">风力</span>
         <span class="num">{{ weatherData?.windpower || '--' }}</span>
       </div>
     </div>
@@ -124,7 +124,7 @@ onMounted(async () => {
   .all-data {
     display: flex;
     flex-direction: column;
-    margin-top: 12px;
+    margin: 18px 18px 0 18px;
 
     .data-item {
       width: 100%;

@@ -282,7 +282,7 @@ const disableAuto = ref(false)
 
 // 默认标语
 const defaultSlogan = theme.value.siteMeta.description
-const manualSlogan = '所以，回去吧，回到我们，所有「奇迹」开始的地方'
+const manualSlogan = '你觉得我是否无趣'
 
 // 计算展示的文字：若当前为“一言”状态则显示一言，否则显示默认标语
 const displayText = computed(() =>

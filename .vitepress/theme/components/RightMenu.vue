@@ -137,26 +137,7 @@
             </div>
           </div>
           <!-- 通用菜单 -->
-          <!---
           <div class="all-menu general">
-            !-- 版权协议 --
-            <div class="btn" @click="router.go('/pages/cc')">
-              <i class="iconfont icon-accessible"></i>
-              <span class="name">版权协议</span>
-            </div>
-            !-- 隐私政策 --
-            <div class="btn" @click="router.go('/pages/privacy')">
-              <i class="iconfont icon-privacy"></i>
-              <span class="name">隐私政策</span>
-            </div>
-          </div>
-        -->
-          <div class="all-menu general">
-            <!-- 复制地址 -->
-            <div class="btn" @click="rightMenuFunc('copy-link')">
-              <i class="iconfont icon-copy"></i>
-              <span class="name">复制本页地址</span>
-            </div>
             <!-- 明暗模式 -->
             <div class="btn" @click.stop="store.changeThemeType">
               <i
@@ -164,9 +145,18 @@
               />
               <span class="name">
                 {{
-                  themeType === 'auto' ? '深色模式' : themeType === 'dark' ? '浅色模式' : '跟随系统'
+                  themeType === 'auto'
+                    ? '切换深色模式'
+                    : themeType === 'dark'
+                      ? '切换浅色模式'
+                      : '跟随系统模式'
                 }}
               </span>
+            </div>
+            <!-- 复制地址 -->
+            <div class="btn" @click="rightMenuFunc('copy-link')">
+              <i class="iconfont icon-copy"></i>
+              <span class="name">复制本页地址</span>
             </div>
           </div>
           <!-- 播放器控制 -->

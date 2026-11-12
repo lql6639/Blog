@@ -33,7 +33,7 @@
 
       <div v-if="!filtered.length" class="empty">
         <i class="iconfont icon-search-empty" />
-        <p>这里还空着，说点什么吧</p>
+        <p>这里还空着，说点什么吧...</p>
       </div>
     </div>
 

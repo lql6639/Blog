@@ -3,7 +3,7 @@
     <h1 class="title">关于本站</h1>
     <div class="about-content" style="grid-template-columns: 3fr 2fr">
       <div class="about-item hello">
-        <span class="text1">你好，很高兴认识你</span>
+        <span class="text1">你好 很高兴认识你</span>
         <span class="text2 title2">我是 小林</span>
         <span class="text3">是一名 前端开发爱好者</span>
         <span class="text4">

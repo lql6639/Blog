@@ -1,7 +1,6 @@
 /*
  *  color：blue | pink | green | orange | yellow | purple
  */
-
 export default [
   {
     content: '茶要泡开才好喝，人要想开才好过。苦涩并非我真意，历尽鼎沸显甘香。',

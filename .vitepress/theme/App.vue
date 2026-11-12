@@ -67,7 +67,7 @@ let fontSwitchTaskId = 0
 //最简单的解决方法是确保在客户端代码中访问 window
 //可以通过判断代码是否在浏览器环境中运行来避免在服务器端渲染时执行涉及 window 的代码
 //onMounted 钩子： 在 setup 或 data 中避免直接访问 window。
-//将依赖 window 对象的代码放入 onMounted 钩子中，因为 onMounted 只会在组件挂载到DOM后执行。
+//将依赖 window 对象的代码放入 onMounted 钩子中，因为 onMounted 只会在组件挂载到 DOM 后执行。
 // onMounted(() => {
 // 只有在浏览器环境才会执行
 // if (typeof window !== 'undefined') {

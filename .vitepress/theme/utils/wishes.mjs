@@ -11,7 +11,7 @@ export const typeText = { wish: '心愿', treehole: '树洞' }
 export const COLORS = [
   { value: 'green', bg: '#c8e6c9' },
   { value: 'orange', bg: '#ffe0b2' },
-  { value: 'yellow', bg: '#fff9c4' },
+  { value: 'yellow', bg: '#fff8bb' },
   { value: 'pink', bg: '#ffcdd2' },
   { value: 'blue', bg: '#bbdefb' },
   { value: 'purple', bg: '#e1bee7' }

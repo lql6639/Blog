@@ -202,7 +202,7 @@ export const themeConfig = {
       {
         text: '专栏',
         items: [
-          { text: '技术分享', link: '/pages/categories/技术分享' },
+          { text: '技术分享', link: '/pages/categories' },
           { text: '我的项目', link: '/pages/project' },
           { text: '效率工具', link: '/pages/tools' }
         ]

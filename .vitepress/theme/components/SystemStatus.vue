@@ -21,7 +21,6 @@
 import { ref, computed, onMounted } from 'vue'
 
 // 状态数据来源：本站自己的 /api/status（Worker 内部去问 UptimeRobot）
-// 以前还支持跳转到 status.lovlin.cn，现在那个状态页已不再使用，徽标只做展示 + 点击刷新
 
 // 定义 API 返回类型
 interface StatusResponse {

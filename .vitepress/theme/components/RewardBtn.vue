@@ -1,5 +1,4 @@
 <!-- 打赏按钮 -->
-
 <template>
   <div v-if="rewardData.enable" class="reward">
     <div class="reward-btn" @click="rewardShow = true">

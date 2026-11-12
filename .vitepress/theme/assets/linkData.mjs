@@ -21,10 +21,10 @@ const linkData = [
     typeDesc: '我们在一起，共同进步',
     typeList: [
       {
-        name: '池鱼小栈',
-        avatar: 'https://chiyu.it/images/logo/logo.webp',
-        desc: '跨过晨昏线，便是永夜。',
-        url: 'https://chiyu.it'
+        name: '举个栗子',
+        avatar: 'https://www.alcy.cc/avatar.jpg',
+        desc: '拖延散场的时间，并不会改变结局。',
+        url: 'https://alcy.cc'
       }
     ]
   },

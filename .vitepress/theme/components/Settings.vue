@@ -132,13 +132,13 @@
               :class="['options', { choose: themeType === 'dark' }]"
               @click="themeType = 'dark'"
             >
-              深色
+              深色模式
             </span>
             <span
               :class="['options', { choose: themeType === 'light' }]"
               @click="themeType = 'light'"
             >
-              浅色
+              浅色模式
             </span>
           </div>
         </div>

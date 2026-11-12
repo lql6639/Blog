@@ -64,7 +64,7 @@
         <!-- 过期提醒 -->
         <div class="expired s-card" v-if="expiredDays !== null && expiredDays >= 180">
           本文发表于
-          <strong>{{ expiredDays }}</strong> 天前，其中的信息可能已经事过境迁
+          <strong>{{ expiredDays }}</strong> 天前，其中的信息可能已经事过境迁。
         </div>
         <!-- AI 摘要 -->
         <ArticleGPT />
@@ -87,16 +87,11 @@
               <span class="name">{{ item }}</span>
             </a>
           </div>
-          <!--
-          <a
-            href="https://eqnxweimkr5.feishu.cn/share/base/form/shrcnCXCPmxCKKJYI3RKUfefJre"
-            class="report"
-            target="_blank"
-          >
+          <a href="/pages/message" class="report" target="_blank">
             <i class="iconfont icon-report" />
             反馈与投诉
           </a>
-        --></div>
+        </div>
         <RewardBtn />
         <!-- 下一篇 -->
         <NextPost />

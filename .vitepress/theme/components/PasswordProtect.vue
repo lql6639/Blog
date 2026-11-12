@@ -4,8 +4,8 @@
     <div class="protect-icon">
       <span class="lock-emoji">🔒</span>
     </div>
-    <h3 class="protect-title">此文章已加密</h3>
-    <p class="protect-desc">请输入密码以查看完整内容</p>
+    <h3 class="protect-title">文章已加密</h3>
+    <p class="protect-desc">输入密码以查看完整内容</p>
     <div class="protect-input-wrapper">
       <input
         v-model="inputPassword"
