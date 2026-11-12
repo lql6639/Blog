@@ -135,7 +135,15 @@ const fromStatusPage = async (): Promise<MonitorSummary> => {
     signal: AbortSignal.timeout(6000)
   })
 
-  if (!response.ok) throw new Error(`status page http ${response.status}`)
+  if (!response.ok) {
+    // 把上游状态码、响应头与正文片段一起带出来，线上排错不用翻日志
+    const bodyText = (await response.text().catch(() => '')).slice(0, 160)
+    const server = response.headers.get('server') || '-'
+    const vercelErr = response.headers.get('x-vercel-error') || '-'
+    throw new Error(
+      `status page http ${response.status} | server=${server} | x-vercel-error=${vercelErr} | body=${bodyText}`
+    )
+  }
 
   const payload = (await response.json()) as StatusPagePayload
   if (payload.code !== 200 || !payload.data?.status) {
