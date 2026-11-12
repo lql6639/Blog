@@ -17,9 +17,6 @@ export const getHitokoto = async () => {
       throw new Error(`HTTP error! status: ${response.status}`)
     }
     const hitokoto = await response.json()
-    // 源代码如下：
-    // 更改时间：2025.06.11
-    // 变更功能：延迟一言在后2秒再显示，留给用户时间查看slogan
     return hitokoto
   } catch (error) {
     console.error(`获取一言失败 (${useFallbackAPI ? '备用 API' : '主 API'})：`, error)

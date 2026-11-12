@@ -309,17 +309,16 @@ export const themeConfig = {
     }
   },
   // 音乐播放器
-  // https://github.com/imsyy/Meting-API
   music: {
     enable: true,
     // url（结尾斜杠不能省：无斜杠会 301 且响应缺少 CORS 头，浏览器 fetch 直接失败）
-    url: 'https://api.qijieya.cn/meting/',
-    // id
-    id: 3778678,
+    url: 'https://api.lovlin.cn/meting/',
     // netease / tencent / kugou
     server: 'netease',
     // playlist / album / song
-    type: 'playlist'
+    type: 'playlist',
+    // id
+    id: 3778678
   },
   // 搜索
   // 本地全文搜索：构建时生成 public/data/searchIndex.json，前端懒加载，无需 Algolia
