@@ -1,7 +1,7 @@
 // Cloudflare Workers 入口。
 //
 // 站点是 VitePress 产出的纯静态文件，全部挂在 assets 绑定（env.ASSETS）上；
-// 唯一需要服务端能力的是 /api/status（代理自建状态页，解析出「服务正常/部分问题」等文案）。
+// 唯一需要服务端能力的是 /api/status（代理 UptimeRobot，把只读 key 留在服务端）。
 // 之前用 Cloudflare **Pages** 部署时，functions/api/status.ts 会被自动映射成
 // GET /api/status；改成 Workers 静态资源模式后这层约定失效，接口直接 404，
 // 页面底部的状态徽标就一直是错误态。所以在 Worker 里补上这条分流。
