@@ -1,7 +1,16 @@
-// Define Status Type
+// 站点状态接口
+//
+// 两条数据路径，优先直连 UptimeRobot，未配置或失败时回落到自建状态页：
+//
+//   1) UptimeRobot 官方 API —— 需要 env.UPTIMEROBOT_API_KEY（只读 key 足够）。
+//      最稳，不依赖状态页那边的鉴权约定。
+//   2) status.lovlin.cn（imsyy/site-status）的汇总接口 —— 不需要任何密钥，
+//      但它校验来源，服务端调用得带上它自己的 Referer/Origin，属于"蹭"它的约定。
+//
+// 前端只认 { status, label, updatedAt } 三个字段，两条路径的输出完全一致。
+
 type StatusType = 'operational' | 'degraded' | 'partial' | 'major' | 'maintenance'
 
-// Status Map
 const STATUS_MAP: Record<StatusType, { status: string; label: string }> = {
   operational: { status: 'operational', label: '服务正常' },
   degraded: { status: 'degraded', label: '性能下降' },
@@ -10,136 +19,137 @@ const STATUS_MAP: Record<StatusType, { status: string; label: string }> = {
   maintenance: { status: 'maintenance', label: '正在检修' }
 }
 
-// 智能替换 URL 路径中的问号
-function encodePathQuestionMarks(url: string, forceEncode = false): string {
-  if (!url.includes('?')) return url
-  const parts = url.split('?')
-  // 如果只有一个问号且强制作为路径，则全部替换
-  if (parts.length === 2 && forceEncode) return parts.join('%3F')
-  // 保留最后一段作为查询参数，其余问号替换为 %3F
-  const query = parts.pop()
-  return `${parts.join('%3F')}?${query}`
+const UPTIMEROBOT_ENDPOINT = 'https://api.uptimerobot.com/v2/getMonitors'
+const STATUS_PAGE_ENDPOINT = 'https://status.lovlin.cn/api/getMonitors'
+const STATUS_PAGE_ORIGIN = 'https://status.lovlin.cn'
+
+const responseHeaders = {
+  'Content-Type': 'application/json',
+  'Cache-Control': 's-maxage=60, stale-while-revalidate=30'
+}
+
+interface MonitorSummary {
+  count?: number
+  ok?: number
+  error?: number
+  unknown?: number
+}
+
+interface StatusPagePayload {
+  code?: number
+  message?: string
+  data?: { status?: MonitorSummary }
+}
+
+interface UptimeRobotMonitor {
+  // 0 暂停 / 1 尚未检查 / 2 正常 / 8 疑似故障 / 9 故障
+  status?: number
+}
+
+interface UptimeRobotPayload {
+  stat?: string
+  error?: { type?: string; message?: string }
+  pagination?: { total?: number }
+  monitors?: UptimeRobotMonitor[]
+}
+
+const json = (body: unknown) =>
+  new Response(JSON.stringify(body), { status: 200, headers: responseHeaders })
+
+// 汇总结果转成徽标文案：
+//   error === 0       → 全部正常
+//   error 超过一半     → 重大事故
+//   其余（有异常但不到一半）→ 部分问题
+const summarize = ({ count = 0, error = 0 }: MonitorSummary): { status: string; label: string } => {
+  if (count === 0) return { status: 'unknown', label: '无监控项' }
+  if (error === 0) return STATUS_MAP.operational
+  if (error > count / 2) return STATUS_MAP.major
+  return STATUS_MAP.partial
+}
+
+// ===== 路径一：UptimeRobot 官方 API =====
+// v2 每页最多 50 条，用 offset 翻页，最多翻 4 页（200 个监控）足够覆盖个人站点
+const fromUptimeRobot = async (apiKey: string): Promise<MonitorSummary> => {
+  const monitors: UptimeRobotMonitor[] = []
+
+  for (let page = 0; page < 4; page++) {
+    const body = new URLSearchParams({
+      api_key: apiKey,
+      format: 'json',
+      offset: String(monitors.length),
+      limit: '50',
+      // 只要能判断上下线，历史日志/响应时间都不需要，避免响应过大
+      logs: '0',
+      response_times: '0',
+      all_time_uptime_ratio: '0'
+    })
+
+    const response = await fetch(UPTIMEROBOT_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body,
+      signal: AbortSignal.timeout(6000)
+    })
+
+    if (!response.ok) throw new Error(`uptimerobot http ${response.status}`)
+
+    const payload = (await response.json()) as UptimeRobotPayload
+    // UptimeRobot 出错时仍然返回 HTTP 200，只能看 stat 字段
+    if (payload.stat !== 'ok' || !Array.isArray(payload.monitors)) {
+      throw new Error(`uptimerobot: ${payload.error?.message || 'unknown error'}`)
+    }
+
+    monitors.push(...payload.monitors)
+
+    const total = payload.pagination?.total ?? monitors.length
+    if (monitors.length >= total || payload.monitors.length === 0) break
+  }
+
+  const count = monitors.length
+  const error = monitors.filter((m) => m.status === 8 || m.status === 9).length
+  return { count, ok: count - error, error, unknown: 0 }
+}
+
+// ===== 路径二：自建状态页（无需密钥）=====
+const fromStatusPage = async (): Promise<MonitorSummary> => {
+  const response = await fetch(STATUS_PAGE_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      Origin: STATUS_PAGE_ORIGIN,
+      Referer: `${STATUS_PAGE_ORIGIN}/`,
+      'Content-Type': 'application/json'
+    },
+    signal: AbortSignal.timeout(6000)
+  })
+
+  if (!response.ok) throw new Error(`status page http ${response.status}`)
+
+  const payload = (await response.json()) as StatusPagePayload
+  if (payload.code !== 200 || !payload.data?.status) {
+    throw new Error(`status page: ${payload.message || 'no status'}`)
+  }
+
+  return payload.data.status
 }
 
 export async function onRequestGet(context: any) {
-  const { request, env } = context
-  const apiToken = env.BETTER_STACK_API_TOKEN
+  const apiKey: string | undefined = context?.env?.UPTIMEROBOT_API_KEY
 
-  const url = new URL(request.url)
-  const rawUrl = url.searchParams.get('url') || ''
-
-  const responseHeaders = {
-    'Content-Type': 'application/json',
-    'Cache-Control': 's-maxage=60, stale-while-revalidate=30'
-  }
-
-  if (!apiToken) {
-    return new Response(
-      JSON.stringify({
-        status: 'unknown',
-        label: '未配置状态',
-        updatedAt: null
-      }),
-      { status: 200, headers: responseHeaders }
-    )
+  // 配了 key 就直连；直连失败再退回状态页，不让徽标直接掉成错误态
+  if (apiKey) {
+    try {
+      const info = summarize(await fromUptimeRobot(apiKey))
+      return json({ ...info, updatedAt: new Date().toISOString() })
+    } catch (error) {
+      console.error('UptimeRobot failed, falling back to status page:', error)
+    }
   }
 
   try {
-    let fetchUrl = 'https://uptime.betterstack.com/api/v2/monitors'
-
-    // 如果前端请求携带了 url 参数（比如用于获取特定监控项）
-    if (rawUrl) {
-      // 默认将只带一个 ? 的 URL 视作路径一部分（适应你提到的示例），如果有多个则只保留最后一个作为查询参数分隔符
-      const formattedUrl = encodePathQuestionMarks(rawUrl, true)
-      // 将其作为查询参数附加给 Better Stack
-      fetchUrl += `?url=${encodeURIComponent(formattedUrl)}`
-    }
-
-    const response = await fetch(fetchUrl, {
-      headers: {
-        Authorization: `Bearer ${apiToken}`
-      },
-      // 与 api/status.ts 同一口径：上游挂死时主动中止，保证仍返回优雅的 JSON。
-      signal: AbortSignal.timeout(5000)
-    })
-
-    if (!response.ok) {
-      throw new Error(`Better Stack API error: ${response.statusText}`)
-    }
-
-    const data = (await response.json()) as {
-      data: Array<{
-        id: string
-        attributes: {
-          url: string
-          pronounceable_name: string
-          status: 'paused' | 'pending' | 'maintenance' | 'up' | 'validating' | 'down'
-        }
-      }>
-    }
-
-    const monitors = data.data || []
-    const totalCount = monitors.length
-    const downCount = monitors.filter((m: any) => m.attributes.status === 'down').length
-    const maintenanceCount = monitors.filter(
-      (m: any) => m.attributes.status === 'maintenance'
-    ).length
-    const validatingCount = monitors.filter((m: any) => m.attributes.status === 'validating').length
-    const upCount = monitors.filter(
-      (m: any) =>
-        m.attributes.status === 'up' ||
-        m.attributes.status === 'paused' ||
-        m.attributes.status === 'pending'
-    ).length
-
-    let statusType: StatusType
-
-    if (totalCount === 0) {
-      return new Response(
-        JSON.stringify({
-          status: 'unknown',
-          label: '无监控项',
-          updatedAt: new Date().toISOString()
-        }),
-        { status: 200, headers: responseHeaders }
-      )
-    }
-
-    if (downCount > totalCount / 2) {
-      statusType = 'major'
-    } else if (downCount > 0) {
-      statusType = 'partial'
-    } else if (maintenanceCount > 0) {
-      statusType = 'maintenance'
-    } else if (validatingCount > 0) {
-      statusType = 'degraded'
-    } else {
-      // 走到这里已隐含 downCount === 0（上面 `downCount > 0` 已排除），
-      // 因此原来的 `upCount === totalCount || downCount === 0` 中 downCount 子句恒真、
-      // upCount 子句被短路，原 `else { partial }` 分支不可达。
-      // 剩余状态（up / paused / pending 的任意组合）均视为正常。
-      statusType = 'operational'
-    }
-
-    const statusInfo = STATUS_MAP[statusType]
-
-    return new Response(
-      JSON.stringify({
-        status: statusInfo.status,
-        label: statusInfo.label,
-        updatedAt: new Date().toISOString()
-      }),
-      { status: 200, headers: responseHeaders }
-    )
+    const info = summarize(await fromStatusPage())
+    return json({ ...info, updatedAt: new Date().toISOString() })
   } catch (error) {
     console.error('Fetch status failed:', error)
-    return new Response(
-      JSON.stringify({
-        status: 'error',
-        label: '无法获取状态',
-        updatedAt: null
-      }),
-      { status: 200, headers: responseHeaders }
-    )
+    return json({ status: 'error', label: '无法获取状态', updatedAt: null })
   }
 }

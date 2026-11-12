@@ -1,7 +1,7 @@
 // Cloudflare Workers 入口。
 //
 // 站点是 VitePress 产出的纯静态文件，全部挂在 assets 绑定（env.ASSETS）上；
-// 唯一需要服务端能力的是 /api/status（代理 Better Stack，避免 Token 落到浏览器）。
+// 唯一需要服务端能力的是 /api/status（代理自建状态页，解析出「服务正常/部分问题」等文案）。
 // 之前用 Cloudflare **Pages** 部署时，functions/api/status.ts 会被自动映射成
 // GET /api/status；改成 Workers 静态资源模式后这层约定失效，接口直接 404，
 // 页面底部的状态徽标就一直是错误态。所以在 Worker 里补上这条分流。
@@ -14,7 +14,8 @@ import { onRequestGet as handleStatus } from '../functions/api/status'
 interface Env {
   // assets 绑定的名称由 wrangler.jsonc 的 assets.binding 决定，默认 ASSETS
   ASSETS: { fetch: (request: Request) => Promise<Response> }
-  BETTER_STACK_API_TOKEN?: string
+  // 可选：配了就用 UptimeRobot 官方 API 直连，没配则读自建状态页
+  UPTIMEROBOT_API_KEY?: string
 }
 
 const json = (body: unknown, status = 200, headers: Record<string, string> = {}) =>
@@ -32,7 +33,7 @@ export default {
         if (request.method !== 'GET') {
           return json({ error: 'Method Not Allowed' }, 405, { Allow: 'GET' })
         }
-        // 复用 Pages Functions 里已有的实现（context 只用到 request 与 env）
+        // 复用 Pages Functions 里的实现；env 里可能带 UPTIMEROBOT_API_KEY
         return handleStatus({ request, env })
       }
 
