@@ -23,6 +23,13 @@ const UPTIMEROBOT_ENDPOINT = 'https://api.uptimerobot.com/v2/getMonitors'
 const STATUS_PAGE_ENDPOINT = 'https://status.lovlin.cn/api/getMonitors'
 const STATUS_PAGE_ORIGIN = 'https://status.lovlin.cn'
 
+// 状态页在 Vercel 上，机房出口 IP 容易被它的防火墙判成机器人直接拒掉，
+// 带个普通浏览器 UA 更稳（Worker 发出的请求默认 UA 是 Cloudflare-Workers）
+const BROWSER_UA =
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
+
+const errText = (error: unknown) => (error instanceof Error ? error.message : String(error))
+
 const responseHeaders = {
   'Content-Type': 'application/json',
   'Cache-Control': 's-maxage=60, stale-while-revalidate=30'
@@ -86,7 +93,11 @@ const fromUptimeRobot = async (apiKey: string): Promise<MonitorSummary> => {
 
     const response = await fetch(UPTIMEROBOT_ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'User-Agent': BROWSER_UA,
+        Accept: 'application/json'
+      },
       body,
       signal: AbortSignal.timeout(6000)
     })
@@ -117,7 +128,9 @@ const fromStatusPage = async (): Promise<MonitorSummary> => {
     headers: {
       Origin: STATUS_PAGE_ORIGIN,
       Referer: `${STATUS_PAGE_ORIGIN}/`,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'User-Agent': BROWSER_UA,
+      Accept: 'application/json'
     },
     signal: AbortSignal.timeout(6000)
   })
@@ -134,6 +147,8 @@ const fromStatusPage = async (): Promise<MonitorSummary> => {
 
 export async function onRequestGet(context: any) {
   const apiKey: string | undefined = context?.env?.UPTIMEROBOT_API_KEY
+  // 两条路都失败时把原因带回去，线上排查不用翻日志
+  const reasons: string[] = []
 
   // 配了 key 就直连；直连失败再退回状态页，不让徽标直接掉成错误态
   if (apiKey) {
@@ -142,6 +157,7 @@ export async function onRequestGet(context: any) {
       return json({ ...info, updatedAt: new Date().toISOString() })
     } catch (error) {
       console.error('UptimeRobot failed, falling back to status page:', error)
+      reasons.push(`uptimerobot: ${errText(error)}`)
     }
   }
 
@@ -150,6 +166,13 @@ export async function onRequestGet(context: any) {
     return json({ ...info, updatedAt: new Date().toISOString() })
   } catch (error) {
     console.error('Fetch status failed:', error)
-    return json({ status: 'error', label: '无法获取状态', updatedAt: null })
+    reasons.push(`status-page: ${errText(error)}`)
+    return json({
+      status: 'error',
+      label: '无法获取状态',
+      updatedAt: null,
+      // 只有排查时才需要，前端不读这个字段
+      detail: reasons.join(' | ')
+    })
   }
 }
