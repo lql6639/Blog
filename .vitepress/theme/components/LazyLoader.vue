@@ -4,11 +4,7 @@
   <slot v-else />
   <div v-if="useFriendsLink" class="hidden">
     <!-- 适配友链朋友圈 -->
-    <img
-      :data-lazy-src="useFriendsLink"
-      class="cf-friends-avatar"
-      alt="cover"
-    />
+    <img :data-lazy-src="useFriendsLink" class="cf-friends-avatar" alt="cover" />
   </div>
 </template>
 
@@ -39,13 +35,10 @@ const box = ref(null)
 
 // 初始化 IntersectionObserver
 const initLazyIntersectionObserver = (fn) => {
-  const observer = new IntersectionObserver(
-    (entrys) => entrys.forEach((entry) => fn(entry)),
-    {
-      rootMargin: '0px',
-      threshold: 0
-    }
-  )
+  const observer = new IntersectionObserver((entrys) => entrys.forEach((entry) => fn(entry)), {
+    rootMargin: '0px',
+    threshold: 0
+  })
   return observer
 }
 

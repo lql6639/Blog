@@ -7,11 +7,7 @@
     </div>
 
     <!-- 列表容器：动态计算高度，始终只露出前 5 条 -->
-    <div
-      class="all-data"
-      ref="listContainer"
-      :style="{ maxHeight: containerHeight + 'px' }"
-    >
+    <div class="all-data" ref="listContainer" :style="{ maxHeight: containerHeight + 'px' }">
       <div class="data-item" v-for="(item, index) in list" :key="item.id">
         <span class="name">{{ index + 1 }}.</span>
         <span class="num">
@@ -23,9 +19,7 @@
     </div>
 
     <!-- 最后更新时间 -->
-    <div v-if="formattedUpdateTime" class="update-time">
-      最后更新：{{ formattedUpdateTime }}
-    </div>
+    <div v-if="formattedUpdateTime" class="update-time">最后更新：{{ formattedUpdateTime }}</div>
   </div>
 </template>
 
@@ -55,9 +49,7 @@ const formattedUpdateTime = computed(() => {
 
 // 简单 UA 判断移动端
 function detectMobile() {
-  return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent
-  )
+  return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 }
 
 async function fetchData() {

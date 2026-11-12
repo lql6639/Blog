@@ -1,8 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 
 // Define Status Type
-type StatusType =
-  'operational' | 'degraded' | 'partial' | 'major' | 'maintenance'
+type StatusType = 'operational' | 'degraded' | 'partial' | 'major' | 'maintenance'
 
 // Status Map
 const STATUS_MAP: Record<StatusType, { status: string; label: string }> = {
@@ -69,23 +68,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         attributes: {
           url: string
           pronounceable_name: string
-          status:
-            'paused' | 'pending' | 'maintenance' | 'up' | 'validating' | 'down'
+          status: 'paused' | 'pending' | 'maintenance' | 'up' | 'validating' | 'down'
         }
       }>
     }
 
     const monitors = data.data || []
     const totalCount = monitors.length
-    const downCount = monitors.filter(
-      (m) => m.attributes.status === 'down'
-    ).length
-    const maintenanceCount = monitors.filter(
-      (m) => m.attributes.status === 'maintenance'
-    ).length
-    const validatingCount = monitors.filter(
-      (m) => m.attributes.status === 'validating'
-    ).length
+    const downCount = monitors.filter((m) => m.attributes.status === 'down').length
+    const maintenanceCount = monitors.filter((m) => m.attributes.status === 'maintenance').length
+    const validatingCount = monitors.filter((m) => m.attributes.status === 'validating').length
     const upCount = monitors.filter(
       (m) =>
         m.attributes.status === 'up' ||

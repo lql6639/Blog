@@ -1,11 +1,7 @@
 <!-- 分页 -->
 <template>
   <div v-if="total > 0" class="pagination">
-    <a
-      v-if="currentPage > 1"
-      class="page-item prev"
-      :href="pageHref(currentPage - 1)"
-    >
+    <a v-if="currentPage > 1" class="page-item prev" :href="pageHref(currentPage - 1)">
       <i class="iconfont icon-page-right" />
       <span class="page-text">上页</span>
     </a>
@@ -14,10 +10,7 @@
         v-for="(item, index) in pageNumber"
         :key="index"
         :is="item === '...' ? 'span' : 'a'"
-        :class="[
-          item === '...' ? 'point' : 'page-item',
-          { choose: item === currentPage }
-        ]"
+        :class="[item === '...' ? 'point' : 'page-item', { choose: item === currentPage }]"
         :href="item === '...' ? undefined : pageHref(item)"
         :aria-current="item === currentPage ? 'page' : undefined"
       >
@@ -34,17 +27,10 @@
           @input="validateInput"
           @keydown.enter="fastJump"
         />
-        <i
-          :class="['iconfont icon-arrow-right', { click: jumpInput }]"
-          @click.stop="fastJump"
-        />
+        <i :class="['iconfont icon-arrow-right', { click: jumpInput }]" @click.stop="fastJump" />
       </div>
     </div>
-    <a
-      v-if="currentPage * limit < total"
-      class="page-item next"
-      :href="pageHref(currentPage + 1)"
-    >
+    <a v-if="currentPage * limit < total" class="page-item next" :href="pageHref(currentPage + 1)">
       <span class="page-text">下页</span>
       <i class="iconfont icon-page-right" />
     </a>
@@ -129,8 +115,7 @@ const validateInput = () => {
 }
 
 // 真实链接可供无 JavaScript 的浏览器直接打开静态分页页。
-const pageHref = (page) =>
-  page === 1 ? props.routePath || '/' : `${props.routePath}/page/${page}`
+const pageHref = (page) => (page === 1 ? props.routePath || '/' : `${props.routePath}/page/${page}`)
 
 // 快速跳转
 const fastJump = () => {

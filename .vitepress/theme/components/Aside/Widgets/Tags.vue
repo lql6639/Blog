@@ -65,11 +65,7 @@ onMounted(() => {
       right: 0;
       height: 48%;
       max-height: 150px;
-      background-image: linear-gradient(
-        to top,
-        var(--main-card-background),
-        transparent
-      );
+      background-image: linear-gradient(to top, var(--main-card-background), transparent);
       pointer-events: none;
     }
   }

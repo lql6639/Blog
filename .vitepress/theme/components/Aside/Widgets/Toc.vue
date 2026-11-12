@@ -5,11 +5,7 @@
       <i class="iconfont icon-toc" />
       <span class="name">目录</span>
     </div>
-    <div
-      id="toc-all"
-      class="toc-list"
-      :style="{ '--height': activeTocHeight + 'px' }"
-    >
+    <div id="toc-all" class="toc-list" :style="{ '--height': activeTocHeight + 'px' }">
       <span
         v-for="(item, index) in tocData"
         :key="index"

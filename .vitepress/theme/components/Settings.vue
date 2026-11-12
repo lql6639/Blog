@@ -41,9 +41,7 @@
         <div class="set-item">
           <span class="set-label">全站字体大小</span>
           <div class="set-options">
-            <span class="options" @click="store.changeFontSize(false)">
-              -
-            </span>
+            <span class="options" @click="store.changeFontSize(false)"> - </span>
             <span class="num">{{ fontSize }}</span>
             <span class="options" @click="store.changeFontSize(true)"> + </span>
           </div>
@@ -154,15 +152,8 @@ import { storeToRefs } from 'pinia'
 import { mainStore } from '@/store'
 
 const store = mainStore()
-const {
-  themeType,
-  fontFamily,
-  fontSize,
-  infoPosition,
-  backgroundType,
-  backgroundUrl,
-  bannerType
-} = storeToRefs(store)
+const { themeType, fontFamily, fontSize, infoPosition, backgroundType, backgroundUrl, bannerType } =
+  storeToRefs(store)
 </script>
 
 <style lang="scss" scoped>

@@ -33,10 +33,7 @@
       </div>
     </div>
     <div class="about-content" style="grid-template-columns: 2fr 3fr">
-      <div
-        class="about-item static image"
-        style="--color: #0f1114; background-image: url(#)"
-      >
+      <div class="about-item static image" style="--color: #0f1114; background-image: url(#)">
         <div class="image-content">
           <span class="tip">数据</span>
           <span class="title2">站点数据</span>
@@ -60,13 +57,8 @@
       </div>
 
       <div class="about-item child">
-        <div
-          class="about-item map image"
-          style="background-image: url(https://api.imlazy.ink/img)"
-        >
-          <span class="position"
-            >我现在住在 <strong>中国，广东省，云浮市</strong></span
-          >
+        <div class="about-item map image" style="background-image: url(https://api.imlazy.ink/img)">
+          <span class="position">我现在住在 <strong>中国，广东省，云浮市</strong></span>
         </div>
         <div class="about-item info">
           <div class="info-item">
@@ -95,13 +87,9 @@
         <p class="text">写几句标语好了</p>
         <p class="text">倘若懂的人懂得 淡茶一杯也有<strong>「情」</strong></p>
         <p class="text">后来才明白</p>
-        <p class="text">
-          如果连爱都要去<strong>「伸手」</strong>那有和没有并没有区别
-        </p>
+        <p class="text">如果连爱都要去<strong>「伸手」</strong>那有和没有并没有区别</p>
         <p class="text">原来缺爱的人是我</p>
-        <p class="text">
-          原来我爱别人的方式 都是自己想要<strong>「被爱」</strong>的样子
-        </p>
+        <p class="text">原来我爱别人的方式 都是自己想要<strong>「被爱」</strong>的样子</p>
         <p class="text">我爱你们</p>
       </div>
     </div>
@@ -186,13 +174,10 @@ const skillsData = [
 ]
 
 onMounted(() => {
-  loadScript(
-    'https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js',
-    {
-      async: true,
-      reload: true
-    }
-  )
+  loadScript('https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js', {
+    async: true,
+    reload: true
+  })
 })
 </script>
 

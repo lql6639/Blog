@@ -46,9 +46,7 @@ const groupByYear = (posts) => {
     archiveData[year].articles.push(post)
   })
 
-  const sortedYears = Object.keys(archiveData).sort(
-    (a, b) => parseInt(b) - parseInt(a)
-  )
+  const sortedYears = Object.keys(archiveData).sort((a, b) => parseInt(b) - parseInt(a))
   return { data: archiveData, year: sortedYears }
 }
 
@@ -69,16 +67,12 @@ export const usePostData = () => {
   // 数组与 undefined 一律原样保留，避免改变 `v-if="item?.tags"` 的语义。
   const normalizePost = (post) => {
     if (!post || typeof post !== 'object') return post
-    if (typeof post.tags !== 'string' && typeof post.categories !== 'string')
-      return post
+    if (typeof post.tags !== 'string' && typeof post.categories !== 'string') return post
     return {
       ...post,
-      tags:
-        typeof post.tags === 'string' ? normalizeList(post.tags) : post.tags,
+      tags: typeof post.tags === 'string' ? normalizeList(post.tags) : post.tags,
       categories:
-        typeof post.categories === 'string'
-          ? normalizeList(post.categories)
-          : post.categories
+        typeof post.categories === 'string' ? normalizeList(post.categories) : post.categories
     }
   }
 
@@ -91,8 +85,7 @@ export const usePostData = () => {
 
     loadPromise = fetch(url)
       .then((res) => {
-        if (!res.ok)
-          throw new Error(`加载文章索引失败：${res.status} ${res.statusText}`)
+        if (!res.ok) throw new Error(`加载文章索引失败：${res.status} ${res.statusText}`)
         return res.json()
       })
       .then((data) => {

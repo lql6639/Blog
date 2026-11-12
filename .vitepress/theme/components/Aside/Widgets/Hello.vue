@@ -13,18 +13,10 @@
         <span class="desc">{{ theme.siteMeta.description }}</span>
       </div>
       <div class="link">
-        <a
-          href="https://github.com/lql6639"
-          target="_blank"
-          class="social-link"
-        >
+        <a href="https://github.com/lql6639" target="_blank" class="social-link">
           <i class="iconfont icon-github"></i>
         </a>
-        <a
-          href="https://qm.qq.com/q/xiyMGvkhqw"
-          target="_blank"
-          class="social-link"
-        >
+        <a href="https://qm.qq.com/q/xiyMGvkhqw" target="_blank" class="social-link">
           <i class="iconfont icon-qq"></i>
         </a>
       </div>
@@ -79,8 +71,7 @@ const isHasUser = () => {
   const { nick } = JSON.parse(userData)
   const hello = ['很高兴见到你', '好久不见', '欢迎回来']
   // 随机问候语
-  helloText.value =
-    hello[Math.floor(Math.random() * hello.length)] + '，' + nick
+  helloText.value = hello[Math.floor(Math.random() * hello.length)] + '，' + nick
   return true
 }
 

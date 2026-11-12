@@ -146,8 +146,7 @@ export const jumpRedirect = (html, themeConfig, isDom = false) => {
     // 排除的 className
     const excludeClass = themeConfig.jumpRedirect.exclude || []
     if (isDom) {
-      if (typeof window === 'undefined' || typeof document === 'undefined')
-        return false
+      if (typeof window === 'undefined' || typeof document === 'undefined') return false
       // 所有链接
       const allLinks = [...document.getElementsByTagName('a')]
       if (allLinks?.length === 0) return false
@@ -155,18 +154,12 @@ export const jumpRedirect = (html, themeConfig, isDom = false) => {
         // 检查链接是否包含 target="_blank" 属性
         if (link.getAttribute('target') === '_blank') {
           // 检查链接是否包含排除的类
-          if (
-            excludeClass.some((className) => link.classList.contains(className))
-          ) {
+          if (excludeClass.some((className) => link.classList.contains(className))) {
             return false
           }
           const linkHref = link.getAttribute('href')
           // 只处理中转到外部站点的链接，避免误伤站内新窗口链接
-          if (
-            linkHref &&
-            isExternalLink(linkHref, baseUrl) &&
-            !linkHref.includes(redirectPage)
-          ) {
+          if (linkHref && isExternalLink(linkHref, baseUrl) && !linkHref.includes(redirectPage)) {
             const redirectLink = createRedirectHref(linkHref)
             // 保存原始链接
             link.setAttribute('original-href', linkHref)
@@ -182,14 +175,9 @@ export const jumpRedirect = (html, themeConfig, isDom = false) => {
         const $a = $(el)
         const href = $a.attr('href')
         const classes = ($a.attr('class') || '').split(/\s+/)
-        if (excludeClass.some((className) => classes.includes(className)))
-          return
+        if (excludeClass.some((className) => classes.includes(className))) return
         // 只处理中转到外部站点的链接，避免误伤站内新窗口链接
-        if (
-          !href ||
-          !isExternalLink(href, baseUrl) ||
-          href.includes(redirectPage)
-        ) {
+        if (!href || !isExternalLink(href, baseUrl) || href.includes(redirectPage)) {
           return
         }
         $a.attr('original-href', href)

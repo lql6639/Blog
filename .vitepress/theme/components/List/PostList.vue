@@ -57,9 +57,7 @@
               {{ tags }}
             </a>
           </div>
-          <span class="post-time">{{
-            formatTimestampAt(item?.date, now)
-          }}</span>
+          <span class="post-time">{{ formatTimestampAt(item?.date, now) }}</span>
         </div>
       </div>
     </div>

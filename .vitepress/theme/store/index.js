@@ -3,8 +3,7 @@ import cursorInit from '@/utils/cursor.js'
 
 let appCursorInstance
 const isMobile =
-  typeof navigator !== 'undefined' &&
-  /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+  typeof navigator !== 'undefined' && /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
 
 export const mainStore = defineStore('main', {
   state: () => {
@@ -135,14 +134,11 @@ export const mainStore = defineStore('main', {
 
     // 新增方法：更新实际生效的主题值并设置CSS变量
     updateActualThemeValue() {
-      if (typeof window === 'undefined' || typeof document === 'undefined')
-        return // 确保在客户端
+      if (typeof window === 'undefined' || typeof document === 'undefined') return // 确保在客户端
 
       let actualTheme
       if (this.themeType === 'auto') {
-        const prefersDarkMode = window.matchMedia(
-          '(prefers-color-scheme: dark)'
-        ).matches
+        const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
         actualTheme = prefersDarkMode ? 'dark' : 'light'
       } else {
         actualTheme = this.themeType

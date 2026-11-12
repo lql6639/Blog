@@ -46,9 +46,7 @@ const normalizeSitemapUrl = (url) => {
   const trimmed = pathname.replace(/\/+$/, '')
   return trimmed === '' ? '/' : trimmed
 }
-const REDIRECT_PAGE_URLS = new Set(
-  ['/page', '/page/1', '/pages'].map(normalizeSitemapUrl)
-)
+const REDIRECT_PAGE_URLS = new Set(['/page', '/page/1', '/pages'].map(normalizeSitemapUrl))
 
 // 确定性兜底：从产物 sitemap.xml 中按 <loc> 路径剔除跳转壳。
 // 幂等——若 URL 已不存在则原样返回。防 VitePress 版本行为变化。
@@ -66,9 +64,7 @@ const removeRedirectPagesFromSitemap = (outDir) => {
   })
   if (removed.length === 0) return
   fs.writeFileSync(sitemapPath, filtered, 'utf-8')
-  console.log(
-    `[sitemap] 已从 sitemap 剔除 ${removed.length} 个跳转页: ${removed.join(', ')}`
-  )
+  console.log(`[sitemap] 已从 sitemap 剔除 ${removed.length} 个跳转页: ${removed.join(', ')}`)
 }
 
 // https://vitepress.dev/reference/site-config
@@ -105,9 +101,7 @@ export default withPwa(
       hostname: themeConfig.siteMeta.site,
       // 跳转壳不进 sitemap：收录它们只会让搜索引擎看到重复/无效入口。
       transformItems: (items) =>
-        items.filter(
-          (item) => !REDIRECT_PAGE_URLS.has(normalizeSitemapUrl(item.url))
-        )
+        items.filter((item) => !REDIRECT_PAGE_URLS.has(normalizeSitemapUrl(item.url)))
     },
     // 主题配置
     themeConfig: {
@@ -132,20 +126,13 @@ export default withPwa(
     // 仓库内部文件（说明 / 审计 / 分析等），绝不发布到站点：
     // 它们既会生成页面、被 sitemap 收录，其中的 (LICENSE) 这类仓库相对链接
     // 也会被 VitePress 当作页面死链，直接导致 build 失败。
-    srcExclude: [
-      '**/README.md',
-      '**/READMEE.md',
-      '**/TODO.md',
-      '_*.md',
-      '**/_*.md'
-    ],
+    srcExclude: ['**/README.md', '**/READMEE.md', '**/TODO.md', '_*.md', '**/_*.md'],
     // transformPageData
     transformPageData: async (pageData) => {
       // canonical URL
-      const canonicalUrl =
-        `${themeConfig.siteMeta.site}/${pageData.relativePath}`
-          .replace(/index\.md$/, '')
-          .replace(/\.md$/, '')
+      const canonicalUrl = `${themeConfig.siteMeta.site}/${pageData.relativePath}`
+        .replace(/index\.md$/, '')
+        .replace(/\.md$/, '')
       // ⚠️ 这里不能简单 `head.push(...)`：
       // gray-matter 以「文件内容字符串」为键缓存解析结果，内容完全相同的多个 .md
       // 会**共享同一个 frontmatter 对象与 head 数组**（实测 `matter(same).data === matter(same).data`
@@ -166,8 +153,7 @@ export default withPwa(
       // 注意：这里不修改共享数组本身（改它会污染其它页面），只替换本页的引用。
       const existingHead = Array.isArray(pageData.frontmatter.head)
         ? pageData.frontmatter.head.filter(
-            ([tag, attrs]) =>
-              tag === 'meta' && attrs?.['http-equiv'] === 'refresh'
+            ([tag, attrs]) => tag === 'meta' && attrs?.['http-equiv'] === 'refresh'
           )
         : []
       pageData.frontmatter.head = [
@@ -255,8 +241,7 @@ export default withPwa(
             }
           },
           {
-            urlPattern:
-              /(.*?)\.(ico|webp|png|jpe?g|svg|gif|bmp|psd|tiff|tga|eps)/,
+            urlPattern: /(.*?)\.(ico|webp|png|jpe?g|svg|gif|bmp|psd|tiff|tga|eps)/,
             handler: 'CacheFirst',
             options: {
               cacheName: 'image-cache'

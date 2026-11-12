@@ -36,8 +36,7 @@ export const themeConfig = {
         'meta',
         {
           'http-equiv': 'Onion-Location',
-          content:
-            'chiyubknkdlzx4mjmiuu64sqaez2rxj3ae2weypybpkxpodpx3etsiqd.onion'
+          content: 'chiyubknkdlzx4mjmiuu64sqaez2rxj3ae2weypybpkxpodpx3etsiqd.onion'
         }
       ],
       // favicon
@@ -99,7 +98,7 @@ export const themeConfig = {
     {
       text: '我的',
       items: [
-        { text: '心情树洞', link: '/pages/wishes', icon: 'light' },
+        { text: '心愿树洞', link: '/pages/wishes', icon: 'git' },
         { text: '关于本站', link: '/pages/about', icon: 'contacts' }
       ]
     }

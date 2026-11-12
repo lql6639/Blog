@@ -1,10 +1,7 @@
 <template>
   <Teleport to="body">
     <!-- 站点背景 -->
-    <div
-      v-if="backgroundType !== 'close'"
-      :class="['background', backgroundType, themeValue]"
-    >
+    <div v-if="backgroundType !== 'close'" :class="['background', backgroundType, themeValue]">
       <img
         v-if="backgroundType === 'image'"
         :src="backgroundUrl"

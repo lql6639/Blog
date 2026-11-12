@@ -1,17 +1,11 @@
 <template>
   <Transition name="fade" mode="out-in">
     <div v-if="listData?.length" class="link-list">
-      <div
-        v-for="(type, index) in listData"
-        :key="index"
-        class="link-type-list"
-      >
+      <div v-for="(type, index) in listData" :key="index" class="link-type-list">
         <div class="title">
           <h2 class="name">
             <span class="name-text">{{ type?.typeName || '未知分组' }}</span>
-            <span v-if="showCount" class="name-count"
-              >（{{ type?.typeList?.length || 0 }}）</span
-            >
+            <span v-if="showCount" class="name-count">（{{ type?.typeList?.length || 0 }}）</span>
           </h2>
           <span class="tip">{{ type?.typeDesc || '分组暂无简介' }}</span>
         </div>
@@ -34,19 +28,14 @@
               <LazyLoader :useFriendsLink="link.avatar || link.ico">
                 <img
                   :src="link.avatar || link.ico"
-                  :class="[
-                    'cover-img',
-                    { 'cf-friends-avatar': useFriendsLink }
-                  ]"
+                  :class="['cover-img', { 'cf-friends-avatar': useFriendsLink }]"
                   :alt="link?.name || 'cover'"
                   @load="(e) => e.target.classList.add('loaded')"
                 />
               </LazyLoader>
             </div>
             <div class="data">
-              <span :class="['name', { 'cf-friends-name': useFriendsLink }]">{{
-                link.name
-              }}</span>
+              <span :class="['name', { 'cf-friends-name': useFriendsLink }]">{{ link.name }}</span>
               <span class="desc">{{ link.desc }}</span>
             </div>
           </a>

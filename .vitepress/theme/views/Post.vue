@@ -36,12 +36,7 @@
         </span>
         <span class="update meta">
           <i class="iconfont icon-time" />
-          {{
-            formatTimestampAt(
-              page?.lastUpdated || postMetaData.lastModified,
-              now
-            )
-          }}
+          {{ formatTimestampAt(page?.lastUpdated || postMetaData.lastModified, now) }}
         </span>
         <!-- 热度 -->
         <span class="hot meta">
@@ -67,10 +62,7 @@
     <div v-else class="post-content">
       <article class="post-article s-card">
         <!-- 过期提醒 -->
-        <div
-          class="expired s-card"
-          v-if="expiredDays !== null && expiredDays >= 180"
-        >
+        <div class="expired s-card" v-if="expiredDays !== null && expiredDays >= 180">
           本文发表于
           <strong>{{ expiredDays }}</strong> 天前，其中的信息可能已经事过境迁
         </div>
@@ -81,10 +73,7 @@
         <!-- 参考资料 -->
         <References />
         <!-- 版权 -->
-        <Copyright
-          v-if="frontmatter.copyright !== false"
-          :postData="postMetaData"
-        />
+        <Copyright v-if="frontmatter.copyright !== false" :postData="postMetaData" />
         <!-- 其他信息 -->
         <div class="other-meta">
           <div class="all-tags">
@@ -123,11 +112,7 @@
 
 <script setup>
 import { generateId } from '@/utils/commonTools'
-import {
-  daysPassedAt,
-  formatTimestampAt,
-  useClientNow
-} from '@/utils/useClientNow.mjs'
+import { daysPassedAt, formatTimestampAt, useClientNow } from '@/utils/useClientNow.mjs'
 import initFancybox from '@/utils/initFancybox'
 import { ensureCodeFontLoaded } from '@/utils/fontLoader.mjs'
 import { useDesktopAside } from '@/utils/useDesktopAside.mjs'
@@ -183,9 +168,7 @@ const postMetaData = computed(() => {
 })
 
 // 文章发表至今的天数（仅客户端计算）
-const expiredDays = computed(() =>
-  daysPassedAt(postMetaData.value?.date, now.value)
-)
+const expiredDays = computed(() => daysPassedAt(postMetaData.value?.date, now.value))
 
 // 密码保护相关
 const hasPassword = computed(() => !!frontmatter.value.password)
@@ -194,9 +177,7 @@ const isUnlocked = ref(false)
 // 检查是否已解锁
 const checkUnlocked = () => {
   if (typeof window === 'undefined') return false
-  const unlockedPosts = JSON.parse(
-    localStorage.getItem('unlockedPosts') || '{}'
-  )
+  const unlockedPosts = JSON.parse(localStorage.getItem('unlockedPosts') || '{}')
   return unlockedPosts[postId.value] === true
 }
 

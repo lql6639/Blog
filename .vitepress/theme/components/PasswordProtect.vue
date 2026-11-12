@@ -43,9 +43,7 @@ const errorMessage = ref('')
 // 检查是否已解锁
 const checkUnlocked = () => {
   if (typeof window === 'undefined') return false
-  const unlockedPosts = JSON.parse(
-    localStorage.getItem('unlockedPosts') || '{}'
-  )
+  const unlockedPosts = JSON.parse(localStorage.getItem('unlockedPosts') || '{}')
   return unlockedPosts[props.postId] === true
 }
 
@@ -55,9 +53,7 @@ const verifyPassword = () => {
   // 将密码转为字符串比较，因为 frontmatter 中的数字密码会被解析为 Number 类型
   if (inputPassword.value === String(props.password)) {
     // 保存解锁状态到 localStorage
-    const unlockedPosts = JSON.parse(
-      localStorage.getItem('unlockedPosts') || '{}'
-    )
+    const unlockedPosts = JSON.parse(localStorage.getItem('unlockedPosts') || '{}')
     unlockedPosts[props.postId] = true
     localStorage.setItem('unlockedPosts', JSON.stringify(unlockedPosts))
     emit('unlocked')

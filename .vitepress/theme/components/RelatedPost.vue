@@ -6,9 +6,7 @@
         <i class="iconfont icon-star"></i>
         相关推荐
       </span>
-      <span class="shuffle" @click="router.go(shufflePost(postData))">
-        随便逛逛
-      </span>
+      <span class="shuffle" @click="router.go(shufflePost(postData))"> 随便逛逛 </span>
     </div>
     <!-- 文章列表 -->
     <PostList :listData="relatedData" simple />

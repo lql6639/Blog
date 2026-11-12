@@ -4,17 +4,11 @@
     <Transition name="fade" mode="out-in">
       <div v-show="store.mobileMenuShow" class="mobile-menu">
         <!-- 背景遮罩 -->
-        <div
-          class="menu-mask"
-          @click="store.changeShowStatus('mobileMenuShow')"
-        />
+        <div class="menu-mask" @click="store.changeShowStatus('mobileMenuShow')" />
         <Transition name="toLeft" mode="out-in">
           <div v-show="store.mobileMenuShow" class="menu-content s-card">
             <!-- 关闭按钮 -->
-            <div
-              class="close-control"
-              @click="store.changeShowStatus('mobileMenuShow')"
-            >
+            <div class="close-control" @click="store.changeShowStatus('mobileMenuShow')">
               <i class="iconfont icon-close"></i>
             </div>
             <!-- 菜单 -->
@@ -28,10 +22,7 @@
                     class="link-child-btn"
                     @click="pageJump(child.link)"
                   >
-                    <i
-                      v-if="child.icon"
-                      :class="`iconfont icon-${child.icon}`"
-                    />
+                    <i v-if="child.icon" :class="`iconfont icon-${child.icon}`" />
                     <span class="name">{{ child.text }}</span>
                   </div>
                 </div>

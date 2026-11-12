@@ -1,7 +1,4 @@
-import {
-  getAllPosts,
-  getAllCategories
-} from '../../../../.vitepress/theme/utils/getPostData.mjs'
+import { getAllPosts, getAllCategories } from '../../../../.vitepress/theme/utils/getPostData.mjs'
 import { getThemeConfig } from '../../../../.vitepress/init.mjs'
 
 const categoriesData = getAllCategories(await getAllPosts())

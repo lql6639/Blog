@@ -3,8 +3,7 @@ const FONT_STYLESHEET_MAP = {
   vsans: 'https://cdn.jsdmirror.com/gh/CYYYY5/chiyupic@main/fonts/vivosans.css',
   hmos: 'https://s1.hdslb.com/bfs/static/jinkela/long/font/regular.css',
   xlfont: 'https://cdn.jsdmirror.com/gh/CYYYY5/chiyupic@main/fonts/xiaolai.css',
-  firaCode:
-    'https://use.sevencdn.com/css2?family=Fira+Code:wght@300..700&display=swap'
+  firaCode: 'https://use.sevencdn.com/css2?family=Fira+Code:wght@300..700&display=swap'
 }
 
 const FONT_FAMILY_MAP = {

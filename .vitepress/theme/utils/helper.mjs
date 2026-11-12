@@ -7,12 +7,10 @@ import { throttle } from 'lodash-es'
 export const calculateScroll = throttle(
   () => {
     try {
-      if (typeof window === 'undefined' || typeof document === 'undefined')
-        return false
+      if (typeof window === 'undefined' || typeof document === 'undefined') return false
       const store = mainStore()
       const scrollY = window.scrollY || window.pageYOffset
-      const totalHeight =
-        document.documentElement.scrollHeight - window.innerHeight
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight
       const scrollPercentage = ((scrollY / totalHeight) * 100).toFixed(0)
       // 判断滚动方向
       const scrollDirection = scrollY > store.scrollData.height ? 'down' : 'up'

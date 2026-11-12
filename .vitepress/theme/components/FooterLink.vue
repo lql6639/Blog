@@ -30,11 +30,7 @@
       </a>
     </div>
     <div class="footer-sitemap">
-      <div
-        v-for="(item, index) in footer.sitemap"
-        :key="index"
-        class="sitemap-item"
-      >
+      <div v-for="(item, index) in footer.sitemap" :key="index" class="sitemap-item">
         <span class="title">{{ item.text }}</span>
         <div class="links">
           <a
@@ -111,9 +107,7 @@ const badgeConfig = computed(() => footer.badges ?? {})
 
 // 技术徽标数据，优先读取配置，未配置时回退到默认值
 const techBadges = computed(() => {
-  const badgeItems = Array.isArray(badgeConfig.value)
-    ? badgeConfig.value
-    : badgeConfig.value.items
+  const badgeItems = Array.isArray(badgeConfig.value) ? badgeConfig.value : badgeConfig.value.items
 
   const normalizedBadges = (badgeItems ?? defaultTechBadges).filter((badge) => {
     return badge && badge.show !== false

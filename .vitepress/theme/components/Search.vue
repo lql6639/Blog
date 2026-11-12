@@ -24,12 +24,7 @@
           spellcheck="false"
           @keydown="onKeydown"
         />
-        <i
-          v-if="keyword"
-          class="iconfont icon-close clear"
-          title="清空"
-          @click="keyword = ''"
-        />
+        <i v-if="keyword" class="iconfont icon-close clear" title="清空" @click="keyword = ''" />
       </div>
 
       <!-- 结果 -->
@@ -37,12 +32,7 @@
         <div
           v-for="(item, index) in results"
           :key="item.path"
-          :class="[
-            'search-item',
-            's-card',
-            'hover',
-            { active: index === activeIndex }
-          ]"
+          :class="['search-item', 's-card', 'hover', { active: index === activeIndex }]"
           @mouseenter="activeIndex = index"
           @click="jump(item)"
         >
@@ -52,22 +42,14 @@
           </div>
           <p v-if="item.snippet" class="snippet" v-html="item.snippet" />
           <div v-if="item.chips.length" class="chips">
-            <span v-for="chip in item.chips" :key="chip" class="chip">
-              # {{ chip }}
-            </span>
+            <span v-for="chip in item.chips" :key="chip" class="chip"> # {{ chip }} </span>
           </div>
         </div>
 
         <div v-if="!results.length" class="no-result">
           <i class="iconfont icon-search" />
           <span class="text">
-            {{
-              loading
-                ? '正在载入索引…'
-                : keyword
-                  ? '没有找到相关文章'
-                  : '暂无文章'
-            }}
+            {{ loading ? '正在载入索引…' : keyword ? '没有找到相关文章' : '暂无文章' }}
           </span>
         </div>
       </div>
@@ -103,9 +85,7 @@ let indexPromise = null
 
 const placeholder = '搜索标题、标签或正文…'
 
-const footerText = computed(() =>
-  keyword.value.trim() ? `找到 ${total.value} 篇` : '最近文章'
-)
+const footerText = computed(() => (keyword.value.trim() ? `找到 ${total.value} 篇` : '最近文章'))
 
 // 懒加载全文索引；失败时静默回退到文章元数据
 const loadIndex = () => {
@@ -146,14 +126,10 @@ const metaSource = computed(() =>
   }))
 )
 
-const source = computed(() =>
-  indexData.value.length ? indexData.value : metaSource.value
-)
+const source = computed(() => (indexData.value.length ? indexData.value : metaSource.value))
 
 // 关键词分词（空格分隔；中文整句视为一个词）
-const tokens = computed(() =>
-  keyword.value.trim().toLowerCase().split(/\s+/).filter(Boolean)
-)
+const tokens = computed(() => keyword.value.trim().toLowerCase().split(/\s+/).filter(Boolean))
 
 const escapeHtml = (str) =>
   String(str ?? '').replace(
@@ -239,9 +215,7 @@ const matched = computed(() => {
     hits.push({ post, score })
   }
 
-  hits.sort(
-    (a, b) => b.score - a.score || (b.post.date || 0) - (a.post.date || 0)
-  )
+  hits.sort((a, b) => b.score - a.score || (b.post.date || 0) - (a.post.date || 0))
   return hits.slice(0, MAX_RESULT)
 })
 
@@ -251,9 +225,7 @@ const results = computed(() =>
   matched.value.map(({ post }) => ({
     path: post.path,
     titleHtml: highlight(post.title || '未命名文章'),
-    snippet: tokens.value.length
-      ? buildSnippet(post.text || post.description || '')
-      : '',
+    snippet: tokens.value.length ? buildSnippet(post.text || post.description || '') : '',
     chips: [...(post.categories || []), ...(post.tags || [])].slice(0, 3),
     dateText: formatDate(post.date)
   }))

@@ -80,18 +80,14 @@ async function initPlayer() {
 onMounted(() => {
   if (!('IntersectionObserver' in window)) {
     // initPlayer 是 async：不接错误处理会在 HLS.js 加载失败时产生未处理的 rejection
-    initPlayer().catch((error) =>
-      console.error('HLS 播放器初始化失败：', error)
-    )
+    initPlayer().catch((error) => console.error('HLS 播放器初始化失败：', error))
     return
   }
   observer = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
         if (entry.isIntersecting) {
-          initPlayer().catch((error) =>
-            console.error('HLS 播放器初始化失败：', error)
-          )
+          initPlayer().catch((error) => console.error('HLS 播放器初始化失败：', error))
           observer.disconnect()
           break
         }

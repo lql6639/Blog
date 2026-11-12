@@ -18,11 +18,7 @@
               <span class="title-text">{{ title }}</span>
             </div>
             <!-- 关闭按钮 -->
-            <i
-              v-if="showClose"
-              class="iconfont icon-close close"
-              @click="modalClose"
-            />
+            <i v-if="showClose" class="iconfont icon-close close" @click="modalClose" />
           </div>
           <!-- 弹窗内容 -->
           <div class="modal-content" :style="{ '--height': maxHeight + 'vh' }">

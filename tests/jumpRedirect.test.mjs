@@ -84,7 +84,5 @@ test('排除类名与已中转链接不会被二次改写', () => {
 test('exclude 缺省时仍可正常工作', () => {
   const html = '<a target="_blank" href="https://example.com/">外链</a>'
   const cfg = { siteMeta: { site: SITE }, jumpRedirect: { enable: true } }
-  assert.ok(
-    hrefsOf(jumpRedirect(html, cfg))[0].startsWith('/redirect.html?url=')
-  )
+  assert.ok(hrefsOf(jumpRedirect(html, cfg))[0].startsWith('/redirect.html?url='))
 })

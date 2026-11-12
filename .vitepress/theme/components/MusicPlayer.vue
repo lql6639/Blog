@@ -23,17 +23,8 @@
             class="cover-img"
           />
           <div v-else class="cover-placeholder">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-            >
-              <path
-                d="M9 18V5l12-2v13"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M9 18V5l12-2v13" stroke-linecap="round" stroke-linejoin="round" />
               <circle cx="6" cy="18" r="3" />
               <circle cx="18" cy="16" r="3" />
             </svg>
@@ -46,12 +37,8 @@
         <!-- 头部信息 -->
         <div class="info-header">
           <div class="track-info">
-            <span class="track-title">{{
-              currentTrack.title || '未知曲目'
-            }}</span>
-            <span class="track-artist">{{
-              currentTrack.artist || '未知艺术家'
-            }}</span>
+            <span class="track-title">{{ currentTrack.title || '未知曲目' }}</span>
+            <span class="track-artist">{{ currentTrack.artist || '未知艺术家' }}</span>
           </div>
         </div>
 
@@ -60,35 +47,21 @@
             <div v-if="showLyricsMode" key="lyrics" class="lyrics-display">
               <transition name="lyric-fade" mode="out-in">
                 <div :key="currentLyricKey" class="lyric-lines">
-                  <div
-                    v-for="(line, idx) in currentLyricLines"
-                    :key="idx"
-                    class="lyric-line"
-                  >
+                  <div v-for="(line, idx) in currentLyricLines" :key="idx" class="lyric-line">
                     {{ line }}
                   </div>
                 </div>
               </transition>
             </div>
-            <div
-              v-else
-              key="stacked-progress"
-              class="progress-wrapper progress-wrapper-slot"
-            >
+            <div v-else key="stacked-progress" class="progress-wrapper progress-wrapper-slot">
               <div
                 class="progress-bar"
                 ref="progressRef"
                 @mousedown="onProgressMouseDown"
                 @touchstart.prevent="onProgressTouchStart"
               >
-                <div
-                  class="progress-buffered"
-                  :style="{ width: bufferedPercent + '%' }"
-                ></div>
-                <div
-                  class="progress-played"
-                  :style="{ width: progressPercent + '%' }"
-                >
+                <div class="progress-buffered" :style="{ width: bufferedPercent + '%' }"></div>
+                <div class="progress-played" :style="{ width: progressPercent + '%' }">
                   <div class="progress-thumb"></div>
                 </div>
               </div>
@@ -110,14 +83,8 @@
                 @mousedown="onProgressMouseDown"
                 @touchstart.prevent="onProgressTouchStart"
               >
-                <div
-                  class="progress-buffered"
-                  :style="{ width: bufferedPercent + '%' }"
-                ></div>
-                <div
-                  class="progress-played"
-                  :style="{ width: progressPercent + '%' }"
-                >
+                <div class="progress-buffered" :style="{ width: bufferedPercent + '%' }"></div>
+                <div class="progress-played" :style="{ width: progressPercent + '%' }">
                   <div class="progress-thumb"></div>
                 </div>
               </div>
@@ -132,28 +99,14 @@
           <div class="controls">
             <div class="controls-left">
               <!-- 上一首 -->
-              <button
-                v-if="playlist.length > 1"
-                class="ctrl-btn"
-                @click="prevTrack"
-                title="上一首"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  width="16"
-                  height="16"
-                >
+              <button v-if="playlist.length > 1" class="ctrl-btn" @click="prevTrack" title="上一首">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
                   <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" />
                 </svg>
               </button>
 
               <!-- 播放/暂停 -->
-              <button
-                class="ctrl-btn play-btn"
-                @click="togglePlay"
-                title="播放/暂停"
-              >
+              <button class="ctrl-btn play-btn" @click="togglePlay" title="播放/暂停">
                 <svg
                   v-if="!isPlaying"
                   viewBox="0 0 24 24"
@@ -163,30 +116,14 @@
                 >
                   <path d="M8 5v14l11-7z" />
                 </svg>
-                <svg
-                  v-else
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  width="20"
-                  height="20"
-                >
+                <svg v-else viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
                   <path d="M6 4h4v16H6zM14 4h4v16h-4z" />
                 </svg>
               </button>
 
               <!-- 下一首 -->
-              <button
-                v-if="playlist.length > 1"
-                class="ctrl-btn"
-                @click="nextTrack"
-                title="下一首"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  width="16"
-                  height="16"
-                >
+              <button v-if="playlist.length > 1" class="ctrl-btn" @click="nextTrack" title="下一首">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
                   <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
                 </svg>
               </button>
@@ -202,14 +139,8 @@
                   @mousedown="onProgressMouseDown"
                   @touchstart.prevent="onProgressTouchStart"
                 >
-                  <div
-                    class="progress-buffered"
-                    :style="{ width: bufferedPercent + '%' }"
-                  ></div>
-                  <div
-                    class="progress-played"
-                    :style="{ width: progressPercent + '%' }"
-                  >
+                  <div class="progress-buffered" :style="{ width: bufferedPercent + '%' }"></div>
+                  <div class="progress-played" :style="{ width: progressPercent + '%' }">
                     <div class="progress-thumb"></div>
                   </div>
                 </div>
@@ -243,13 +174,7 @@
                       d="M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5z"
                     />
                   </svg>
-                  <svg
-                    v-else
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    width="16"
-                    height="16"
-                  >
+                  <svg v-else viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
                     <path
                       d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"
                     />
@@ -276,12 +201,7 @@
                 @click="showPlaylist = !showPlaylist"
                 title="播放列表"
               >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  width="16"
-                  height="16"
-                >
+                <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
                   <path
                     d="M15 6H3v2h12V6zm0 4H3v2h12v-2zM3 16h8v-2H3v2zM17 6v8.18c-.31-.11-.65-.18-1-.18-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3V8h3V6h-5z"
                   />
@@ -323,12 +243,8 @@
               </svg>
             </div>
             <div class="playlist-item-info">
-              <span class="playlist-item-title">{{
-                track.title || '未知曲目'
-              }}</span>
-              <span class="playlist-item-artist">{{
-                track.artist || '未知艺术家'
-              }}</span>
+              <span class="playlist-item-title">{{ track.title || '未知曲目' }}</span>
+              <span class="playlist-item-artist">{{ track.artist || '未知艺术家' }}</span>
             </div>
           </div>
         </div>
@@ -406,9 +322,7 @@ const parseLrc = (text) => {
           let time = 0
           time += parseInt(match[1], 10) * 60
           time += parseInt(match[2], 10)
-          time += match[3]
-            ? parseInt(match[3], 10) / (match[3].length === 3 ? 1000 : 100)
-            : 0
+          time += match[3] ? parseInt(match[3], 10) / (match[3].length === 3 ? 1000 : 100) : 0
 
           if (!timeMap.has(time)) {
             timeMap.set(time, [])
@@ -454,8 +368,7 @@ const loadEmbeddedCover = async (src) => {
 
   try {
     let jsmediatagsMod = await import('jsmediatags/dist/jsmediatags.min.js')
-    const jsmediatags =
-      jsmediatagsMod.default || jsmediatagsMod || window.jsmediatags
+    const jsmediatags = jsmediatagsMod.default || jsmediatagsMod || window.jsmediatags
     if (!jsmediatags || !jsmediatags.read) return
 
     jsmediatags.read(src, {
@@ -466,8 +379,7 @@ const loadEmbeddedCover = async (src) => {
           for (let i = 0; i < picture.data.length; i++) {
             base64String += String.fromCharCode(picture.data[i])
           }
-          embeddedCover.value =
-            'data:' + picture.format + ';base64,' + window.btoa(base64String)
+          embeddedCover.value = 'data:' + picture.format + ';base64,' + window.btoa(base64String)
         }
       },
       onError: (error) => {
@@ -512,9 +424,7 @@ const currentTrack = computed(() => {
 
 // 是否有歌词
 const hasLyrics = computed(() => parsedLyrics.value.length > 0)
-const showLyricsMode = computed(
-  () => hasLyrics.value && hasStartedPlayback.value
-)
+const showLyricsMode = computed(() => hasLyrics.value && hasStartedPlayback.value)
 
 watch(
   () => currentTrack.value.src,
@@ -592,8 +502,7 @@ const playTrack = (index) => {
 
 const prevTrack = () => {
   if (playlist.value.length <= 1) return
-  currentIndex.value =
-    (currentIndex.value - 1 + playlist.value.length) % playlist.value.length
+  currentIndex.value = (currentIndex.value - 1 + playlist.value.length) % playlist.value.length
   nextTick(() => {
     if (audioRef.value) {
       audioRef.value.load()
@@ -702,11 +611,7 @@ const onAudioPause = () => {
 }
 
 const onDurationChange = () => {
-  if (
-    audioRef.value &&
-    !isNaN(audioRef.value.duration) &&
-    audioRef.value.duration !== Infinity
-  ) {
+  if (audioRef.value && !isNaN(audioRef.value.duration) && audioRef.value.duration !== Infinity) {
     duration.value = audioRef.value.duration
   }
 }
@@ -722,9 +627,7 @@ const onEnded = () => {
 
 const onProgress = () => {
   if (audioRef.value && audioRef.value.buffered.length > 0) {
-    const buffered = audioRef.value.buffered.end(
-      audioRef.value.buffered.length - 1
-    )
+    const buffered = audioRef.value.buffered.end(audioRef.value.buffered.length - 1)
     bufferedPercent.value = (buffered / duration.value) * 100
   }
 }
@@ -823,11 +726,7 @@ onBeforeUnmount(() => {
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(
-        135deg,
-        var(--main-color) 0%,
-        var(--main-card-border) 100%
-      );
+      background: linear-gradient(135deg, var(--main-color) 0%, var(--main-card-border) 100%);
       color: var(--main-card-background);
       padding: 20px;
 

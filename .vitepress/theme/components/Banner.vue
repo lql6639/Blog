@@ -1,10 +1,5 @@
 <template>
-  <div
-    v-if="type === 'text'"
-    ref="bannerRoot"
-    :class="['banner', bannerType]"
-    id="main-banner"
-  >
+  <div v-if="type === 'text'" ref="bannerRoot" :class="['banner', bannerType]" id="main-banner">
     <h1 class="title-lockup" :aria-label="`${titleEn} ${cnText}`">
       <span class="title-stage">
         <span class="title-py" ref="titlePy" aria-hidden="true">
@@ -17,22 +12,11 @@
           >
           <span class="py-morph" ref="morphWrap">
             <span class="morph-log" ref="morphLog">
-              <span
-                class="py-char log-fade"
-                :style="{ '--i': String(logIndex) }"
-                >L</span
-              >
-              <span
-                class="py-char o-morph"
-                :style="{ '--i': String(logIndex + 1) }"
-              >
+              <span class="py-char log-fade" :style="{ '--i': String(logIndex) }">L</span>
+              <span class="py-char o-morph" :style="{ '--i': String(logIndex + 1) }">
                 <span class="o-glyph">o</span>
               </span>
-              <span
-                class="py-char g-fade"
-                :style="{ '--i': String(logIndex + 2) }"
-                >g</span
-              >
+              <span class="py-char g-fade" :style="{ '--i': String(logIndex + 2) }">g</span>
             </span>
             <span class="morph-note" ref="morphNote">Note</span>
           </span>
@@ -59,11 +43,7 @@
               stroke-linejoin="round"
               aria-hidden="true"
             >
-              <path
-                v-for="(path, pathIndex) in icon"
-                :key="pathIndex"
-                :d="path"
-              />
+              <path v-for="(path, pathIndex) in icon" :key="pathIndex" :d="path" />
             </svg>
           </span>
         </span>
@@ -99,11 +79,7 @@
       </Transition>
     </div>
     <Transition name="fade" mode="out-in">
-      <i
-        v-if="height === 'full'"
-        class="iconfont icon-up"
-        @click="scrollToHome"
-      />
+      <i v-if="height === 'full'" class="iconfont icon-up" @click="scrollToHome" />
     </Transition>
   </div>
   <div
@@ -178,8 +154,7 @@ function setMorphVar(name, value) {
 // 再挂载新页面，隐藏状态下所有尺寸都是 0 —— 一旦把 0 写进 CSS 变量，
 // 标题整行就会塌成一片（这就是“返回首页后动画乱套”的根因），所以这里必须能识别并跳过。
 function measureMorph() {
-  if (!titlePy.value || !morphWrap.value || !morphLog.value || !morphNote.value)
-    return false
+  if (!titlePy.value || !morphWrap.value || !morphLog.value || !morphNote.value) return false
   const pyRect = titlePy.value.getBoundingClientRect()
   if (pyRect.width <= 0) return false
   const morphRect = morphWrap.value.getBoundingClientRect()
@@ -434,11 +409,7 @@ function pauseHitokotoCycle() {
 function handleVisibilityChange() {
   if (document.hidden) {
     pauseHitokotoCycle()
-  } else if (
-    !disableAuto.value &&
-    !autoSwitchActive.value &&
-    !hitokotoInitialTimeout.value
-  ) {
+  } else if (!disableAuto.value && !autoSwitchActive.value && !hitokotoInitialTimeout.value) {
     startHitokotoCycle()
   }
 }
@@ -461,9 +432,7 @@ onMounted(() => {
   if (props.type !== 'text') return
   // 手机端没有英文/胶囊这一段，胶囊的实测宽度也就不需要了
   isMobileViewport = window.matchMedia(MOBILE_QUERY).matches
-  titleAnimMs = isMobileViewport
-    ? MOBILE_TITLE_ANIMATION_MS
-    : TITLE_ANIMATION_MS
+  titleAnimMs = isMobileViewport ? MOBILE_TITLE_ANIMATION_MS : TITLE_ANIMATION_MS
   document.addEventListener('visibilitychange', handleVisibilityChange)
   // 实测 Log / Note 词宽并启动时间线，但都要等标题真正可见（见 observeLayout）
   observeLayout()
@@ -552,8 +521,7 @@ onBeforeUnmount(() => {
     --cover-left: 3.24em;
     --cover-w: 2.43em;
     transform: translateX(-180%);
-    animation: py-exit var(--title-timeline) cubic-bezier(0.55, 0, 0.85, 0.36)
-      both;
+    animation: py-exit var(--title-timeline) cubic-bezier(0.55, 0, 0.85, 0.36) both;
 
     .py-char {
       position: relative;
@@ -591,16 +559,14 @@ onBeforeUnmount(() => {
     // L 在胶囊完全遮盖后悄悄隐去（o 字形由 glyph-hide 负责，胶囊必须存活）
     .log-fade {
       animation:
-        py-char-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--i) * 0.04s)
-          both,
+        py-char-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--i) * 0.04s) both,
         log-fade 0.15s linear 5s both;
     }
 
     // g 从图标期就被胶囊罩住（下伸部会露到胶囊外），所以让它随胶囊显形一起淡掉
     .g-fade {
       animation:
-        py-char-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--i) * 0.04s)
-          both,
+        py-char-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--i) * 0.04s) both,
         log-fade 0.16s linear 1.14s both;
     }
 
@@ -632,11 +598,7 @@ onBeforeUnmount(() => {
       height: 1.12em;
       border-radius: 999px;
       background:
-        linear-gradient(
-          180deg,
-          rgba(255, 255, 255, 0.32),
-          rgba(255, 255, 255, 0) 45%
-        ),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0) 45%),
         linear-gradient(120deg, #a7f3e4 0%, #5eead4 45%, #2dd4bf 100%);
       box-shadow:
         0 0.08em 0.22em rgba(45, 212, 191, 0.26),

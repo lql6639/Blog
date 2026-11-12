@@ -2,9 +2,7 @@
   <Transition name="fade" mode="out-in">
     <div v-if="isLoading" class="loading" @click="dismissLoading">
       <img :src="theme.siteMeta.logo" class="logo" alt="loading-logo" />
-      <span :class="['tip', { show: showTip }]">
-        一直显示？点击任意区域即可关闭
-      </span>
+      <span :class="['tip', { show: showTip }]"> 一直显示？点击任意区域即可关闭 </span>
     </div>
   </Transition>
 </template>

@@ -1,7 +1,4 @@
-import {
-  getAllPosts,
-  getAllType
-} from '../../.vitepress/theme/utils/getPostData.mjs'
+import { getAllPosts, getAllType } from '../../.vitepress/theme/utils/getPostData.mjs'
 
 const postData = await getAllPosts()
 const tagsData = getAllType(postData)

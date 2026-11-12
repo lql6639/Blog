@@ -16,20 +16,14 @@
       <div class="data-item">
         <span class="name"><i class="iconfont icon-fire"></i> 温度</span>
         <span class="num">
-          {{
-            weatherData?.temperature != null
-              ? weatherData.temperature + '℃'
-              : '--'
-          }}
+          {{ weatherData?.temperature != null ? weatherData.temperature + '℃' : '--' }}
         </span>
       </div>
       <!-- 湿度 -->
       <div class="data-item">
         <span class="name"><i class="iconfont icon-visibility"></i> 湿度</span>
         <span class="num">
-          {{
-            weatherData?.humidity != null ? weatherData.humidity + '%' : '--'
-          }}
+          {{ weatherData?.humidity != null ? weatherData.humidity + '%' : '--' }}
         </span>
       </div>
       <!-- 风向 -->

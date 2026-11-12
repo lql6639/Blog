@@ -1,9 +1,5 @@
 <template>
-  <div
-    ref="commentRef"
-    id="comment-dom"
-    :class="['comment-content', 'twikoo', { fill }]"
-  />
+  <div ref="commentRef" id="comment-dom" :class="['comment-content', 'twikoo', { fill }]" />
 </template>
 
 <script setup>

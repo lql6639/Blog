@@ -1,22 +1,14 @@
 <template>
   <Teleport to="body">
     <Transition name="fade" mode="out-in" @before-enter="changeCloseStyle">
-      <div
-        v-if="store.controlShow"
-        class="control"
-        @click="store.changeShowStatus('controlShow')"
-      >
+      <div v-if="store.controlShow" class="control" @click="store.changeShowStatus('controlShow')">
         <div ref="closeControlRef" class="close-control">
           <i class="iconfont icon-close"></i>
         </div>
         <div class="control-mask" />
         <div class="control-content" @click.stop>
           <div class="menu">
-            <div
-              class="menu-item open"
-              title="显示模式切换"
-              @click.stop="store.changeThemeType"
-            >
+            <div class="menu-item open" title="显示模式切换" @click.stop="store.changeThemeType">
               <i :class="`iconfont icon-${store.themeType}`"></i>
             </div>
             <div
@@ -71,9 +63,7 @@ const rightMenuSwitch = () => {
   if (typeof $message !== 'undefined') {
     $message.info(`${store.useRightMenu ? '已开启' : '已关闭'}自定义右键菜单`) //
   } else {
-    console.warn(
-      '$message is not defined. Right-click menu switch message not displayed.'
-    )
+    console.warn('$message is not defined. Right-click menu switch message not displayed.')
   }
 }
 </script>

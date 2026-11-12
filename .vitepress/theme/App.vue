@@ -7,8 +7,10 @@
   <Control />
   <!-- 导航栏 -->
   <Nav />
+  <!-- 心情树洞：整页铺满，只保留顶部导航 -->
+  <Wishes v-if="isWishesPage" />
   <!-- 主内容 -->
-  <main :class="['mian-layout', { loading: isLoading, 'is-post': isPostPage }]">
+  <main v-else :class="['mian-layout', { loading: isLoading, 'is-post': isPostPage }]">
     <!-- 404 -->
     <NotFound v-if="page.isNotFound" />
     <!-- 首页 -->
@@ -22,12 +24,12 @@
     </template>
   </main>
   <!-- 页脚 -->
-  <FooterLink v-show="!isLoading" :showBar="isPostPage && !page.isNotFound" />
-  <Footer v-show="!isLoading" />
+  <FooterLink v-show="!isLoading && !isWishesPage" :showBar="isPostPage && !page.isNotFound" />
+  <Footer v-show="!isLoading && !isWishesPage" />
   <!-- 悬浮菜单 -->
   <Teleport to="body">
     <!-- 左侧菜单 -->
-    <div :class="['left-menu', { hidden: footerIsShow }]">
+    <div v-show="!isWishesPage" :class="['left-menu', { hidden: footerIsShow }]">
       <!-- 全局播放器 -->
       <Player />
       <!-- 全局设置 -->
@@ -52,15 +54,11 @@ import config from '@/../../package.json'
 const route = useRoute()
 const store = mainStore()
 const { frontmatter, page, theme } = useData()
-const {
-  isLoading,
-  footerIsShow,
-  themeValue,
-  themeType,
-  backgroundType,
-  fontFamily,
-  fontSize
-} = storeToRefs(store)
+
+// 心情树洞页：整页铺满，隐藏主内容与页脚
+const isWishesPage = computed(() => frontmatter.value.layout === 'wishes')
+const { isLoading, footerIsShow, themeValue, themeType, backgroundType, fontFamily, fontSize } =
+  storeToRefs(store)
 const { loadPostData } = usePostData()
 let fontSwitchTaskId = 0
 
@@ -121,12 +119,8 @@ const changeSiteThemeType = () => {
   // 添加新的 class
   if (themeType.value === 'auto') {
     // 根据当前操作系统颜色方案更改明暗主题
-    const systemPrefersDark = window.matchMedia(
-      '(prefers-color-scheme: dark)'
-    ).matches
-    const autoThemeClass = systemPrefersDark
-      ? themeClasses.dark
-      : themeClasses.light
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const autoThemeClass = systemPrefersDark ? themeClasses.dark : themeClasses.light
     htmlElement.classList.add(autoThemeClass)
     themeValue.value = autoThemeClass
   } else if (themeClasses[themeType.value]) {
@@ -163,18 +157,13 @@ const styleTitle2 = 'font-size:12px;color: rgb(244,167,89);'
 const styleContent = 'color: rgb(30,152,255);'
 const title1 = 'Lovlin_0206 の Blog'
 const title2 = `
-_  __   ___    _   _____   ___    ____       _
+ _  __   ___    _   _____   ___    ____       _
 | |/ /  / _ \\  (_) |__  |  / _ \\  |  _ \\     / \\
 | ' /  | | | | | |   / /  | | | | | |_) |   / _ \\
 | . \\  | |_| | | |  / /_  | |_| | |  _ <   / ___ \\
 |_|\\_\\  \\___/  |_| |____|  \\___/  |_| \\_\\ /_/   \\_\\`
 const content = `\n\n版本: ${config.version}\nAuthor: ${config.author} & Github: ${config.AuthorGithub}`
-console.info(
-  `%c${title1} %c${title2} %c${content}`,
-  styleTitle1,
-  styleTitle2,
-  styleContent
-)
+console.info(`%c${title1} %c${title2} %c${content}`, styleTitle1, styleTitle2, styleContent)
 
 // 监听设置变化
 watch(
@@ -254,6 +243,11 @@ onBeforeUnmount(() => {
   &.hidden {
     opacity: 0;
     transform: translateY(100px);
+  }
+
+  @media (max-width: 768px) {
+    left: 12px;
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
   }
 }
 </style>

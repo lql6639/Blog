@@ -13,9 +13,7 @@ const lerp = (a, b, n) => {
 const getStyle = (el, attr) => {
   if (typeof window === 'undefined') return false // 在非浏览器环境下直接返回
   try {
-    return window.getComputedStyle
-      ? window.getComputedStyle(el)[attr]
-      : el.currentStyle[attr]
+    return window.getComputedStyle ? window.getComputedStyle(el)[attr] : el.currentStyle[attr]
   } catch (e) {
     console.error(e)
   }
@@ -91,9 +89,7 @@ class Cursor {
 
     let cursorColor
     if (themeType === 'auto') {
-      const prefersDarkMode = window.matchMedia(
-        '(prefers-color-scheme: dark)'
-      ).matches
+      const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
       cursorColor = prefersDarkMode ? 'white' : 'black'
     } else {
       cursorColor = themeType === 'dark' ? 'white' : 'black'

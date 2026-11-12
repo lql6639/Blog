@@ -3,10 +3,7 @@
   <div :class="[frontmatter.layout || 'page', { 'has-aside': showAside }]">
     <div class="page-content">
       <!-- 页面内容 -->
-      <Content
-        id="page-content"
-        :class="['markdown-main-style', { 's-card': frontmatter.card }]"
-      />
+      <Content id="page-content" :class="['markdown-main-style', { 's-card': frontmatter.card }]" />
       <!-- 评论 -->
       <Comments v-if="frontmatter.comment" />
     </div>
@@ -21,9 +18,7 @@ import { useDesktopAside } from '@/utils/useDesktopAside.mjs'
 const { frontmatter } = useData()
 const { isDesktopAsideVisible } = useDesktopAside()
 
-const showAside = computed(
-  () => frontmatter.value.aside && isDesktopAsideVisible.value
-)
+const showAside = computed(() => frontmatter.value.aside && isDesktopAsideVisible.value)
 
 const loadCodeFontIfNeeded = async () => {
   await nextTick()

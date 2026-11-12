@@ -30,9 +30,7 @@ const linksTo = ($, prefix) =>
 
 // cleanUrls 关闭扩展名：/page/2 → page/2.html，/posts/a.html → posts/a.html
 const distFileFor = (href) => {
-  const pathname = decodeURIComponent(
-    new URL(href, 'https://static.test').pathname
-  )
+  const pathname = decodeURIComponent(new URL(href, 'https://static.test').pathname)
   const rel = pathname.replace(/^\/+/, '').replace(/\/+$/, '')
   const base = path.resolve(DIST, rel || 'index')
   if (!base.startsWith(DIST + path.sep)) return undefined
@@ -45,10 +43,7 @@ const assertStaticLinks = ($, prefix, label) => {
   const links = linksTo($, prefix)
   assert.ok(links.length > 0, `${label} 未静态输出任何 ${prefix} 链接`)
   links.forEach((href) => {
-    assert.ok(
-      distFileFor(href),
-      `${label} 的链接 ${href} 在构建产物中找不到对应页面`
-    )
+    assert.ok(distFileFor(href), `${label} 的链接 ${href} 在构建产物中找不到对应页面`)
   })
   return links
 }
@@ -62,10 +57,7 @@ const htmlFilesIn = (dir) =>
     : []
 
 test('构建产物已生成', () => {
-  assert.ok(
-    fs.existsSync(path.join(DIST, 'index.html')),
-    '请先运行 npm run build 再执行测试'
-  )
+  assert.ok(fs.existsSync(path.join(DIST, 'index.html')), '请先运行 npm run build 再执行测试')
 })
 
 test('首页静态输出文章链接与分页入口', () => {
@@ -76,9 +68,7 @@ test('首页静态输出文章链接与分页入口', () => {
 
 test('每个真实分页页都静态输出文章链接，且分页导航可达', () => {
   const pages = htmlFilesIn(path.join(DIST, 'page')).filter(
-    (file) =>
-      /^\d+\.html$/.test(path.basename(file)) &&
-      path.basename(file) !== '1.html'
+    (file) => /^\d+\.html$/.test(path.basename(file)) && path.basename(file) !== '1.html'
   )
   assert.ok(pages.length > 0, '未生成任何真实分页页')
   pages.forEach((file) => {
@@ -97,11 +87,7 @@ test('归档页静态输出完整文章索引', () => {
 })
 
 test('分类总览页与每个分类页都静态可达', () => {
-  assertStaticLinks(
-    readPage('pages/categories.html'),
-    '/pages/categories/',
-    '分类总览'
-  )
+  assertStaticLinks(readPage('pages/categories.html'), '/pages/categories/', '分类总览')
   htmlFilesIn(path.join(DIST, 'pages', 'categories')).forEach((file) => {
     assertStaticLinks(
       load(fs.readFileSync(file, 'utf8')),
@@ -129,9 +115,6 @@ test('分页链路连续：首页页码范围内的每一页都有产物', () =>
   assert.ok(numbers.length > 0, '首页未输出任何分页页码链接')
   const maxPage = Math.max(...numbers)
   for (let page = 2; page <= maxPage; page += 1) {
-    assert.ok(
-      distFileFor(`/page/${page}`),
-      `缺少第 ${page} 页产物，分页链路中断`
-    )
+    assert.ok(distFileFor(`/page/${page}`), `缺少第 ${page} 页产物，分页链路中断`)
   }
 })

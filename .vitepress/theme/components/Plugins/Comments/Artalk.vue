@@ -1,9 +1,5 @@
 <template>
-  <div
-    ref="commentRef"
-    id="comment-dom"
-    :class="['comment-content', 'artalk', { fill }]"
-  />
+  <div ref="commentRef" id="comment-dom" :class="['comment-content', 'artalk', { fill }]" />
 </template>
 
 <script setup>
@@ -108,11 +104,7 @@ onUnmounted(() => {
   --at-color-bg-grey: var(--main-card-border) !important;
   --at-color-bg-grey-transl: var(--main-card-border) !important;
   --at-color-bg-transl: var(--main-card-second-background) !important;
-  --at-color-gradient: linear-gradient(
-    180deg,
-    transparent,
-    var(--main-card-background)
-  ) !important;
+  --at-color-gradient: linear-gradient(180deg, transparent, var(--main-card-background)) !important;
 }
 
 .atk-layer-wrap {

@@ -10,11 +10,7 @@
     :title="`查看服务状态 - ${label}`"
   >
     <div class="status-dot-wrapper">
-      <span
-        v-if="!loading"
-        class="status-dot-ping"
-        :class="`ping--${status}`"
-      />
+      <span v-if="!loading" class="status-dot-ping" :class="`ping--${status}`" />
       <span class="status-dot" :class="dotClass" />
     </div>
 
@@ -32,11 +28,7 @@
     @click="handleRefresh"
   >
     <div class="status-dot-wrapper">
-      <span
-        v-if="!loading"
-        class="status-dot-ping"
-        :class="`ping--${status}`"
-      />
+      <span v-if="!loading" class="status-dot-ping" :class="`ping--${status}`" />
       <span class="status-dot" :class="dotClass" />
     </div>
 
@@ -61,14 +53,7 @@ const statusPageUrl = import.meta.env.VITE_BETTER_STACK_STATUS_PAGE_URL || ''
 
 // 定义 API 返回类型
 interface StatusResponse {
-  status:
-    | 'operational'
-    | 'degraded'
-    | 'partial'
-    | 'major'
-    | 'maintenance'
-    | 'error'
-    | 'unknown'
+  status: 'operational' | 'degraded' | 'partial' | 'major' | 'maintenance' | 'error' | 'unknown'
   label: string
   updatedAt: string | null
 }
@@ -144,9 +129,7 @@ const handleRefresh = () => {
   const now = Date.now()
 
   // 清理超过5秒的记录
-  clickTimestamps.value = clickTimestamps.value.filter(
-    (ts) => now - ts < RATE_LIMIT_WINDOW
-  )
+  clickTimestamps.value = clickTimestamps.value.filter((ts) => now - ts < RATE_LIMIT_WINDOW)
 
   // 检查是否超过限制
   if (clickTimestamps.value.length >= RATE_LIMIT_MAX) {

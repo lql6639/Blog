@@ -18,9 +18,7 @@ export const getThemeConfig = async () => {
       return defu(userConfig?.themeConfig || {}, defaultThemeConfig)
     } else {
       // 文件不存在时返回默认配置
-      console.warn(
-        'User configuration file not found, using default themeConfig.'
-      )
+      console.warn('User configuration file not found, using default themeConfig.')
       return defaultThemeConfig
     }
   } catch (error) {

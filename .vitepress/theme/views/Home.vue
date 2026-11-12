@@ -36,12 +36,7 @@ import { usePostData } from '@/utils/usePostData.mjs'
 const route = useRoute()
 const { theme } = useData()
 const { isDesktopAsideVisible } = useDesktopAside()
-const {
-  postData: allPosts,
-  tagsData,
-  categoriesData,
-  loadPostData
-} = usePostData()
+const { postData: allPosts, tagsData, categoriesData, loadPostData } = usePostData()
 
 const store = mainStore()
 
@@ -86,9 +81,7 @@ const allListTotal = computed(() => {
 })
 
 // 列表总页数（与 Pagination.vue 的 totalPages 口径一致）
-const totalPages = computed(() =>
-  Math.max(Math.ceil(allListTotal.value / postSize), 1)
-)
+const totalPages = computed(() => Math.max(Math.ceil(allListTotal.value / postSize), 1))
 
 // 把页数钳制到合法范围：下界回落 1，上界钳到最后一页。
 // 必须与 Pagination.vue 的 checkCurrentPage 保持同一口径，否则会出现
@@ -106,9 +99,7 @@ const getCurrentPage = () => {
   if (props.showCategories || props.showTags) {
     if (typeof window === 'undefined') return clampPage(props.page || 1)
     const routePath = route.path
-    const search = routePath.includes('?')
-      ? routePath.split('?')[1]
-      : window.location.search
+    const search = routePath.includes('?') ? routePath.split('?')[1] : window.location.search
     const params = new URLSearchParams(search)
     if (params.has('page')) return clampPage(Number(params.get('page')))
   }

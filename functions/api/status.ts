@@ -1,6 +1,5 @@
 // Define Status Type
-type StatusType =
-  'operational' | 'degraded' | 'partial' | 'major' | 'maintenance'
+type StatusType = 'operational' | 'degraded' | 'partial' | 'major' | 'maintenance'
 
 // Status Map
 const STATUS_MAP: Record<StatusType, { status: string; label: string }> = {
@@ -74,23 +73,18 @@ export async function onRequestGet(context: any) {
         attributes: {
           url: string
           pronounceable_name: string
-          status:
-            'paused' | 'pending' | 'maintenance' | 'up' | 'validating' | 'down'
+          status: 'paused' | 'pending' | 'maintenance' | 'up' | 'validating' | 'down'
         }
       }>
     }
 
     const monitors = data.data || []
     const totalCount = monitors.length
-    const downCount = monitors.filter(
-      (m: any) => m.attributes.status === 'down'
-    ).length
+    const downCount = monitors.filter((m: any) => m.attributes.status === 'down').length
     const maintenanceCount = monitors.filter(
       (m: any) => m.attributes.status === 'maintenance'
     ).length
-    const validatingCount = monitors.filter(
-      (m: any) => m.attributes.status === 'validating'
-    ).length
+    const validatingCount = monitors.filter((m: any) => m.attributes.status === 'validating').length
     const upCount = monitors.filter(
       (m: any) =>
         m.attributes.status === 'up' ||

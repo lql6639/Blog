@@ -5,11 +5,7 @@
       <sup v-if="postCount" class="num">{{ postCount }}</sup>
     </div>
     <div class="archives-list">
-      <div
-        v-for="(year, index) in archivesData.year"
-        :key="index"
-        class="year-list"
-      >
+      <div v-for="(year, index) in archivesData.year" :key="index" class="year-list">
         <span class="year">{{ year }}</span>
         <div class="posts">
           <div

@@ -1,8 +1,11 @@
 {
   "name": "blog",
   "compatibility_date": "2026-11-04",
+  "main": "worker/index.ts",
   "assets": {
-    "directory": "./.vitepress/dist"
+    "directory": "./.vitepress/dist",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
   },
   "observability": {
     "logs": {

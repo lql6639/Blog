@@ -3,18 +3,10 @@
     <div class="footer-content">
       <div class="copyright">
         <span class="time">@ {{ thisYear }} By </span>
-        <a
-          :href="theme.siteMeta.author.link"
-          class="author link"
-          target="_blank"
-        >
+        <a :href="theme.siteMeta.author.link" class="author link" target="_blank">
           {{ theme.siteMeta.author.name }}
         </a>
-        <a
-          class="icp link"
-          href="https://icp.gov.moe/?keyword=20262044"
-          target="_blank"
-        >
+        <a class="icp link" href="https://icp.gov.moe/?keyword=20262044" target="_blank">
           <i class="iconfont icon-safe" />
           {{ theme.icp }}
         </a>
@@ -25,18 +17,10 @@
           <span class="by">Powered by</span>
           <span class="name">VitePress</span>
         </a>
-        <a
-          class="theme link"
-          href="https://github.com/imsyy/vitepress-theme-curve"
-          target="_blank"
-        >
+        <a class="theme link" href="https://github.com/imsyy/vitepress-theme-curve" target="_blank">
           <span class="name">主题</span>
         </a>
-        <a
-          class="rss link"
-          href="https://blog.lovlin.cn/rss.xml"
-          target="_blank"
-        >
+        <a class="rss link" href="https://blog.lovlin.cn/rss.xml" target="_blank">
           <i class="iconfont icon-rss" />
           <span class="name">订阅</span>
         </a>

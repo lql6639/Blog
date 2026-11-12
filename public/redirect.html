@@ -183,9 +183,7 @@
       <span class="tip">您即将离开小栈，前往</span>
       <span id="url"></span>
       <div id="jump-content" class="warn">
-        <span id="site-info"
-          >⚠️ 该网址安全性未知，请注意您的帐号和财产安全</span
-        >
+        <span id="site-info">⚠️ 该网址安全性未知，请注意您的帐号和财产安全</span>
         <div id="jump-button">继续前往</div>
       </div>
     </main>
@@ -197,11 +195,7 @@
         </script>
         koizora
       </a>
-      <a
-        class="icp"
-        href="https://icp.gov.moe/?keyword=20262044"
-        target="_blank"
-      >
+      <a class="icp" href="https://icp.gov.moe/?keyword=20262044" target="_blank">
         萌ICP备20262044号
       </a>
     </footer>
@@ -251,24 +245,15 @@
         try {
           // 同时兼容 ?url= 和 #url=
           const urlParams = new URLSearchParams(window.location.search)
-          const hashParams = new URLSearchParams(
-            window.location.hash.substring(1)
-          )
+          const hashParams = new URLSearchParams(window.location.hash.substring(1))
           let encodedUrl = urlParams.get('url') || hashParams.get('url')
           if (!encodedUrl) {
             throw new Error('url 参数为空')
           }
           // 兼容旧 Base64 与新的 URL-safe Base64
-          encodedUrl = encodedUrl
-            .replace(/ /g, '+')
-            .replace(/-/g, '+')
-            .replace(/_/g, '/')
-          const bytes = Uint8Array.from(atob(encodedUrl), (char) =>
-            char.charCodeAt(0)
-          )
-          const target = new URL(
-            new TextDecoder('utf-8', { fatal: true }).decode(bytes)
-          )
+          encodedUrl = encodedUrl.replace(/ /g, '+').replace(/-/g, '+').replace(/_/g, '/')
+          const bytes = Uint8Array.from(atob(encodedUrl), (char) => char.charCodeAt(0))
+          const target = new URL(new TextDecoder('utf-8', { fatal: true }).decode(bytes))
           if (!/^https?:$/.test(target.protocol)) {
             throw new Error('仅支持 HTTP/HTTPS 链接')
           }

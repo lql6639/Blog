@@ -1,10 +1,6 @@
 <!-- 全局播放器 -->
 <template>
-  <div
-    v-if="playerShow"
-    :class="['player', { playing: playState }]"
-    @click="player?.toggle()"
-  >
+  <div v-if="playerShow" :class="['player', { playing: playState }]" @click="player?.toggle()">
     <div ref="playerDom" class="player-content" />
   </div>
 </template>
@@ -30,7 +26,6 @@ const getMusicListData = async () => {
 
   try {
     const musicList = await getMusicList(url, id, server, type)
-    console.log(musicList)
     initAPlayer(musicList?.length ? musicList : [])
   } catch (error) {
     // 获取播放内容失败自动隐藏播放器
@@ -55,7 +50,6 @@ const initAPlayer = async (list) => {
       order: 'random',
       audio: playlist
     })
-    console.info('🎵 播放器挂载完成', player.value)
     // 播放器事件
     player.value?.on('canplay', () => {
       // 更新信息
@@ -86,10 +80,8 @@ const getMusicData = () => {
     const songInfo = playerDom.value.querySelector('.aplayer-info')
     // 歌曲信息
     const songName = songInfo.querySelector('.aplayer-title').innerText
-    const songArtist = songInfo
-      .querySelector('.aplayer-author')
-      .innerText.replace(' - ', '')
-    console.log(songName, songArtist)
+    const songArtist = songInfo.querySelector('.aplayer-author').innerText.replace(' - ', '')
+    console.log('当前页数：', songName, songArtist)
     // 更新信息
     playerData.value = {
       name: songName || '未知曲目',
@@ -378,8 +370,42 @@ onBeforeUnmount(() => {
     transform: scale(0.98);
   }
 
+  // 移动端同样显示播放器，只收小尺寸
   @media (max-width: 768px) {
-    display: none;
+    height: 42px;
+    margin-bottom: 10px;
+
+    .player-content {
+      :deep(.aplayer-body) {
+        padding: 5px 10px 5px 5px;
+
+        .aplayer-pic {
+          width: 26px;
+          height: 26px;
+          min-width: 26px;
+          margin-right: 7px;
+        }
+
+        .aplayer-info {
+          .aplayer-music {
+            .aplayer-title {
+              max-width: 104px;
+              font-size: 13px;
+            }
+          }
+        }
+      }
+
+      // 触屏没有可靠的 hover，遮罩与高亮会粘住
+      &::after {
+        display: none;
+      }
+
+      &:hover {
+        border-color: var(--main-card-border);
+        box-shadow: 0 6px 10px -4px var(--main-dark-shadow);
+      }
+    }
   }
 }
 </style>

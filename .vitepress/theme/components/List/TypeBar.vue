@@ -26,11 +26,7 @@
   </div>
   <div v-else-if="type === 'tags'" class="type-bar s-card hover">
     <div class="all-type">
-      <a
-        v-if="currentTypeName"
-        :href="`/pages/tags/${currentTypeName}`"
-        class="type-item choose"
-      >
+      <a v-if="currentTypeName" :href="`/pages/tags/${currentTypeName}`" class="type-item choose">
         {{ currentTypeName }}
         <span class="num">{{ tagsData?.[currentTypeName]?.count || 0 }}</span>
       </a>

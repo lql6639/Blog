@@ -18,9 +18,7 @@
           <i class="iconfont icon-date"></i>
           建站天数
         </span>
-        <span class="num">{{
-          sinceDays === null ? '--' : `${sinceDays} 天`
-        }}</span>
+        <span class="num">{{ sinceDays === null ? '--' : `${sinceDays} 天` }}</span>
       </div>
       <div class="data-item">
         <span class="name">
@@ -51,13 +49,10 @@ const { now } = useClientNow()
 const sinceDays = computed(() => daysPassedAt(theme.value.since, now.value))
 
 onMounted(() => {
-  loadScript(
-    'https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js',
-    {
-      async: true,
-      reload: true
-    }
-  )
+  loadScript('https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js', {
+    async: true,
+    reload: true
+  })
 })
 </script>
 

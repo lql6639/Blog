@@ -2,11 +2,7 @@
   <div class="copyright s-card">
     <div class="title">
       <span class="post-name">{{ postData?.title || '未命名文章' }}</span>
-      <a
-        :href="theme.siteMeta.site + route.path"
-        class="post-link"
-        target="_blank"
-      >
+      <a :href="theme.siteMeta.site + route.path" class="post-link" target="_blank">
         {{ theme.siteMeta.site + route.path }}
       </a>
     </div>
@@ -21,9 +17,7 @@
       </div>
       <div class="meta-item">
         <span class="tip">更新于</span>
-        <span class="name">{{
-          formatTimestampAt(postData?.lastModified, now)
-        }}</span>
+        <span class="name">{{ formatTimestampAt(postData?.lastModified, now) }}</span>
       </div>
       <div class="meta-item cc">
         <span class="tip">许可协议</span>

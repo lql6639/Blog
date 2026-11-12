@@ -32,11 +32,7 @@
             </div>
           </div>
           <div class="all-menu">
-            <div
-              v-if="clickedType === 'normal'"
-              class="btn"
-              @click="goRandomPost"
-            >
+            <div v-if="clickedType === 'normal'" class="btn" @click="goRandomPost">
               <i class="iconfont icon-shuffle"></i>
               <span class="name">随便逛逛</span>
             </div>
@@ -48,20 +44,12 @@
               <i class="iconfont icon-folder"></i>
               <span class="name">全部分类</span>
             </div>
-            <div
-              v-if="clickedType === 'normal'"
-              class="btn"
-              @click="router.go('/pages/tags')"
-            >
+            <div v-if="clickedType === 'normal'" class="btn" @click="router.go('/pages/tags')">
               <i class="iconfont icon-hashtag"></i>
               <span class="name">全部标签</span>
             </div>
             <!-- 链接类型 -->
-            <div
-              v-if="clickedType === 'link'"
-              class="btn"
-              @click="rightMenuFunc('open-link')"
-            >
+            <div v-if="clickedType === 'link'" class="btn" @click="rightMenuFunc('open-link')">
               <i class="iconfont icon-window"></i>
               <span class="name">新标签页打开</span>
             </div>
@@ -69,10 +57,7 @@
               v-if="clickedType === 'link'"
               class="btn"
               @click="
-                copyText(
-                  clickedTypeData?.getAttribute('original-href') ||
-                    clickedTypeData?.href
-                )
+                copyText(clickedTypeData?.getAttribute('original-href') || clickedTypeData?.href)
               "
             >
               <i class="iconfont icon-link"></i>
@@ -97,10 +82,7 @@
             </div>
             <!-- 输入框 -->
             <div
-              v-if="
-                clickedType === 'input' &&
-                typeof clickedTypeData.value === 'string'
-              "
+              v-if="clickedType === 'input' && typeof clickedTypeData.value === 'string'"
               class="btn"
               @click="rightMenuFunc('input-paste')"
             >
@@ -109,10 +91,7 @@
             </div>
             <!-- 选中文本 -->
             <a
-              v-if="
-                (clickedType === 'text' || clickedType === 'input') &&
-                isLink(clickedTypeData)
-              "
+              v-if="(clickedType === 'text' || clickedType === 'input') && isLink(clickedTypeData)"
               :href="`${isLink(clickedTypeData)}`"
               class="btn right-menu-link"
               target="_blank"
@@ -149,11 +128,7 @@
               <span class="name">复制选中文本</span>
             </div>
             <div
-              v-if="
-                clickedType === 'text' &&
-                !commentCopyShow &&
-                theme.comment.type === 'artalk'
-              "
+              v-if="clickedType === 'text' && !commentCopyShow && theme.comment.type === 'artalk'"
               class="btn"
               @click="commentCopy(clickedTypeData)"
             >
@@ -189,11 +164,7 @@
               />
               <span class="name">
                 {{
-                  themeType === 'auto'
-                    ? '深色模式'
-                    : themeType === 'dark'
-                      ? '浅色模式'
-                      : '跟随系统'
+                  themeType === 'auto' ? '深色模式' : themeType === 'dark' ? '浅色模式' : '跟随系统'
                 }}
               </span>
             </div>
@@ -212,10 +183,7 @@
                 class="iconfont icon-volume-down"
                 @click="playerVolume = Math.max(0, playerVolume - 0.1)"
               />
-              <Slider
-                :value="playerVolume"
-                @update="(val) => (playerVolume = val)"
-              />
+              <Slider :value="playerVolume" @update="(val) => (playerVolume = val)" />
               <i
                 class="iconfont icon-volume-up"
                 @click="playerVolume = Math.min(1, playerVolume + 0.1)"
@@ -225,20 +193,10 @@
               <div class="btn" title="上一曲" @click="playerControl('prev')">
                 <i class="iconfont icon-prev"></i>
               </div>
-              <div
-                v-if="playState"
-                class="btn"
-                title="暂停"
-                @click="playerControl('toggle')"
-              >
+              <div v-if="playState" class="btn" title="暂停" @click="playerControl('toggle')">
                 <i class="iconfont icon-pause"></i>
               </div>
-              <div
-                v-else
-                class="btn"
-                title="播放"
-                @click="playerControl('toggle')"
-              >
+              <div v-else class="btn" title="播放" @click="playerControl('toggle')">
                 <i class="iconfont icon-play"></i>
               </div>
               <div class="btn" title="下一曲" @click="playerControl('next')">
@@ -257,9 +215,7 @@
       @mask-click="commentCopyClose"
       @modal-close="commentCopyClose"
     >
-      <span class="modal-tip">
-        您无需删除现有的输入框内容，直接在下方评论即可
-      </span>
+      <span class="modal-tip"> 您无需删除现有的输入框内容，直接在下方评论即可 </span>
       <Artalk :fill="commentCopyData" />
     </Modal>
   </Teleport>
@@ -268,26 +224,14 @@
 <script setup>
 import { storeToRefs } from 'pinia'
 import { mainStore } from '@/store'
-import {
-  smoothScrolling,
-  shufflePost,
-  copyText,
-  copyImage,
-  downloadImage
-} from '@/utils/helper'
+import { smoothScrolling, shufflePost, copyText, copyImage, downloadImage } from '@/utils/helper'
 import { usePostData } from '@/utils/usePostData.mjs'
 
 const router = useRouter()
 const store = mainStore()
 const { theme } = useData()
-const {
-  useRightMenu,
-  themeType,
-  playerShow,
-  playerVolume,
-  playState,
-  playerData
-} = storeToRefs(store)
+const { useRightMenu, themeType, playerShow, playerVolume, playState, playerData } =
+  storeToRefs(store)
 
 // 文章索引（异步加载，不再是 theme.postData）
 const { postData, loadPostData } = usePostData()
@@ -381,9 +325,7 @@ const checkClickType = (target) => {
   if (!target?.tagName) return false
   // 写入内容
   clickedTypeData.value =
-    window.getSelection().toString().length > 0
-      ? window.getSelection().toString()
-      : target
+    window.getSelection().toString().length > 0 ? window.getSelection().toString() : target
   switch (target.tagName) {
     case 'A':
       // 链接类型
@@ -443,17 +385,13 @@ const rightMenuFunc = async (type) => {
       //        break;
       case 'input-paste':
         const text = await navigator.clipboard.readText()
-        if (
-          clickedTypeData.value &&
-          typeof clickedTypeData.value === 'object'
-        ) {
+        if (clickedTypeData.value && typeof clickedTypeData.value === 'object') {
           const inputElement = clickedTypeData.value
           const start = inputElement.selectionStart
           const end = inputElement.selectionEnd
           const value = inputElement.value
           // 在光标位置插入文本
-          const newValue =
-            value.substring(0, start) + text + value.substring(end)
+          const newValue = value.substring(0, start) + text + value.substring(end)
           inputElement.value = newValue
           // 更新光标位置
           const newCursorPosition = start + text.length

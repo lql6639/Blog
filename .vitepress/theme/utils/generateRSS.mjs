@@ -52,9 +52,7 @@ export const createRssFile = async (config, themeConfig) => {
     const parsed = new Date(frontmatter?.date ?? NaN).getTime()
     return Number.isNaN(parsed) ? -Infinity : parsed
   }
-  posts = posts.sort(
-    (a, b) => dateValue(b.frontmatter) - dateValue(a.frontmatter)
-  )
+  posts = posts.sort((a, b) => dateValue(b.frontmatter) - dateValue(a.frontmatter))
   for (const { url, frontmatter } of posts) {
     // 仅保留最近 10 篇文章
     if (feed.items.length >= 10) break

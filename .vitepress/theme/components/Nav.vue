@@ -1,23 +1,13 @@
 <template>
   <header class="main-header">
-    <nav
-      :class="[
-        'main-nav',
-        scrollData.direction,
-        { top: scrollData.height === 0 }
-      ]"
-    >
+    <nav :class="['main-nav', scrollData.direction, { top: scrollData.height === 0 }]">
       <div class="nav-all">
         <!-- 导航栏左侧 -->
         <div class="left-nav">
           <div class="more-menu nav-btn" title="更多内容">
             <i class="iconfont icon-menu" />
             <div class="more-card s-card">
-              <div
-                v-for="(item, index) in theme.navMore"
-                :key="index"
-                class="more-item"
-              >
+              <div v-for="(item, index) in theme.navMore" :key="index" class="more-item">
                 <span class="more-name">{{ item.name }}</span>
                 <div class="more-list">
                   <a
@@ -41,11 +31,7 @@
         <!-- 导航栏菜单 -->
         <div class="nav-center">
           <div class="site-menu">
-            <div
-              v-for="(item, index) in theme.nav"
-              :key="index"
-              class="menu-item"
-            >
+            <div v-for="(item, index) in theme.nav" :key="index" class="menu-item">
               <span class="link-btn"> {{ item.text }}</span>
               <div v-if="item.items" class="link-child">
                 <span
@@ -61,10 +47,7 @@
             </div>
           </div>
           <span class="site-title" @click="smoothScrolling">
-            {{
-              (frontmatter.home ? site.description : page.title) ||
-              site.description
-            }}
+            {{ (frontmatter.home ? site.description : page.title) || site.description }}
           </span>
         </div>
         <div class="right-nav">
@@ -80,11 +63,7 @@
           </a>
         -->
           <!-- 随机文章 -->
-          <div
-            class="menu-btn nav-btn"
-            title="随机前往一篇文章"
-            @click="goRandomPost"
-          >
+          <div class="menu-btn nav-btn" title="随机前往一篇文章" @click="goRandomPost">
             <i class="iconfont icon-shuffle"></i>
           </div>
           <!-- 搜索 -->
@@ -121,11 +100,7 @@
             <div class="to-top-btn">
               <Transition name="fade" mode="out-in">
                 <span :key="scrollData.percentage > 90" class="num">
-                  {{
-                    scrollData.percentage <= 90
-                      ? scrollData.percentage
-                      : '返回顶部'
-                  }}
+                  {{ scrollData.percentage <= 90 ? scrollData.percentage : '返回顶部' }}
                 </span>
               </Transition>
               <i class="iconfont icon-up"></i>
@@ -160,9 +135,7 @@ import { usePostData } from '@/utils/usePostData.mjs'
 const router = useRouter()
 const store = mainStore()
 // 本地全文搜索，按需加载（不依赖 Algolia）
-const SearchModal = defineAsyncComponent(
-  () => import('@/components/Search.vue')
-)
+const SearchModal = defineAsyncComponent(() => import('@/components/Search.vue'))
 const { scrollData } = storeToRefs(store)
 const { site, theme, frontmatter, page } = useData()
 

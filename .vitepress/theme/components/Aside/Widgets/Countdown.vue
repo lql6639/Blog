@@ -5,11 +5,7 @@
       <span class="text"> 距离 </span>
       <span class="name">{{ theme.aside.countDown.data.name }}</span>
       <span class="time">
-        <LiveDate
-          mode="days-until"
-          :date="theme.aside.countDown.data.date"
-          yearly
-        />
+        <LiveDate mode="days-until" :date="theme.aside.countDown.data.date" yearly />
       </span>
       <span class="date">
         <LiveDate
@@ -55,9 +51,7 @@ const { theme } = useData()
 // 四行的「还剩」统一按天显示；当日行的百分比按分钟推进，
 // 所以 60s 刷新能让它每分钟都动（改前是整点才跳），同时不必每秒重算。
 const { now } = useClientNow({ interval: 60 * 1000 })
-const remainData = computed(() =>
-  now.value ? getTimeRemaining(now.value) : null
-)
+const remainData = computed(() => (now.value ? getTimeRemaining(now.value) : null))
 </script>
 
 <style lang="scss" scoped>
