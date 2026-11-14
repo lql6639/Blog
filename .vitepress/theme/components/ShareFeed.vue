@@ -65,19 +65,16 @@
     </div>
 
     <!-- 加载更多 -->
-    <button v-if="hasMore" class="share-more" @click="visible += PAGE_SIZE">加载更多</button>
+    <button v-if="hasMore" class="share-more" @click="loadMore">加载更多</button>
 
     <!-- 图片查看器（站内打开，不跳页） -->
     <Teleport to="body">
-      <div v-if="viewer.list.length" class="share-viewer" @click.self="closeViewer">
-        <button type="button" class="v-btn v-close" title="关闭" @click="closeViewer">
-          <i class="iconfont icon-close" />
-        </button>
-
+      <div v-if="viewer.list.length" class="share-viewer" @click="onViewerClick">
+        <!-- 翻页按钮常驻，到头不再隐藏；点到头只是停在这张，不会关闭 -->
         <button
-          v-if="viewer.index > 0"
           type="button"
           class="v-btn v-prev"
+          :class="{ 'is-off': viewer.index === 0 }"
           title="上一张"
           @click.stop="stepViewer(-1)"
         >
@@ -94,9 +91,9 @@
         </div>
 
         <button
-          v-if="viewer.index < viewer.list.length - 1"
           type="button"
           class="v-btn v-next"
+          :class="{ 'is-off': viewer.index >= viewer.list.length - 1 }"
           title="下一张"
           @click.stop="stepViewer(1)"
         >
@@ -110,138 +107,15 @@
 </template>
 
 <script setup>
-import dayjs from 'dayjs'
-import { useData } from 'vitepress'
-import shareData from '@/assets/shareData.mjs'
-
-const PAGE_SIZE = 8
-// 九宫格最多显示 6 张，超出部分用 +N 角标
-const MAX_TILES = 6
+import { useData } from "vitepress"
+import { MAX_TILES, layoutOf, useShareFeed } from "@/utils/useShareFeed.mjs"
+import { useImageViewer } from "@/utils/useImageViewer.mjs"
 
 const { theme } = useData()
 const author = computed(() => theme.value.siteMeta.author)
 
-// 稳定哈希：同一条动态每次渲染都得到同一组图片地址
-const hashString = (str) => {
-  let hash = 0
-  for (let i = 0; i < str.length; i += 1) {
-    hash = (hash * 31 + str.charCodeAt(i)) | 0
-  }
-  return Math.abs(hash)
-}
-
-// 远程图片追加稳定查询参数（与首页 PostList 的封面同思路）：
-// 1) 同一条动态里的多张图地址互不相同，浏览器不会当成同一张图只请求一次
-// 2) 每次渲染地址不变，避免刷图闪动与 SSR 水合不一致
-// 3) 换了图片内容但地址没变时，把该条的 v 改大即可刷新
-const withImageSeed = (url, seed) => {
-  if (!/^https?:\/\//i.test(url)) return url
-  return `${url}${url.includes('?') ? '&' : '?'}_share=${seed}`
-}
-
-const entries = shareData
-  .map((item, index) => {
-    const time = dayjs(item.date)
-    const text = item.text || ''
-    const seed = hashString(`${item.date}|${text}|${item.v || ''}`)
-    return {
-      id: `share-${time.format('YYYYMMDDHHmmss')}-${index}`,
-      ts: time.valueOf(),
-      iso: time.toISOString(),
-      timeText:
-        time.year() === dayjs().year()
-          ? time.format('M月D日 HH:mm')
-          : time.format('YYYY年M月D日 HH:mm'),
-      fullText: time.format('YYYY-MM-DD HH:mm'),
-      // 按换行切段，每段单独缩进
-      paragraphs: text
-        .split(/\n+/)
-        .map((line) => line.trim())
-        .filter(Boolean),
-      // 每张图带独立种子，避免同一条里的重复地址被浏览器合并
-      images: (item.images || []).map((src, i) => withImageSeed(src, seed + i)),
-      location: item.location || '',
-      device: item.device || ''
-    }
-  })
-  .sort((a, b) => b.ts - a.ts)
-
-const visible = ref(PAGE_SIZE)
-const paged = computed(() => entries.slice(0, visible.value))
-const hasMore = computed(() => entries.length > paged.value.length)
-
-const layoutOf = (n) => (n === 1 ? 'single' : n === 2 ? 'duo' : 'grid')
-
-// ---------- 图片查看器 ----------
-const viewer = reactive({ list: [], index: 0, moved: false })
-const stageRef = ref(null)
-let viewerCard = null
-let movedEl = null
-let movedMark = null
-
-// 随机图接口每次请求都会 302 到不同文件，直接拿地址当查看器图片就会变成另一张。
-// 这里把已经渲染好的那个 <img> 原样搬进查看器，保证看到的就是点开的那张
-const restoreTileImg = () => {
-  if (movedEl && movedMark && movedMark.parentNode) {
-    movedMark.parentNode.replaceChild(movedEl, movedMark)
-    movedEl.classList.remove('v-img')
-  }
-  movedEl = null
-  movedMark = null
-  viewer.moved = false
-}
-
-const mountCurrentImage = () => {
-  restoreTileImg()
-  const tiles = viewerCard ? [...viewerCard.querySelectorAll('.tile img')] : []
-  const el = tiles[viewer.index]
-  // 超出九宫格可见范围（+N 的那几张）时没有缩略图可搬，退回按地址加载
-  if (!el) return
-
-  movedEl = el
-  movedMark = document.createComment('tile-img')
-  el.parentNode.insertBefore(movedMark, el)
-  el.classList.add('v-img')
-  viewer.moved = true
-  nextTick(() => stageRef.value?.appendChild(el))
-}
-
-const openViewer = (list, card, index) => {
-  viewerCard = card
-  viewer.list = list
-  viewer.index = index
-  document.body.style.overflow = 'hidden'
-  mountCurrentImage()
-}
-
-const closeViewer = () => {
-  restoreTileImg()
-  viewer.list = []
-  viewer.index = 0
-  viewerCard = null
-  document.body.style.overflow = ''
-}
-
-const stepViewer = (delta) => {
-  const next = viewer.index + delta
-  if (next < 0 || next >= viewer.list.length) return
-  viewer.index = next
-  mountCurrentImage()
-}
-
-const onKeydown = (e) => {
-  if (!viewer.list.length) return
-  if (e.key === 'Escape') closeViewer()
-  else if (e.key === 'ArrowLeft') stepViewer(-1)
-  else if (e.key === 'ArrowRight') stepViewer(1)
-}
-
-onMounted(() => window.addEventListener('keydown', onKeydown))
-onBeforeUnmount(() => {
-  window.removeEventListener('keydown', onKeydown)
-  restoreTileImg()
-  document.body.style.overflow = ''
-})
+const { paged, hasMore, loadMore } = useShareFeed()
+const { viewer, stageRef, openViewer, stepViewer, onViewerClick } = useImageViewer()
 </script>
 
 <style lang="scss" scoped>
@@ -508,11 +382,16 @@ onBeforeUnmount(() => {
     &:hover {
       background: rgba(255, 255, 255, 0.26);
     }
-  }
 
-  .v-close {
-    top: 22px;
-    right: 22px;
+    /* 已经到头：按钮还在，只是置灰不可点 */
+    &.is-off {
+      opacity: 0.3;
+      cursor: default;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.14);
+      }
+    }
   }
 
   .v-prev {
