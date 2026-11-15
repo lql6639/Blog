@@ -226,6 +226,10 @@ export default withPwa(
     // PWA
     pwa: {
       registerType: 'autoUpdate',
+      // 禁用插件默认注入的最简 registerSW（它只 register、不监听更新，导致
+      // 部署后旧 SW 静默接管、页面不刷新）。改由主题入口 index.mjs 手动注册，
+      // 并监听 updatefound 在新 SW 激活后自动 reload，实现"打开即最新"。
+      injectRegister: false,
 
       workbox: {
         clientsClaim: true,
