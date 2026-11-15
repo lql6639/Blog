@@ -136,6 +136,16 @@ html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 
+  // 移动端左右滑动时的橡皮筋回弹（页面整体晃动）：
+  // body 上的 overflow-x:hidden 拦不住 iOS 的横向 bounce，必须在 html 上锁
+  overflow-x: clip;
+  overscroll-behavior-x: none;
+
+  // 老浏览器不支持 clip 时退回 hidden
+  @supports not (overflow: clip) {
+    overflow-x: hidden;
+  }
+
   // 特殊情况
   &.dark {
     // 代码高亮

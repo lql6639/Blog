@@ -770,6 +770,8 @@ onBeforeUnmount(() => {
   padding: 2rem;
   min-height: 380px;
   background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 
   .top {
     display: flex;
@@ -813,34 +815,97 @@ onBeforeUnmount(() => {
   &.image {
     color: #fff !important;
 
+    /* 随机图有亮有暗，上下压一层暗色渐变保证白字始终可读 */
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.32) 0%,
+        rgba(0, 0, 0, 0.18) 42%,
+        rgba(0, 0, 0, 0.5) 100%
+      );
+      pointer-events: none;
+    }
+
+    /* 内容抬到遮罩之上 */
+    > * {
+      position: relative;
+      z-index: 1;
+    }
+
     .top {
       .title-small {
         color: #fff;
         opacity: 0.6;
+      }
+
+      .title-big {
+        text-shadow: 0 1px 12px rgba(0, 0, 0, 0.3);
       }
     }
 
     .footer {
       .footer-left {
         color: #fff;
+        text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
       }
 
       :deep(.iconfont) {
         color: #fff !important;
       }
     }
+
+    /* 仅 PC（>768px）：横幅矮而宽，cover 裁成一条很难看，
+       用毛玻璃氛围底（播放器头图式）+ 渐变遮罩；
+       移动端保持清晰 cover 居中，勿动 */
+    @media (min-width: 769px) {
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        backdrop-filter: blur(18px) saturate(1.2);
+        -webkit-backdrop-filter: blur(18px) saturate(1.2);
+        pointer-events: none;
+      }
+    }
   }
 
-  @media (max-width: 1200px) {
-    min-height: 300px;
+  /* 尺寸阶梯按用户要求：≤1800 一律 200px，手机 100px 起步（内容撑开更高） */
+  @media (max-width: 1800px) {
+    min-height: 200px;
   }
 
   @media (max-width: 768px) {
-    min-height: 260px;
+    min-height: 100px;
+    padding: 1.2rem;
 
-    .top-right,
-    .footer-right {
+    .top {
+      margin-bottom: 1.2rem;
+
+      .title {
+        .title-big {
+          font-size: 1.5rem;
+          margin-top: 8px;
+        }
+      }
+    }
+
+    /* 右上角菜单在窄屏收起，但右下角 CTA 按钮保留 */
+    .top-right {
       display: none;
+    }
+
+    .footer {
+      flex-wrap: wrap;
+      gap: 12px;
+
+      .footer-left {
+        min-width: 0;
+      }
     }
   }
 }

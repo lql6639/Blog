@@ -197,9 +197,9 @@ export const themeConfig = {
       {
         text: '专栏',
         items: [
-          { text: '技术分享', link: '/pages/categories' },
           { text: '我的项目', link: '/pages/project' },
-          { text: '效率工具', link: '/pages/tools' }
+          { text: '日常分享', link: '/pages/share' },
+          { text: '心愿树洞', link: '/pages/wishes' }
         ]
       },
       {

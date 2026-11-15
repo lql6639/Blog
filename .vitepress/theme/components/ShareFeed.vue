@@ -107,9 +107,9 @@
 </template>
 
 <script setup>
-import { useData } from "vitepress"
-import { MAX_TILES, layoutOf, useShareFeed } from "@/utils/useShareFeed.mjs"
-import { useImageViewer } from "@/utils/useImageViewer.mjs"
+import { useData } from 'vitepress'
+import { MAX_TILES, layoutOf, useShareFeed } from '@/utils/useShareFeed.mjs'
+import { useImageViewer } from '@/utils/useImageViewer.mjs'
 
 const { theme } = useData()
 const author = computed(() => theme.value.siteMeta.author)
