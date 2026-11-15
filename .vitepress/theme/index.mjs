@@ -31,10 +31,7 @@ function registerServiceWorker() {
         if (!newWorker) return
         newWorker.addEventListener('statechange', () => {
           // 新 SW 激活并接管页面后，自动刷新拿最新内容
-          if (
-            newWorker.state === 'activated' &&
-            navigator.serviceWorker.controller
-          ) {
+          if (newWorker.state === 'activated' && navigator.serviceWorker.controller) {
             window.location.reload()
           }
         })

@@ -1,8 +1,10 @@
 import { computed, ref } from 'vue'
 import { useData } from 'vitepress'
 import dayjs from 'dayjs'
-import shareData from '@/assets/shareData.mjs'
 import { themeConfig as defaultThemeConfig } from '@/assets/themeConfig.mjs'
+
+// 分享数据 API 地址（api-server 的 share 模块，D1 存储）
+const SHARE_API = 'https://server.lovlin.cn/v1/share'
 
 // 九宫格最多显示 9 张，超出部分用 +N 角标
 export const MAX_TILES = 9
@@ -39,7 +41,7 @@ export const layoutOf = (n) => {
 }
 
 /**
- * 把 shareData 里的 images 字段统一成地址数组。
+ * 把分享数据里的 images 字段统一成地址数组。
  *
  * - `images: 3`：按数量从主题配置的默认图池里取图（便于集中维护图源）
  * - `images: ['a.jpg', 'b.jpg']`：直接给地址，兼容旧写法
@@ -63,8 +65,8 @@ const normalizeImages = (images, seed, pool) => {
   })
 }
 
-const buildEntries = (pool) =>
-  shareData
+const buildEntries = (shareList, pool) =>
+  (shareList || [])
     .map((item, index) => {
       const time = dayjs(item.date)
       const text = item.text || ''
@@ -93,8 +95,9 @@ const buildEntries = (pool) =>
 /**
  * 日常分享列表：时间倒序 + 分页。
  *
+ * 数据源改为 api-server 的 /v1/share 接口（D1 存储），
  * 图片地址取自主题配置 `cover.showCover.defaultCover`（可用根目录 themeConfig.mjs 覆盖），
- * shareData 里只写数量，改图源时只改一处。
+ * share 数据里只写数量，改图源时只改一处。
  *
  * @param {number} [pageSize] 每次加载条数，默认 8
  * @returns {{
@@ -114,13 +117,37 @@ export const useShareFeed = (pageSize = PAGE_SIZE) => {
       []
   )
 
-  const entries = computed(() => buildEntries(pool.value))
+  // 分享原始数据（从 /v1/share 接口拉取）
+  const shareList = ref([])
+  const loaded = ref(false)
+
+  const entries = computed(() => buildEntries(shareList.value, pool.value))
   const visible = ref(pageSize)
   const paged = computed(() => entries.value.slice(0, visible.value))
   const hasMore = computed(() => entries.value.length > paged.value.length)
 
   const loadMore = () => {
     visible.value += pageSize
+  }
+
+  // 客户端挂载后从接口拉取分享数据
+  const loadShareData = async () => {
+    if (loaded.value) return shareList.value
+    loaded.value = true
+    try {
+      const res = await fetch(SHARE_API)
+      if (!res.ok) throw new Error(`加载分享失败：${res.status}`)
+      const json = await res.json()
+      shareList.value = Array.isArray(json?.data) ? json.data : []
+    } catch (error) {
+      console.error(error)
+      shareList.value = []
+    }
+    return shareList.value
+  }
+
+  if (typeof window !== 'undefined') {
+    loadShareData()
   }
 
   return { entries, paged, hasMore, loadMore }
