@@ -1,32 +1,28 @@
 import { mainStore } from '@/store'
-import { throttle } from 'lodash-es'
+import { throttle } from './throttle.mjs'
 
 /**
  * 计算滚动高度和滚动百分比
  */
-export const calculateScroll = throttle(
-  () => {
-    try {
-      if (typeof window === 'undefined' || typeof document === 'undefined') return false
-      const store = mainStore()
-      const scrollY = window.scrollY || window.pageYOffset
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight
-      const scrollPercentage = ((scrollY / totalHeight) * 100).toFixed(0)
-      // 判断滚动方向
-      const scrollDirection = scrollY > store.scrollData.height ? 'down' : 'up'
-      // 储存计算结果
-      store.scrollData = {
-        height: Number(scrollY.toFixed(0)),
-        percentage: Number(scrollPercentage),
-        direction: scrollDirection
-      }
-    } catch (error) {
-      console.error('计算滚动时出现错误：', error)
+export const calculateScroll = throttle(() => {
+  try {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return false
+    const store = mainStore()
+    const scrollY = window.scrollY || window.pageYOffset
+    const totalHeight = document.documentElement.scrollHeight - window.innerHeight
+    const scrollPercentage = ((scrollY / totalHeight) * 100).toFixed(0)
+    // 判断滚动方向
+    const scrollDirection = scrollY > store.scrollData.height ? 'down' : 'up'
+    // 储存计算结果
+    store.scrollData = {
+      height: Number(scrollY.toFixed(0)),
+      percentage: Number(scrollPercentage),
+      direction: scrollDirection
     }
-  },
-  300,
-  true
-)
+  } catch (error) {
+    console.error('计算滚动时出现错误：', error)
+  }
+}, 300)
 
 /**
  * 平滑滚动至目标高度或元素

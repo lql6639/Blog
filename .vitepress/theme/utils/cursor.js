@@ -1,5 +1,3 @@
-import { isEqual } from 'lodash-es'
-
 let mainCursor
 
 const lerp = (a, b, n) => {
@@ -7,17 +5,6 @@ const lerp = (a, b, n) => {
     return b
   }
   return (1 - n) * a + n * b
-}
-
-// getStyle 辅助函数也需要只在客户端运行
-const getStyle = (el, attr) => {
-  if (typeof window === 'undefined') return false // 在非浏览器环境下直接返回
-  try {
-    return window.getComputedStyle ? window.getComputedStyle(el)[attr] : el.currentStyle[attr]
-  } catch (e) {
-    console.error(e)
-  }
-  return false
 }
 
 const cursorInit = () => {
@@ -35,7 +22,6 @@ class Cursor {
       curr: null,
       prev: null
     }
-    this.pt = []
     this.currentThemeType = 'auto'
 
     // 所有 DOM 操作和事件绑定都在 create/init 中处理，这些方法会包含环境检查
@@ -75,10 +61,8 @@ class Cursor {
       return
     }
 
-    var el = document.getElementsByTagName('*')
-    for (let i = 0; i < el.length; i++)
-      if (getStyle(el[i], 'cursor') == 'pointer') this.pt.push(el[i].outerHTML)
-
+    // 不再全量遍历 DOM + getComputedStyle（会触发强制重排，是页面卡顿主因）。
+    // 是否显示 pointer 光标改为在 mousemove 时用事件委托按需判断（见 init）。
     if (!this.scr) {
       document.body.appendChild((this.scr = document.createElement('style')))
     }
@@ -121,7 +105,6 @@ class Cursor {
       curr: null,
       prev: null
     }
-    this.pt = []
 
     this.create()
     this.init()
@@ -142,6 +125,8 @@ class Cursor {
         x: e.clientX - 8,
         y: e.clientY - 8
       }
+      // 事件委托：仅判断当前 hover 的元素是否 pointer 光标（零全量遍历/重排）
+      this.toggleCursorForTarget(e.target)
       this.cursor.classList.remove('hidden')
       this.render()
     }
@@ -149,6 +134,20 @@ class Cursor {
     document.onmouseleave = () => this.cursor.classList.add('hidden')
     document.onmousedown = () => this.cursor.classList.add('active')
     document.onmouseup = () => this.cursor.classList.remove('active')
+  }
+
+  // 按需判断 hover 元素是否可点击：是则隐藏自定义光标、还原系统 pointer；
+  // 否则显示自定义光标。仅对单个元素取 getComputedStyle，开销可忽略。
+  toggleCursorForTarget(target) {
+    if (!this.cursor || !(target instanceof Element)) return
+    let cursorStyle = 'default'
+    try {
+      cursorStyle = window.getComputedStyle(target).cursor
+    } catch {
+      /* 忽略 */
+    }
+    const isPointer = cursorStyle === 'pointer'
+    this.cursor.style.display = isPointer ? 'none' : 'block'
   }
 
   render() {
@@ -159,6 +158,9 @@ class Cursor {
       return
     }
 
+    // 尚未有鼠标位置（constructor 首次调用 / 移动端），不做插值
+    if (!this.pos.curr) return
+
     if (this.pos.prev) {
       this.pos.prev.x = lerp(this.pos.prev.x, this.pos.curr.x, 0.35)
       this.pos.prev.y = lerp(this.pos.prev.y, this.pos.curr.y, 0.35)
@@ -166,7 +168,10 @@ class Cursor {
     } else {
       this.pos.prev = this.pos.curr
     }
-    if (!isEqual(this.pos.curr, this.pos.prev)) {
+    // 用坐标差值判断是否还需继续插值，避免 lodash isEqual 的深比较开销
+    const dx = this.pos.curr.x - this.pos.prev.x
+    const dy = this.pos.curr.y - this.pos.prev.y
+    if (dx * dx + dy * dy > 0.05) {
       requestAnimationFrame(() => this.render())
     }
   }

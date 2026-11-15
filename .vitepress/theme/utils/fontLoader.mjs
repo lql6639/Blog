@@ -1,7 +1,7 @@
 const FONT_STYLESHEET_MAP = {
   lexend: 'https://cdn.jsdmirror.com/gh/CYYYY5/chiyupic@main/fonts/Lexend.css',
   vsans: 'https://cdn.jsdmirror.com/gh/CYYYY5/chiyupic@main/fonts/vivosans.css',
-  hmos: 'https://s1.hdslb.com/bfs/static/jinkela/long/font/regular.css',
+  hmos: 'https://cdn.jsdelivr.net/npm/harmonyos-sans-sc-webfont-splitted@1.1.0/dist/Regular.css',
   xlfont: 'https://cdn.jsdmirror.com/gh/CYYYY5/chiyupic@main/fonts/xiaolai.css',
   firaCode: 'https://use.sevencdn.com/css2?family=Fira+Code:wght@300..700&display=swap'
 }
@@ -9,7 +9,7 @@ const FONT_STYLESHEET_MAP = {
 const FONT_FAMILY_MAP = {
   lexend: 'Lexend',
   vsans: 'vivosans',
-  hmos: 'HarmonyOS_Regular',
+  hmos: 'HarmonyOS Sans SC',
   xlfont: 'xiaolai',
   firaCode: 'Fira Code'
 }

@@ -130,7 +130,7 @@ const cnBrand = computed(() => '小栈')
 const brandChars = computed(() => cnBrand.value.split(''))
 const cnText = computed(() => `${cnPrefix}${cnBrand.value}`)
 
-// 胶囊的尺寸与位置要用两段词的真实宽度（小赖为手写比例字体，em 估值不可靠），
+// 胶囊的尺寸与位置要用两段词的真实宽度（比例字体 em 估值不可靠），
 // 挂载后实测并写入 CSS 变量，动画直接引用；字体未就绪时用 CSS 里的 em 兜底。
 const bannerRoot = ref(null)
 const titlePy = ref(null)
@@ -508,7 +508,7 @@ onBeforeUnmount(() => {
     display: flex;
     align-items: baseline;
     justify-content: center;
-    font-family: 'Title Xiaolai', 'Site Title', var(--main-font-family);
+    font-family: var(--main-font-family);
     font-size: var(--py-size);
     font-weight: 700;
     letter-spacing: -0.02em;
@@ -516,7 +516,7 @@ onBeforeUnmount(() => {
     white-space: nowrap;
     // 变形/遮盖相关的实测值统一挂在整行上（JS 写入），供子元素与胶囊继承；
     // 这里给的是首帧兜底，字体未就绪时也不会塌掉。
-    // 兜底值按小赖字体实测换算（JS 挂载后会覆盖），保证首帧与无 JS 时大致对位
+    // 兜底值按当前字体实测换算（JS 挂载后会覆盖），保证首帧与无 JS 时大致对位
     --note-w: 2.31em;
     --cover-left: 3.24em;
     --cover-w: 2.43em;
@@ -632,7 +632,7 @@ onBeforeUnmount(() => {
     grid-area: 1 / 1;
     display: flex;
     justify-content: center;
-    font-family: 'Title Xiaolai', 'Site Title', var(--main-font-family);
+    font-family: var(--main-font-family);
     font-size: var(--cn-size);
     font-weight: 700;
     line-height: 1.24;

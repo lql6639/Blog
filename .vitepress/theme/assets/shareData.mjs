@@ -1,20 +1,26 @@
 /*
  *images：需要指定具体图片时仍可写成 images: ['https://...', '...']
  */
-
 export default [
   {
-    date: '2026-11-14 09:41',
-    device: 'MacOS',
-    text: '早上六点半的江门，雾还没散，路过江边的时候整条路都是白的。\n这种天气最适合戴着耳机发呆。',
-    images: 12,
+    date: '2026-11-14 21:01',
+    device: 'IPhone',
+    text: '大街上已经开始飘荡着糖炒栗子和烤红薯的香味了。\n我决定买一些来尝尝。',
+    images: 2,
     location: '江门'
   },
   {
-    date: '2026-11-12 20:16',
+    date: '2026-11-12 09:41',
+    device: 'IPhone',
+    text: '早上六点半的江门，雾还没散，路过江边的时候整条路都是白的。\n这种天气最适合戴着耳机发呆。',
+    images: 1,
+    location: '江门'
+  },
+  {
+    date: '2026-11-10 20:16',
     device: 'MacOS',
     text: '手机放下了三天，探索了 Github 的一个热门项目。\n并且接入 Artalk 和 Twikoo 模块。\n二改，暂时不开源。',
-    images: 9,
+    images: 2,
     location: '江门'
   },
   {

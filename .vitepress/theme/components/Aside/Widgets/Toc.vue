@@ -25,7 +25,7 @@
 
 <script setup>
 import { mainStore } from '@/store'
-import { throttle } from 'lodash-es'
+import { throttle } from '@/utils/throttle.mjs'
 
 const route = useRoute()
 const store = mainStore()

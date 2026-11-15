@@ -78,8 +78,8 @@ export default withPwa(
     base: '/',
     // 最后更新时间戳
     lastUpdated: true,
-    // 主题
-    appearance: 'dark',
+    // 主题：跟随系统（初始渲染不再强制深色）
+    appearance: 'auto',
     // Head
     head: [
       ...themeConfig.inject.header,
@@ -231,11 +231,30 @@ export default withPwa(
         clientsClaim: true,
         skipWaiting: true,
         cleanupOutdatedCaches: true,
+        // 页面导航请求：网络优先，网络失败才回退缓存。
+        // 这是"推送后打开仍是旧内容、需强刷"的根因之一——之前页面走 SW 缓存，
+        // 部署新版本后旧 HTML 仍被直接命中。改为 NetworkFirst 后每次打开都先请求网络。
+        navigateFallback: 'index.html',
+        navigateFallbackAllowlist: [/^(?!\/data\/).*$/],
         // 资源缓存
         runtimeCaching: [
           {
+            // HTML 页面文档：网络优先，拿不到新内容再退回缓存
+            urlPattern: ({ request }) => request.destination === 'document',
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'page-cache',
+              networkTimeoutSeconds: 3,
+              expiration: {
+                maxEntries: 64,
+                maxAgeSeconds: 60 * 60 * 24
+              }
+            }
+          },
+          {
+            // 字体与 CSS：带内容 hash，可长缓存；但 CSS 同样要能更新，用 StaleWhileRevalidate
             urlPattern: /(.*?)\.(woff2|woff|ttf|css)/,
-            handler: 'CacheFirst',
+            handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'file-cache'
             }
@@ -244,7 +263,11 @@ export default withPwa(
             urlPattern: /(.*?)\.(ico|webp|png|jpe?g|svg|gif|bmp|psd|tiff|tga|eps)/,
             handler: 'CacheFirst',
             options: {
-              cacheName: 'image-cache'
+              cacheName: 'image-cache',
+              expiration: {
+                maxEntries: 200,
+                maxAgeSeconds: 60 * 60 * 24 * 30
+              }
             }
           },
           {
@@ -262,9 +285,12 @@ export default withPwa(
             }
           }
         ],
-        // 缓存文件
-        globPatterns: ['**/*.{js,css,html,ico,png,jpg,jpeg,gif,svg,woff2,ttf}'],
-        globIgnores: ['**/vp-icons.css'],
+        // 缓存文件：只预缓存静态资源，不预缓存 HTML 页面。
+        // HTML 页面走下面的 document NetworkFirst 运行时路由（网络优先），
+        // 这是"推送部署后打开仍是旧内容、需强刷"的根因——之前所有 .html 都被
+        // precache，导航请求直接命中旧的预缓存页面，强刷才绕过 SW。
+        globPatterns: ['**/*.{js,css,ico,png,jpg,jpeg,gif,svg,woff2,ttf}'],
+        globIgnores: ['**/vp-icons.css', '**/*.html'],
         // 排除路径
         navigateFallbackDenylist: [
           /^\/sitemap.xml$/,
