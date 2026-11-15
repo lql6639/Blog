@@ -1,10 +1,11 @@
 import { computed, nextTick, reactive, ref } from 'vue'
-import seedWishes from '../assets/wishesData.mjs'
 
 // ===== 对外常量（模板直接用） =====
 export const MAX_LEN = 50
 export const NICK_LEN = 10
-export const STORE_KEY = 'blog:wishes'
+
+// 心愿数据 API 地址（api-server 的 wishes 模块，D1 存储）
+const API_BASE = 'https://server.lovlin.cn/v1/wishes'
 
 export const typeText = { wish: '心愿', treehole: '树洞' }
 
@@ -23,16 +24,8 @@ export const tabs = [
   { text: '树洞', value: 'treehole' }
 ]
 
-// 首次进入的示例数据：内容放在 assets/wishesData.mjs（不带 id），
-// 这里按顺序补上运行时的 key（布局、错位都以 id 为索引）
-const SEED = seedWishes.map((item, index) => ({
-  id: `seed-${index + 1}`,
-  ...item
-}))
-
-// 洗牌：数据文件里第一条固定是「小胡同学」，而手机端是流式列表、
-// 顺序就是显示顺序，刷新几次都看到它排第一。每次进入打乱一次，
-// 保证第一张（以及后面每张）都是随机的。
+// 洗牌：服务端按 id 倒序返回，手机端是流式列表、顺序就是显示顺序。
+// 每次进入打乱一次，保证第一张（以及后面每张）都是随机的。
 const shuffle = (list) => {
   const out = [...list]
   for (let i = out.length - 1; i > 0; i--) {
@@ -79,7 +72,7 @@ export const useWishes = () => {
     nickname: '',
     content: '',
     color: 'green',
-    type: 'wish'
+    type: 'treehole'
   })
 
   const filtered = computed(() => {
@@ -250,21 +243,29 @@ export const useWishes = () => {
     }
   }
 
-  const load = () => {
+  // 从接口拉取心愿列表（异步）。数据统一存在 D1，本地不再缓存。
+  const load = async () => {
     try {
-      const raw = localStorage.getItem(STORE_KEY)
-      const data = raw ? JSON.parse(raw) : null
-      items.value = shuffle(Array.isArray(data) && data.length ? data : SEED.map((i) => ({ ...i })))
-    } catch {
-      items.value = shuffle(SEED.map((i) => ({ ...i })))
-    }
-  }
+      const res = await fetch(`${API_BASE}`)
+      if (!res.ok) throw new Error('HTTP ' + res.status)
+      const json = await res.json()
+      const list = Array.isArray(json?.data) ? json.data : []
+      // 接口返回的 id 是数字，转成字符串 key 供布局/拖拽用（与 newId 字符串口径一致）
+      const mapped = list.map((item) => ({ ...item, id: String(item.id) }))
+      items.value = shuffle(mapped)
 
-  const save = () => {
-    try {
-      localStorage.setItem(STORE_KEY, JSON.stringify(items.value))
-    } catch {
-      /* 忽略存储失败 */
+      // 数据是异步到的，onMounted 里那次 relayout 时 items 还是空的，
+      // 这里在数据渲染后再补一次排布，否则桌面端卡片全是 opacity:0 不可见
+      nextTick(() => {
+        requestAnimationFrame(() => {
+          measureCards()
+          relayout(true)
+          requestAnimationFrame(() => settleAll())
+        })
+      })
+    } catch (e) {
+      console.error('加载心愿失败：', e)
+      items.value = []
     }
   }
 
@@ -307,9 +308,7 @@ export const useWishes = () => {
     anchors.value = { ...anchors.value, [item.id]: { ...best } }
   }
 
-  const newId = () => `w-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`
-
-  const submit = () => {
+  const submit = async () => {
     const content = form.content.trim()
     const nickname = form.nickname.trim()
     if (!content) return toast('还没写内容呢')
@@ -321,8 +320,7 @@ export const useWishes = () => {
 
     sending.value = true
     const now = new Date()
-    const item = {
-      id: newId(),
+    const payload = {
       content,
       nickname: nickname || '匿名',
       color: form.color,
@@ -330,24 +328,40 @@ export const useWishes = () => {
       date: `${now.getFullYear()}/${now.getMonth() + 1}/${now.getDate()}`
     }
 
-    items.value = [item, ...items.value]
-    addedId.value = item.id
-    save()
-    placeCard(item)
-    // 等新卡真正渲染出来，量过高度再校边界，然后才播抬起动画
-    nextTick(() => {
-      requestAnimationFrame(() => {
-        measureCards()
-        settleAll()
-        raise(item)
+    try {
+      const res = await fetch(`${API_BASE}/v1/wishes`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
       })
-    })
+      if (!res.ok) throw new Error('HTTP ' + res.status)
+      const json = await res.json()
+      if (!json?.success) throw new Error(json?.message || '发布失败')
 
-    form.content = ''
-    sending.value = false
-    toast('已经贴上去啦')
+      // 用服务端返回的真实 id（字符串化，和 load 的口径一致）
+      const item = { ...payload, id: String(json.data.id) }
 
-    window.setTimeout(() => (addedId.value = null), 900)
+      items.value = [item, ...items.value]
+      addedId.value = item.id
+      placeCard(item)
+      // 等新卡真正渲染出来，量过高度再校边界，然后才播抬起动画
+      nextTick(() => {
+        requestAnimationFrame(() => {
+          measureCards()
+          settleAll()
+          raise(item)
+        })
+      })
+
+      form.content = ''
+      sending.value = false
+      toast('已经贴上去啦')
+      window.setTimeout(() => (addedId.value = null), 900)
+    } catch (e) {
+      sending.value = false
+      console.error('发布失败：', e)
+      toast('发布失败，请稍后再试')
+    }
   }
 
   const toggleType = () => {
