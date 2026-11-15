@@ -9,7 +9,7 @@ const linkData = [
       {
         name: '小栈',
         avatar: '/images/logo/logo.webp',
-        desc: '想逃离这个世界 却发现还有一个你',
+        desc: '想逃离这个世界，却发现还有一个你。',
         url: 'https://blog.lovlin.cn'
       }
     ]

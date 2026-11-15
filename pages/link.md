@@ -22,7 +22,7 @@ import Link from "@/views/Link.vue";
 ### 我的友链信息
 
 - 名称：`koizora`
-- 描述：`眼角的泪这不是错觉`
+- 描述：`想逃离这个世界，却发现还有一个你。`
 - 地址：`https://blog.lovlin.cn`
 - 头像：`https://blog.lovlin.cn/images/logo/logo.webp`
 - 站点图片：`麻烦自行拍摄（不加也行）`

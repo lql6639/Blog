@@ -130,10 +130,15 @@ const { viewer, stageRef, openViewer, stepViewer, onViewerClick } = useImageView
 }
 
 .share-card {
+  /* 头像尺寸与列间距统一走变量：改头像大小后，右侧空隙、格子边长自动跟随，
+     只需改 --avatar-size 一处（移动端在媒体查询里覆盖） */
+  --avatar-size: 42px;
+  --card-gap: 10px;
+
   /* 左头像 + 右内容两栏，右侧吃满剩余宽度 */
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: var(--card-gap);
   cursor: default;
   padding: 1.1rem;
 
@@ -158,9 +163,9 @@ const { viewer, stageRef, openViewer, stepViewer, onViewerClick } = useImageView
   }
 
   .avatar {
-    flex: 0 0 42px;
-    width: 42px;
-    height: 42px;
+    flex: 0 0 var(--avatar-size);
+    width: var(--avatar-size);
+    height: var(--avatar-size);
     overflow: hidden;
     border-radius: 50%;
 
@@ -294,6 +299,37 @@ const { viewer, stageRef, openViewer, stepViewer, onViewerClick } = useImageView
   border-radius: inherit;
   object-fit: cover;
   transition: transform 0.35s ease;
+}
+
+/* ---------- 移动端 ---------- */
+@media (max-width: 768px) {
+  .share-feed .share-card {
+    /* 只改这里两个变量即可：头像尺寸 + 列间距。
+       头像宽高、右侧空隙、九宫格边长都会自动跟随，无需再改别处 */
+    --avatar-size: 36px;
+    --card-gap: 8px;
+
+    /* 头像稍微缩小一档 */
+    .avatar {
+      flex: 0 0 var(--avatar-size);
+      width: var(--avatar-size);
+      height: var(--avatar-size);
+    }
+
+    .head {
+      min-height: var(--avatar-size);
+    }
+
+    /* 右侧留出与左侧头像等宽的空隙（头像 + 间距），左右对称；
+       格子边长引用同一变量自动收缩 */
+    .gallery {
+      margin-right: calc(var(--avatar-size) + var(--card-gap));
+      --tile: min(
+        170px,
+        calc((100cqw - var(--avatar-size) - var(--card-gap) - var(--tile-gap) * 2) / 3)
+      );
+    }
+  }
 }
 
 /* ---------- 空态 / 加载更多 ---------- */

@@ -86,7 +86,7 @@ export const themeConfig = {
     {
       text: '友链',
       items: [
-        { text: '心愿树洞', link: '/pages/wishes', icon: 'git' },
+        { text: '心愿树洞', link: '/pages/wishes', icon: 'algolia' },
         { text: '友情链接', link: '/pages/link', icon: 'people' }
       ]
     },

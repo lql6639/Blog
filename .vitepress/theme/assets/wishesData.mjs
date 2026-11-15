@@ -3,6 +3,20 @@
  */
 export default [
   {
+    content: '谁想维系关系谁付出，这句话很难懂吗。',
+    nickname: '等雨停',
+    color: 'orange',
+    type: 'treehole',
+    date: '2026/11/14'
+  },
+  {
+    content: '大家是怎么释怀自己喜欢的人不喜欢自己的。',
+    nickname: '爱的警告',
+    color: 'purple',
+    type: 'treehole',
+    date: '2026/11/14'
+  },
+  {
     content: '茶要泡开才好喝，人要想开才好过。苦涩并非我真意，历尽鼎沸显甘香。',
     nickname: '小胡同学',
     color: 'orange',
