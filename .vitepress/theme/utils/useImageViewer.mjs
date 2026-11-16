@@ -60,9 +60,9 @@ export const useImageViewer = () => {
     document.body.style.overflow = ''
   }
 
-  // 除了图片和翻页按钮，点查看器里任何位置都关闭（含底部计数、四周空白）
+  // 除了翻页按钮，点查看器里任何位置都关闭（含图片本身、底部计数、四周空白）
   const onViewerClick = (e) => {
-    if (e.target.closest('.v-img, .v-btn')) return
+    if (e.target.closest('.v-btn')) return
     closeViewer()
   }
 

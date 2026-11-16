@@ -71,16 +71,16 @@ export const themeConfig = {
     {
       text: '文库',
       items: [
-        { text: '文章列表', link: '/pages/archives', icon: 'article' },
-        { text: '全部分类', link: '/pages/categories', icon: 'folder' },
-        { text: '全部标签', link: '/pages/tags', icon: 'hashtag' }
+        { text: '文章主页', link: '/', icon: 'home' },
+        { text: '文章列表', link: '/pages/archives', icon: 'article' }
       ]
     },
     {
       text: '专栏',
       items: [
-        { text: '我的项目', link: '/pages/project', icon: 'code' },
-        { text: '畅所欲言', link: '/pages/message', icon: 'chat' }
+        { text: '全部分类', link: '/pages/categories', icon: 'folder' },
+        { text: '全部标签', link: '/pages/tags', icon: 'hashtag' },
+        { text: '我的项目', link: '/pages/project', icon: 'code' }
       ]
     },
     {
@@ -93,7 +93,8 @@ export const themeConfig = {
     {
       text: '我的',
       items: [
-        { text: '日常分享', link: '/pages/share', icon: 'git' },
+        { text: '日常分享', link: '/pages/share', icon: 'algolia' },
+        { text: '畅所欲言', link: '/pages/message', icon: 'chat' },
         { text: '关于本站', link: '/pages/about', icon: 'contacts' }
       ]
     }
@@ -359,6 +360,6 @@ export const themeConfig = {
   },
   // 站点统计
   tongji: {
-    '51la': '3M1I52LMkdPIgpya'
+    '51la': '3RqXKKfljSO1Gejg'
   }
 }

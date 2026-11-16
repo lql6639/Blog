@@ -87,7 +87,7 @@
               <span class="name">{{ item }}</span>
             </a>
           </div>
-          <a href="/pages/message" class="report" target="_blank">
+          <a href="/pages/message" class="report">
             <i class="iconfont icon-report" />
             反馈与投诉
           </a>

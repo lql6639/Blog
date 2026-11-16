@@ -97,9 +97,8 @@
               target="_blank"
             >
               <i class="iconfont icon-link"></i>
-              <span class="name">在新标签页打开</span>
+              <span class="name">新标签页打开</span>
             </a>
-            <!--
             <a
               v-if="clickedType === 'text' || clickedType === 'input'"
               :href="`https://www.baidu.com/s?wd=${encodeURIComponent(clickedTypeData)}`"
@@ -109,7 +108,6 @@
               <i class="iconfont icon-baidu"></i>
               <span class="name">使用百度搜索</span>
             </a>
-            -->
             <a
               v-if="clickedType === 'text' || clickedType === 'input'"
               :href="`https://cn.bing.com/search?q=${encodeURIComponent(clickedTypeData)}`"
