@@ -190,7 +190,7 @@ onMounted(() => {
   if (hasPassword.value && checkUnlocked()) {
     isUnlocked.value = true
   }
-  // 本页访问量（与 reportVisit 用同一个口径：地址栏真实路径）
+  // 本页访问量（与 reportVisit 同一口径：location.pathname，cleanUrls 下不带 .html）
   fetchStats(window.location.pathname).then((data) => {
     pagePv.value = data?.page_pv ?? null
   })
