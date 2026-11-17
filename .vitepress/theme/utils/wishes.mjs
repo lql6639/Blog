@@ -55,7 +55,17 @@ const DRAG_THRESHOLD = 5
  *
  */
 export const useWishes = () => {
+  // wrapRef：可视画布（.board），用来读真实可用尺寸
+  // boardRef：卡片容器（.board-canvas），卡片 absolute 相对它定位，桌面端整体缩放
+  const wrapRef = ref(null)
   const boardRef = ref(null)
+  const boardScale = ref(1)
+  const canvasSize = reactive({ w: 0, h: 0 })
+  const canvasStyle = computed(() => ({
+    width: `${canvasSize.w}px`,
+    height: `${canvasSize.h}px`,
+    transform: `scale(${boardScale.value})`
+  }))
   const items = ref([])
   const layout = ref({})
   // 每张卡的"原位"：点击时的错位都相对它算，连点也不会越飘越远
@@ -113,8 +123,9 @@ export const useWishes = () => {
   const bounds = (rotate = 0) => {
     const el = boardRef.value
     if (!el) return { minX: 0, maxX: 0, minY: 0, maxY: 0 }
-    const w = el.clientWidth
-    const h = el.clientHeight
+    // 用算好的逻辑尺寸，避免刚改完缩放、DOM 还没更新时读到旧值
+    const w = canvasSize.w || el.clientWidth
+    const h = canvasSize.h || el.clientHeight
     const cardH = cardHeight.value
     const rad = (Math.abs(rotate) * Math.PI) / 180
     const boxW = CARD_W * Math.cos(rad) + cardH * Math.sin(rad)
@@ -143,8 +154,8 @@ export const useWishes = () => {
   const settleAll = () => {
     const el = boardRef.value
     if (!el || isMobile.value) return
-    const w = el.clientWidth
-    const h = el.clientHeight
+    const w = canvasSize.w || el.clientWidth
+    const h = canvasSize.h || el.clientHeight
     const next = { ...layout.value }
     let changed = false
 
@@ -189,17 +200,47 @@ export const useWishes = () => {
 
   // 桌面端：把画布切成网格，每格内随机撒开——既有散落感，又不会全挤在一处
   // force = true 时忽略已有位置重新排布（初次挂载、窗口尺寸变化）
+  //
+  // 一屏放不下时不是加滚动条，而是把整块画布等比缩小（卡片、间距一起缩），
+  // 保证便签墙始终是一屏、没有滚动条。
   const relayout = (force = false) => {
-    if (!boardRef.value || isMobile.value) return
-    const w = boardRef.value.clientWidth
-    const h = boardRef.value.clientHeight
-    if (w < 320) return
+    const wrap = wrapRef.value
+    if (!wrap || !boardRef.value || isMobile.value) return
+    const w0 = wrap.clientWidth
+    const h0 = wrap.clientHeight
+    if (w0 < 320) return
 
     const total = items.value.length
-    const cols = Math.max(1, Math.min(total, Math.floor((w - EDGE_X * 2) / (CARD_W + 26))))
+    const cardH = cardHeight.value
+    const GAP = 14 // 行与行之间至少留的空隙，用来算"放不放得下"
+    const MIN_SCALE = 0.6 // 再小字就看不清了
+
+    // 找一个"刚好放得下"的最大缩放比：从 1 往下试，首个满足的即是。
+    // 缩放后逻辑宽度变大，列数会跟着变多、行数变少，所以要边试边算。
+    let s = 1
+    let W = w0
+    let H = h0
+    for (; s >= MIN_SCALE; s -= 0.02) {
+      W = w0 / s
+      H = h0 / s
+      const c = Math.max(1, Math.min(total, Math.floor((W - EDGE_X * 2) / (CARD_W + 26))))
+      const r = Math.max(1, Math.ceil(total / c))
+      const needH = EDGE_TOP + EDGE_BOTTOM + r * cardH + (r - 1) * GAP
+      if (needH <= H) break
+    }
+    s = Math.max(MIN_SCALE, +s.toFixed(2))
+    W = w0 / s
+    H = h0 / s
+
+    boardScale.value = +s.toFixed(3)
+    canvasSize.w = Math.round(W)
+    canvasSize.h = Math.round(H)
+
+    const cols = Math.max(1, Math.min(total, Math.floor((W - EDGE_X * 2) / (CARD_W + 26))))
     const rows = Math.max(1, Math.ceil(total / cols))
-    const cellW = (w - EDGE_X * 2) / cols
-    const cellH = Math.max(150, (h - EDGE_TOP - EDGE_BOTTOM) / rows)
+    const cellW = (W - EDGE_X * 2) / cols
+    // 每行的格子高度，卡片在格子内随机撒开，保留便签墙的散落感
+    const cellH = Math.max(cardH + 6, (H - EDGE_TOP - EDGE_BOTTOM) / rows)
 
     const next = {}
 
@@ -215,7 +256,7 @@ export const useWishes = () => {
       const col = i % cols
       const row = Math.floor(i / cols)
       const maxX = Math.max(0, cellW - CARD_W)
-      const maxY = Math.max(0, cellH - cardHeight.value)
+      const maxY = Math.max(0, cellH - cardH)
       const rotate = +(Math.random() * 5 - 2.5).toFixed(2)
       const pos = clampPos(
         EDGE_X + col * cellW + Math.random() * maxX,
@@ -438,10 +479,12 @@ export const useWishes = () => {
       return
     }
 
-    // 拖到边上就停住，卡片不会被拖出画布
+    // 拖到边上就停住，卡片不会被拖出画布。
+    // 桌面端画布整体缩放过，鼠标位移要按缩放比折算回逻辑坐标
+    const k = boardScale.value || 1
     const pos = clampPos(
-      dragState.left + (e.clientX - dragState.startX),
-      dragState.top + (e.clientY - dragState.startY),
+      dragState.left + (e.clientX - dragState.startX) / k,
+      dragState.top + (e.clientY - dragState.startY) / k,
       dragState.rotate
     )
     layout.value = {
@@ -484,7 +527,11 @@ export const useWishes = () => {
   }
 
   return {
+    wrapRef,
     boardRef,
+    boardScale,
+    canvasStyle,
+    canvasSize,
     items,
     filter,
     setFilter,

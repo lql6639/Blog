@@ -2,38 +2,45 @@
 <template>
   <div class="wishes-page">
     <!-- 画布 -->
-    <div ref="boardRef" class="board" :class="{ 'is-mobile': isMobile }">
+    <div ref="wrapRef" class="board" :class="{ 'is-mobile': isMobile }">
+      <!-- 桌面端：整块缩放，保证一屏放得下且不出现滚动条 -->
       <div
-        v-for="(item, index) in filtered"
-        :key="item.id"
-        class="wish-card"
-        :id="'wish-' + item.id"
-        :data-color="item.color"
-        :class="{
-          dragging: draggingId === item.id,
-          'just-added': item.id === addedId
-        }"
-        :style="cardStyle(item, index)"
-        @mousedown="onCardDown(item)"
+        ref="boardRef"
+        class="board-canvas"
+        :style="isMobile ? null : canvasStyle"
       >
-        <div class="card-head" @mousedown="startDrag($event, item)">
-          <span class="dots">
-            <i class="dot red" />
-            <i class="dot yellow" />
-            <i class="dot green" />
-          </span>
-          <span class="card-tag">{{ typeText[item.type] }}</span>
+        <div
+          v-for="(item, index) in filtered"
+          :key="item.id"
+          class="wish-card"
+          :id="'wish-' + item.id"
+          :data-color="item.color"
+          :class="{
+            dragging: draggingId === item.id,
+            'just-added': item.id === addedId
+          }"
+          :style="cardStyle(item, index)"
+          @mousedown="onCardDown(item)"
+        >
+          <div class="card-head" @mousedown="startDrag($event, item)">
+            <span class="dots">
+              <i class="dot red" />
+              <i class="dot yellow" />
+              <i class="dot green" />
+            </span>
+            <span class="card-tag">{{ typeText[item.type] }}</span>
+          </div>
+          <div class="card-body">{{ item.content }}</div>
+          <div class="card-foot">
+            <span class="nick">{{ item.nickname || '匿名' }}</span>
+            <span class="date">{{ item.date }}</span>
+          </div>
         </div>
-        <div class="card-body">{{ item.content }}</div>
-        <div class="card-foot">
-          <span class="nick">{{ item.nickname || '匿名' }}</span>
-          <span class="date">{{ item.date }}</span>
-        </div>
-      </div>
 
-      <div v-if="!filtered.length" class="empty">
-        <i class="iconfont icon-search-empty" />
-        <p>这里还空着，说点什么吧...</p>
+        <div v-if="!filtered.length" class="empty">
+          <i class="iconfont icon-search-empty" />
+          <p>这里还空着，说点什么吧...</p>
+        </div>
       </div>
     </div>
 
@@ -98,7 +105,9 @@ import { COLORS, MAX_LEN, NICK_LEN, tabs, typeText, useWishes } from '@/utils/wi
 
 // 数据、布局、拖拽逻辑都在 utils/wishes.mjs，组件这边负责挂载时序与事件监听
 const {
+  wrapRef,
   boardRef,
+  canvasStyle,
   filter,
   setFilter,
   filtered,
@@ -172,8 +181,7 @@ onUnmounted(() => {
 .board {
   position: absolute;
   inset: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden;
   padding-bottom: 130px;
 
   &.is-mobile {
@@ -181,6 +189,21 @@ onUnmounted(() => {
     flex-direction: column;
     gap: 14px;
     padding: 84px 16px 150px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+}
+
+// 桌面端：卡片放在这块画布里整体缩放，origin 左上角，缩放后正好铺满
+.board-canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: top left;
+
+  // 移动端是流式布局，让卡片直接参与 .board 的 flex 排布
+  .board.is-mobile & {
+    display: contents;
   }
 }
 
