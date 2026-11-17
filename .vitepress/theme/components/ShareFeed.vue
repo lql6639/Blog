@@ -69,7 +69,15 @@
 
     <!-- 图片查看器（站内打开，不跳页） -->
     <Teleport to="body">
-      <div v-if="viewer.list.length" class="share-viewer" @click="onViewerClick">
+      <div
+        v-if="viewer.list.length"
+        class="share-viewer"
+        @click="onViewerClick"
+        @pointerdown="onPointerDown"
+        @pointermove="onPointerMove"
+        @pointerup="endPointerDrag"
+        @pointercancel="endPointerDrag"
+      >
         <!-- 翻页按钮常驻，到头不再隐藏；点到头只是停在这张，不会关闭 -->
         <button
           type="button"
@@ -115,7 +123,16 @@ const { theme } = useData()
 const author = computed(() => theme.value.siteMeta.author)
 
 const { paged, hasMore, loadMore } = useShareFeed()
-const { viewer, stageRef, openViewer, stepViewer, onViewerClick } = useImageViewer()
+const {
+  viewer,
+  stageRef,
+  openViewer,
+  stepViewer,
+  onViewerClick,
+  onPointerDown,
+  onPointerMove,
+  endPointerDrag
+} = useImageViewer()
 </script>
 
 <style lang="scss" scoped>
@@ -384,6 +401,9 @@ const { viewer, stageRef, openViewer, stepViewer, onViewerClick } = useImageView
   justify-content: center;
   background: rgba(0, 0, 0, 0.92);
   animation: share-viewer-fade 0.2s ease;
+  /* 左右滑动翻页时别让页面跟着滚，也别选中文字 */
+  touch-action: none;
+  user-select: none;
 
   /* 只是给搬进来的图片占位，不生成盒子，保证点空白处仍能触发关闭 */
   .v-stage {
@@ -397,6 +417,23 @@ const { viewer, stageRef, openViewer, stepViewer, onViewerClick } = useImageView
     border-radius: 8px;
     object-fit: contain;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    /* PC 上按住图片拖动时不要触发浏览器自带的图片拖拽 */
+    -webkit-user-drag: none;
+    user-select: none;
+    /* 拖动时交给合成层处理，避免每帧重绘整张图 */
+    will-change: transform;
+    /* 松手回位用过渡；拖动过程中会被内联的 transition: none 覆盖 */
+    transition: transform 0.25s ease;
+  }
+
+  /* 拖动时从旁边补进来的相邻图：与当前图同心，再按位移量偏移着一起走 */
+  .v-neighbor {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    will-change: transform;
   }
 
   .v-btn {
@@ -436,6 +473,13 @@ const { viewer, stageRef, openViewer, stepViewer, onViewerClick } = useImageView
 
   .v-next {
     right: 22px;
+  }
+
+  /* 移动端靠左右滑动翻页，不需要这两个按钮（小屏上还容易点到背景误关闭） */
+  @media (max-width: 767px) {
+    .v-btn {
+      display: none;
+    }
   }
 
   .v-count {
