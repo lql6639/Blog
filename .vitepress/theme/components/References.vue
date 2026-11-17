@@ -25,7 +25,18 @@ import { useData } from 'vitepress'
 const { frontmatter } = useData() // frontmatter 已经在这里声明了
 const screenWidth = ref(0)
 // 直接使用 frontmatter 来初始化 references
-const references = ref(frontmatter.value?.references || []) // 不需要重新声明 frontmatter
+const references = ref([])
+
+// frontmatter 是响应式的，SPA 内切换文章时必须跟着更新。
+// 之前只在 setup 时读一次，切到没有 references 的文章后，
+// 上一篇的参考资料会一直留在页面上。
+watch(
+  () => frontmatter.value?.references,
+  (val) => {
+    references.value = Array.isArray(val) ? val : []
+  },
+  { immediate: true }
+)
 
 // 计算属性，用于动态限制标题字数
 const limitedReferences = computed(() => {
