@@ -64,8 +64,10 @@ const Theme = {
       routeChange('before', to)
     }
     router.onAfterRouteChanged = (to) => {
-      // 路由切换上报一次访问
-      reportVisit(to.path)
+      // 路由切换上报一次访问。这里用 location.pathname 而不是 to.path：
+      // VitePress 的 to.path 是 /posts/2025/0714，而地址栏是 /posts/2025/0714.html，
+      // 两者混用会导致页面级 PV 对不上号。
+      reportVisit()
       if (isInitialRoute) {
         isInitialRoute = false
         return

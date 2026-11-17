@@ -190,13 +190,10 @@ onMounted(() => {
   if (hasPassword.value && checkUnlocked()) {
     isUnlocked.value = true
   }
-  // 本页访问量
-  const rel = page.value?.relativePath || ''
-  if (rel) {
-    fetchStats(`/${rel.replace(/\.md$/, '.html')}`).then((data) => {
-      pagePv.value = data?.page_pv ?? null
-    })
-  }
+  // 本页访问量（与 reportVisit 用同一个口径：地址栏真实路径）
+  fetchStats(window.location.pathname).then((data) => {
+    pagePv.value = data?.page_pv ?? null
+  })
 })
 </script>
 
