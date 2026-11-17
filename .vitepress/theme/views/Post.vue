@@ -38,16 +38,11 @@
           <i class="iconfont icon-time" />
           {{ formatTimestampAt(page?.lastUpdated || postMetaData.lastModified, now) }}
         </span>
-        <!-- 热度 -->
-        <span class="hot meta">
+        <!-- 热度：本页访问量（自建统计 /v1/stats?path=） -->
+        <span class="hot meta" title="本页访问量">
           <i class="iconfont icon-fire" />
-          <span id="twikoo_visitors" class="artalk-pv-count">-</span>
+          <span class="pv-count">{{ pagePv === null ? '-' : pagePv }}</span>
         </span>
-        <!-- 评论数 -->
-        <!-- <span class="chat meta hover" @click="commentRef?.scrollToComments">
-          <i class="iconfont icon-chat" />
-          <span id="twikoo_comments" class="artalk-comment-count">0</span>
-        </span> -->
       </div>
     </div>
     <!-- 密码保护 - 全屏显示 -->
@@ -97,8 +92,6 @@
         <NextPost />
         <!-- 相关文章 -->
         <RelatedPost />
-        <!-- 评论 -->
-        <Comments ref="commentRef" />
       </article>
       <Aside v-if="isDesktopAsideVisible" showToc />
     </div>
@@ -119,16 +112,17 @@ import { usePostData } from '@/utils/usePostData.mjs'
 import { toLocalDayTimestamp } from '@/utils/dateAnchor.mjs'
 // 同样必须从零依赖模块引入，理由同 dateAnchor.mjs
 import { normalizeList } from '@/utils/normalizeList.mjs'
+import { fetchStats } from '@/utils/stats.mjs'
 import PasswordProtect from '@/components/PasswordProtect.vue'
 
 const { page, theme, frontmatter } = useData()
 const { isDesktopAsideVisible } = useDesktopAside()
 const { postData, loadPostData } = usePostData()
 
-// 评论元素
-const commentRef = ref(null)
+// 本页访问量（自建统计，替代原先 Twikoo 的 pv 注入）
+const pagePv = ref(null)
 
-// 相对时间统一基于浏览器本地时钟实时计算，避免静态缓存固化构建时间
+// 相对时间统一基于浏览器本地时钟实时计算，避免缓存固化构建时间
 const { now } = useClientNow()
 
 // 文章 ID
@@ -195,6 +189,13 @@ onMounted(() => {
   // 检查是否已解锁
   if (hasPassword.value && checkUnlocked()) {
     isUnlocked.value = true
+  }
+  // 本页访问量
+  const rel = page.value?.relativePath || ''
+  if (rel) {
+    fetchStats(`/${rel.replace(/\.md$/, '.html')}`).then((data) => {
+      pagePv.value = data?.page_pv ?? null
+    })
   }
 })
 </script>
