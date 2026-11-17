@@ -1,11 +1,12 @@
 /**
- * 站点统计（自建）：数据来自 api-server 的 /v1/stats，D1 存储。
+ * 站点统计（自建）：数据来自 api-server
  * 不再依赖不蒜子等第三方统计服务。
  */
 
 import { ref } from 'vue'
 
-const API_BASE = 'https://server.lovlin.cn'
+// 站点统计 API 地址（api-server 的 stats 模块，D1 存储）
+const API_BASE = 'https://server.lovlin.cn/v1/stats'
 
 // 全站共享的统计值：上报成功后写入，组件直接读，避免"看到的是上一次的数字"
 export const liveStats = ref(null)
@@ -48,7 +49,7 @@ export const reportVisit = async (path) => {
   }
 
   try {
-    const res = await fetch(`${API_BASE}/v1/stats`, {
+    const res = await fetch(`${API_BASE}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ path: target }),
@@ -79,7 +80,7 @@ export const reportVisit = async (path) => {
 export const fetchStats = async (path) => {
   try {
     const query = path ? `?path=${encodeURIComponent(path)}` : ''
-    const res = await fetch(`${API_BASE}/v1/stats${query}`, { cache: 'no-store' })
+    const res = await fetch(`${API_BASE}${query}`, { cache: 'no-store' })
     if (!res.ok) throw new Error('HTTP ' + res.status)
     const json = await res.json()
     if (!json?.success || !json?.data) throw new Error('返回数据无效')
