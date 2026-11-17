@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-import { fetchStats } from '@/utils/stats.mjs'
+import { fetchStats, liveStats } from '@/utils/stats.mjs'
 import { daysPassedAt, useClientNow } from '@/utils/useClientNow.mjs'
 
 const { theme } = useData()
@@ -49,12 +49,11 @@ const { now } = useClientNow()
 const sinceDays = computed(() => daysPassedAt(theme.value.since, now.value))
 
 // 站点统计（自建接口，数据存 D1）
-const stats = ref(null)
-const pvText = computed(() => (stats.value ? `${stats.value.site_pv} 次` : '--'))
-const uvText = computed(() => (stats.value ? `${stats.value.site_uv} 人` : '--'))
+const pvText = computed(() => (liveStats.value ? `${liveStats.value.site_pv} 次` : '--'))
+const uvText = computed(() => (liveStats.value ? `${liveStats.value.site_uv} 人` : '--'))
 
-onMounted(async () => {
-  stats.value = await fetchStats()
+onMounted(() => {
+  fetchStats()
 })
 </script>
 

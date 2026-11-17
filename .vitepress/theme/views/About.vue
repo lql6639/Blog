@@ -97,13 +97,13 @@
 </template>
 
 <script setup>
-import { fetchStats } from '@/utils/stats.mjs'
+import { fetchStats, liveStats } from '@/utils/stats.mjs'
 
 const birthDate = '2002-02-06'
 const hrtDate = '2024-03-24'
 
 // 站点统计（自建接口，数据存 D1）
-const siteStats = ref(null)
+const siteStats = liveStats
 
 // 技能数据
 
@@ -176,8 +176,8 @@ const skillsData = [
   }
 ]
 
-onMounted(async () => {
-  siteStats.value = await fetchStats()
+onMounted(() => {
+  fetchStats()
 })
 </script>
 
