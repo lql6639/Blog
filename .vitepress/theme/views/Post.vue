@@ -41,7 +41,7 @@
         <!-- 热度：本页访问量（自建统计 /v1/stats?path=） -->
         <span class="hot meta" title="本页访问量">
           <i class="iconfont icon-fire" />
-          <span class="pv-count">{{ pagePv === null ? '-' : pagePv }}</span>
+          <span class="pv-count">{{ pagePv ?? '-' }}</span>
         </span>
       </div>
     </div>
@@ -112,15 +112,16 @@ import { usePostData } from '@/utils/usePostData.mjs'
 import { toLocalDayTimestamp } from '@/utils/dateAnchor.mjs'
 // 同样必须从零依赖模块引入，理由同 dateAnchor.mjs
 import { normalizeList } from '@/utils/normalizeList.mjs'
-import { fetchStats } from '@/utils/stats.mjs'
+import { fetchStats, livePagePv } from '@/utils/stats.mjs'
 import PasswordProtect from '@/components/PasswordProtect.vue'
 
 const { page, theme, frontmatter } = useData()
 const { isDesktopAsideVisible } = useDesktopAside()
 const { postData, loadPostData } = usePostData()
 
-// 本页访问量（自建统计，替代原先 Twikoo 的 pv 注入）
-const pagePv = ref(null)
+// 本页访问量（自建统计，替代原先 Twikoo 的 pv 注入）。
+// 用共享的 livePagePv：上报结果（含本次访问）会比这里的 GET 更新，能及时覆盖。
+const pagePv = livePagePv
 
 // 相对时间统一基于浏览器本地时钟实时计算，避免缓存固化构建时间
 const { now } = useClientNow()
@@ -191,9 +192,8 @@ onMounted(() => {
     isUnlocked.value = true
   }
   // 本页访问量（与 reportVisit 同一口径：location.pathname，cleanUrls 下不带 .html）
-  fetchStats(window.location.pathname).then((data) => {
-    pagePv.value = data?.page_pv ?? null
-  })
+  // 兜底拉一次（本地开发不上报时也能显示；线上会被上报结果覆盖）
+  fetchStats(window.location.pathname)
 })
 </script>
 
