@@ -54,7 +54,7 @@ const changeHello = () => {
   } else if (helloClick.value === 100) {
     helloText.value = '怎么还在点'
   } else {
-    helloText.value = `x ${helloClick.value - 3}`
+    helloText.value = `x ${helloClick.value}`
   }
   // 恢复默认
   helloTimeOut.value = setTimeout(() => {

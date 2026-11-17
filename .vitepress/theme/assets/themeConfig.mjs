@@ -143,7 +143,7 @@ export const themeConfig = {
     social: [
       {
         icon: 'email',
-        link: 'mailto:1740242084@qq.com'
+        link: 'mailto:koizora@lovlin.cn'
       },
       {
         icon: 'github',

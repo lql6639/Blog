@@ -25,21 +25,21 @@
           <i class="iconfont icon-visibility"></i>
           总访问量
         </span>
-        <span class="num" id="busuanzi_value_site_pv">0</span>
+        <span class="num">{{ pvText }}</span>
       </div>
       <div class="data-item">
         <span class="name">
           <i class="iconfont icon-account"></i>
           总访客数
         </span>
-        <span class="num" id="busuanzi_value_site_uv">0</span>
+        <span class="num">{{ uvText }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { loadScript } from '@/utils/commonTools'
+import { fetchStats } from '@/utils/stats.mjs'
 import { daysPassedAt, useClientNow } from '@/utils/useClientNow.mjs'
 
 const { theme } = useData()
@@ -48,11 +48,13 @@ const { theme } = useData()
 const { now } = useClientNow()
 const sinceDays = computed(() => daysPassedAt(theme.value.since, now.value))
 
-onMounted(() => {
-  loadScript('https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js', {
-    async: true,
-    reload: true
-  })
+// 站点统计（自建接口，数据存 D1）
+const stats = ref(null)
+const pvText = computed(() => (stats.value ? `${stats.value.site_pv} 次` : '--'))
+const uvText = computed(() => (stats.value ? `${stats.value.site_uv} 人` : '--'))
+
+onMounted(async () => {
+  stats.value = await fetchStats()
 })
 </script>
 
@@ -81,18 +83,6 @@ onMounted(() => {
       .num {
         opacity: 0.8;
         font-size: 15px;
-      }
-
-      #busuanzi_value_site_pv {
-        &::after {
-          content: ' 次';
-        }
-      }
-
-      #busuanzi_value_site_uv {
-        &::after {
-          content: ' 人';
-        }
       }
 
       &:last-child {

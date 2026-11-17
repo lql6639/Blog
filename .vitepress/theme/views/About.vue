@@ -40,17 +40,17 @@
           <div class="static-data">
             <div class="static-item">
               <span class="static-name">总访问量</span>
-              <span id="busuanzi_value_site_pv" class="static-num">0</span>
+              <span class="static-num">{{ siteStats ? siteStats.site_pv : '--' }}</span>
             </div>
             <div class="static-item">
               <span class="static-name">总访客数</span>
-              <span id="busuanzi_value_site_uv" class="static-num">0</span>
+              <span class="static-num">{{ siteStats ? siteStats.site_uv : '--' }}</span>
             </div>
           </div>
           <div class="image-desc opacity">
             <span class="left">
               统计信息来自
-              <a href="https://busuanzi.ibruce.info/" target="_blank">不蒜子</a>
+              <a href="https://server.lovlin.cn/docs/stats.md" target="_blank">本站 API</a>
             </span>
           </div>
         </div>
@@ -97,10 +97,13 @@
 </template>
 
 <script setup>
-import { loadScript } from '@/utils/commonTools'
+import { fetchStats } from '@/utils/stats.mjs'
 
 const birthDate = '2002-02-06'
 const hrtDate = '2024-03-24'
+
+// 站点统计（自建接口，数据存 D1）
+const siteStats = ref(null)
 
 // 技能数据
 
@@ -127,37 +130,37 @@ const skillsData = [
     name: 'Vue',
     color: '#41b883',
     icon: 'vue',
-    link: 'https://cn.vuejs.org/'
+    link: 'https://cn.vuejs.org'
   },
   {
     name: 'React',
     color: '#149ECA',
     icon: 'react',
-    link: 'https://zh-hans.reactjs.org/'
+    link: 'https://zh-hans.reactjs.dev'
   },
   {
     name: 'Node.js',
     color: '#026E00',
     icon: 'nodejs',
-    link: 'https://nodejs.org/'
+    link: 'https://nodejs.org/zh-cn'
   },
   {
     name: 'Python',
     color: '#3776AB',
     icon: 'python',
-    link: 'https://www.python.org/'
+    link: 'https://python.org'
   },
   {
     name: 'Git',
     color: '#F05032',
     icon: 'git',
-    link: 'https://git-scm.com/'
+    link: 'https://git-scm.com'
   },
   {
     name: 'Docker',
     color: '#2496f2',
     icon: 'docker',
-    link: 'https://www.docker.com/'
+    link: 'https://docker.com'
   },
   {
     name: 'Photoshop',
@@ -169,15 +172,12 @@ const skillsData = [
     name: 'ChatGPT',
     color: '#4AA181',
     icon: 'chatgpt',
-    link: 'https://chat.openai.com/'
+    link: 'https://chat.openai.com'
   }
 ]
 
-onMounted(() => {
-  loadScript('https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js', {
-    async: true,
-    reload: true
-  })
+onMounted(async () => {
+  siteStats.value = await fetchStats()
 })
 </script>
 

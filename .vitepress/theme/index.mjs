@@ -1,6 +1,7 @@
 import { h } from 'vue'
 import { createPinia } from 'pinia'
 import { routeChange } from '@/utils/initTools.mjs'
+import { reportVisit } from '@/utils/stats.mjs'
 import { enhanceAppWithTabs } from 'vitepress-plugin-tabs/client'
 import LazyLoader from '@/components/LazyLoader.vue'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
@@ -54,6 +55,8 @@ const Theme = {
     enhanceAppWithTabs(app)
     // 注册 SW 并监听更新（自动 reload，保证打开即最新）
     registerServiceWorker()
+    // 站点统计：首屏上报一次，之后由路由钩子负责（内部有 1 秒去重）
+    reportVisit()
     // 初次加载已有服务端渲染的页面，跳过路由动画，避免 hydration 时重新遮住首屏。
     let isInitialRoute = true
     router.onBeforeRouteChange = (to) => {
@@ -61,6 +64,8 @@ const Theme = {
       routeChange('before', to)
     }
     router.onAfterRouteChanged = (to) => {
+      // 路由切换上报一次访问
+      reportVisit(to.path)
       if (isInitialRoute) {
         isInitialRoute = false
         return
