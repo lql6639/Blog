@@ -113,6 +113,7 @@ import { toLocalDayTimestamp } from '@/utils/dateAnchor.mjs'
 // 同样必须从零依赖模块引入，理由同 dateAnchor.mjs
 import { normalizeList } from '@/utils/normalizeList.mjs'
 import { fetchStats } from '@/utils/stats.mjs'
+import { syncCounterTitle } from '@/utils/counterTitle.mjs'
 import PasswordProtect from '@/components/PasswordProtect.vue'
 
 const { page, theme, frontmatter } = useData()
@@ -121,6 +122,13 @@ const { postData, loadPostData } = usePostData()
 
 // 本页访问量（自建统计，替代原先 Twikoo 的 pv 注入）
 const pagePv = ref(null)
+
+// 页面完整标题（与浏览器 <title> 一致：文章标题 | 站点名）
+const pageTitle = computed(() => {
+  const title = frontmatter.value.title || page.value.title || ''
+  const site = theme.value?.siteMeta?.title || ''
+  return title && site ? `${title} | ${site}` : title
+})
 
 // 相对时间统一基于浏览器本地时钟实时计算，避免缓存固化构建时间
 const { now } = useClientNow()
@@ -194,6 +202,8 @@ onMounted(() => {
   fetchStats(window.location.pathname).then((data) => {
     pagePv.value = data?.page_pv ?? null
   })
+  // 改了文章标题后同步到 Twikoo 的 counter 表（那边只在首次记录时写标题）
+  syncCounterTitle(pageTitle.value)
 })
 </script>
 
