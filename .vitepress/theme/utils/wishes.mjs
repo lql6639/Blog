@@ -424,6 +424,35 @@ export const useWishes = () => {
   const rand = (a, b) => a + Math.random() * (b - a)
   const sign = () => (Math.random() < 0.5 ? -1 : 1)
 
+  // 悬停查看：卡片叠在一起时，鼠标停在重叠处要把被压住的那张翻上来，
+  // 否则下面那张永远看不到内容
+  let hoverTimer = 0
+  let hoverCardId = ''
+  const onBoardMove = (e) => {
+    if (isMobile.value || draggingId.value || pendingDrag) return
+    if (hoverTimer) return
+    hoverTimer = window.setTimeout(() => {
+      hoverTimer = 0
+    }, 120)
+
+    const hits = document
+      .elementsFromPoint(e.clientX, e.clientY)
+      .filter((el) => el.classList && el.classList.contains('wish-card'))
+    if (!hits.length) {
+      hoverCardId = ''
+      return
+    }
+    const ids = hits.map((el) => el.id.slice('wish-'.length))
+    // 当前这张还在鼠标底下就别动，否则提升层级后命中顺序变了会来回闪
+    if (hoverCardId && ids.includes(hoverCardId)) return
+
+    // elementsFromPoint 是从上到下，最后一个就是被压在最下面的那张
+    const bottomId = ids[ids.length - 1]
+    hoverCardId = bottomId
+    const el = document.getElementById('wish-' + bottomId)
+    if (el) el.style.zIndex = String(++raiseZ)
+  }
+
   // 点击：只拨动被点的这一张，别的一概不动
   const jostle = (item) => {
     if (isMobile.value) return
@@ -555,6 +584,7 @@ export const useWishes = () => {
     settleAll,
     // 交互
     onCardDown,
+    onBoardMove,
     startDrag,
     stopDrag
   }

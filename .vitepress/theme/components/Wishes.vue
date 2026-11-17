@@ -2,13 +2,9 @@
 <template>
   <div class="wishes-page">
     <!-- 画布 -->
-    <div ref="wrapRef" class="board" :class="{ 'is-mobile': isMobile }">
+    <div ref="wrapRef" class="board" :class="{ 'is-mobile': isMobile }" @mousemove="onBoardMove">
       <!-- 桌面端：整块缩放，保证一屏放得下且不出现滚动条 -->
-      <div
-        ref="boardRef"
-        class="board-canvas"
-        :style="isMobile ? null : canvasStyle"
-      >
+      <div ref="boardRef" class="board-canvas" :style="isMobile ? null : canvasStyle">
         <div
           v-for="(item, index) in filtered"
           :key="item.id"
@@ -127,6 +123,7 @@ const {
   relayout,
   settleAll,
   onCardDown,
+  onBoardMove,
   startDrag,
   stopDrag
 } = useWishes()
