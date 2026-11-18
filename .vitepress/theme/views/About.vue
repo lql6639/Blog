@@ -57,14 +57,10 @@
       </div>
 
       <div class="about-item child">
-        <div class="about-item map image" style="background-image: url(https://api.imlazy.ink/img)">
+        <div class="about-item map image" style="background-image: url(https://t.alcy.cc/pc)">
           <span class="position">我现在住在 <strong>中国，广东省，云浮市</strong></span>
         </div>
         <div class="about-item info">
-          <div class="info-item">
-            <span class="info-name">诞生于</span>
-            <span class="info-num" style="--color: #43a6c6">2002</span>
-          </div>
           <div class="info-item">
             <span class="info-name">生日</span>
             <span class="info-num" style="--color: #dfac46">0206</span>
@@ -328,6 +324,8 @@ onMounted(() => {
           .skills-item {
             display: flex;
             align-items: center;
+            /* 名字特别长时也不至于顶出卡片（.about-item 是 overflow: hidden，会直接切掉） */
+            max-width: 100%;
             margin-right: 10px;
             margin-top: 10px;
             padding: 8px 12px 8px 8px;
@@ -356,6 +354,7 @@ onMounted(() => {
             .skills-name {
               font-weight: bold;
               transition: color 0.3s;
+              overflow-wrap: anywhere;
             }
 
             &:hover {
@@ -532,8 +531,10 @@ onMounted(() => {
 
       &.info {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         align-items: center;
+        /* 行轨道不拉伸，避免容器被撑高后内容跑到下半部分 */
+        align-content: center;
         gap: 1.25rem 2rem;
 
         .info-item {
@@ -544,13 +545,15 @@ onMounted(() => {
           .info-name {
             font-size: 14px;
             margin-bottom: 8px;
-            color: var(--main-font-second-color);
+            color: var(--main-font-second-color, #666);
           }
 
           .info-num {
             font-size: 34px;
             font-weight: bold;
-            color: var(--color);
+            line-height: 1.15;
+            /* 颜色来自内联 --color，个别内核对内联变量取色不稳，给个兜底色 */
+            color: var(--color, #333);
           }
         }
       }
@@ -566,6 +569,11 @@ onMounted(() => {
 
       .about-item {
         padding: 1.2rem 1.25rem;
+
+        /* 单列排布下高度由内容决定，100% 在这里没有意义还容易算歪 */
+        &.child .about-item {
+          height: auto;
+        }
 
         .title1 {
           font-size: 2rem;
@@ -592,7 +600,7 @@ onMounted(() => {
         }
 
         &.info {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
+          /* 列数与桌面一致（2 项），这里只收紧间距 */
           gap: 1.25rem 1rem;
 
           .info-item {
