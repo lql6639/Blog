@@ -16,7 +16,7 @@ export const themeConfig = {
     author: {
       name: 'koizora',
       cover: '/images/logo/logo.webp',
-      email: '1740242084@qq.com',
+      email: 'koizora@lovlin.cn',
       link: 'https://lovlin.cn'
     }
   },
@@ -134,7 +134,7 @@ export const themeConfig = {
       coverLayout: 'both',
       // 默认封面(随机展示)：可放多张图，按文章路径稳定取其中一张
       // 远程随机图接口会自动追加 `_cover=<文章哈希>` 参数，保证每篇文章拿到不同的图
-      defaultCover: ['https://moey.cn/pic', 'https://t.alcy.cc/pc']
+      defaultCover: ['https://t.alcy.cc/pc']
     }
   },
   // 页脚信息

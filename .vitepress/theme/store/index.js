@@ -55,7 +55,7 @@ export const mainStore = defineStore('main', {
       lastScrollY: 0,
       // 站点背景
       backgroundType: 'patterns',
-      backgroundUrl: 'https://api.imlazy.ink/img'
+      backgroundUrl: 'https://t.alcy.cc/pc'
     }
   },
   getters: {

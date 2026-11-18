@@ -20,7 +20,7 @@ defineProps({
   title: { type: String, default: '' },
   desc: { type: String, default: '' },
   footer: { type: String, default: '' },
-  image: { type: String, default: 'https://api.imlazy.ink/img' },
+  image: { type: String, default: 'https://t.alcy.cc/pc' },
   // 右下角按钮：需要时才传 linkHref
   linkText: { type: String, default: '' },
   linkHref: { type: String, default: '' },
