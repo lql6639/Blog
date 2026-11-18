@@ -2,6 +2,7 @@ import { h } from 'vue'
 import { createPinia } from 'pinia'
 import { routeChange } from '@/utils/initTools.mjs'
 import { reportVisit } from '@/utils/stats.mjs'
+import { initPet } from '@/utils/pet.mjs'
 import { enhanceAppWithTabs } from 'vitepress-plugin-tabs/client'
 import LazyLoader from '@/components/LazyLoader.vue'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
@@ -55,6 +56,8 @@ const Theme = {
     enhanceAppWithTabs(app)
     // 注册 SW 并监听更新（自动 reload，保证打开即最新）
     registerServiceWorker()
+    // 右下角看板娘（懒加载，失败不影响页面）
+    initPet()
     // 站点统计：首屏上报一次，之后由路由钩子负责（内部有 1 秒去重）
     reportVisit()
     // 初次加载已有服务端渲染的页面，跳过路由动画，避免 hydration 时重新遮住首屏。
