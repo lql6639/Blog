@@ -80,6 +80,11 @@ export default withPwa(
     lastUpdated: true,
     // 主题：跟随系统（初始渲染不再强制深色）
     appearance: 'auto',
+    // 关掉链接预取。VitePress 会给视口内的链接插 <link rel="prefetch">，
+    // 这些请求带 Sec-Purpose: prefetch，经 Service Worker 转发时被 Cloudflare
+    // 以 cf-speculation-refused 拒绝，返回 503，控制台红一片。
+    // 站点资源本来就全量预缓存，跳转直接命中缓存，预取没有实际收益。
+    router: { prefetchLinks: false },
     // Head
     head: [
       ...themeConfig.inject.header,
